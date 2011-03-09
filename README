@@ -54,7 +54,7 @@
   ----------------------------
   1. Extract the downloaded archive.
 
-  2. Move or copy the extracted directory davidpersson-mm-[hash]
+  2. Move or copy the extracted directory davidpersson-deta-[hash]
      to /path/to/your/project/libraries.
 
   3. Create a `scripts` directory within your project. This is just a
