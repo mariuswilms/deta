@@ -24,7 +24,7 @@ if [[ $(uname) = "Darwin" ]]; then
 fi
 
 # -----------------------------------------------------------
-# Libraries
+# Paths
 # -----------------------------------------------------------
 if [[ -L $0 ]]; then
 	SELF=$(readlink -n $0)
@@ -32,6 +32,7 @@ else
 	SELF=$0
 fi
 DETA=$(dirname $SELF)
+CONFIG=$(pwd)/deta.conf
 
 # -----------------------------------------------------------
 # Options & Argument parsing
@@ -80,6 +81,15 @@ if [[ $DRYRUN != "y" ]]; then
 		echo -n '.'
 	done
 	echo
+fi
+if [[ -f $CONFIG ]]; then
+	source $CONFIG
+
+	if [[ $QUIET != 'y' ]]; then
+		printf "[%5s] Loaded configuration from %s.\n" "ok" $CONFIG
+	fi
+else
+	printf "[%5s] Fail to load configuration from %s.\n" "fail" $CONFIG
 fi
 if [[ $QUIET != 'y' ]]; then
 	printf "[%5s] Executing task %s.\n" "ok" $TASK
