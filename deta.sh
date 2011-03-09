@@ -58,7 +58,7 @@ while getopts ":q:n:d" OPT; do
 	shift
 done
 
-if [ $# == 0 ]; then
+if [[ $# == 0 ]]; then
 	echo "Invalid usage."
 	exit 1
 fi
