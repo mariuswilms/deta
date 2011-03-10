@@ -11,7 +11,7 @@
   Managing an application is executing commands, tasks are highly specific to
   individual applications. Deta supports you in instantly creating tasks in
   plain shell script. No extra abstraction layers where you don't need them but
-  a small script for launching the taks, a handful of reusable functions and a
+  a small tool for launching the tasks, a handful of reusable functions and a
   sane configuration management.
 
   Authors
