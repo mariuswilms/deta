@@ -22,17 +22,17 @@ printf "[%5s] Module %s loaded.\n" "ok" "core"
 #    DEV_[role]="y" will select DEV as the role.
 # 2. Prompting the user to select from available env.
 role() {
-	local PAIR=$(set | grep -m 1 "_$1=y" );
+	local pair=$(set | grep -m 1 "_$1=y" );
 
-	if [[ -n $PAIR ]];  then
-		 _env_to_role ${PAIR%_*} $1
+	if [[ -n $pair ]];  then
+		 _env_to_role ${pair%_*} $1
 	else
-		for ENV_ in $(set | grep -E "^[A-Z]+_HOST="); do
-			local AVAIL+="${ENV_%_*} "
+		for env_ in $(set | grep -E "^[A-Z]+_HOST="); do
+			local avail+="${env_%_*} "
 		done
 		local PS3="Please select an env to map to role $1: "
-		select ENV in $AVAIL; do
-			_env_to_role $ENV $1
+		select env in $avail; do
+			_env_to_role $env $1
 			break
 		done
 	fi
@@ -45,8 +45,8 @@ role() {
 # Maps all variables from env to role.
 _env_to_role() {
 	local IFS=$'\n'
-	for C in $(set | grep -E "^$1_"); do
-		eval ${C/$1_/$2_}
+	for c in $(set | grep -E "^$1_"); do
+		eval ${c/$1_/$2_}
 	done
 	printf "[%5s] Mapped env %s to role %s.\n" "ok" $@
 }

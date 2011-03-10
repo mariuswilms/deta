@@ -75,11 +75,11 @@ fi
 # -----------------------------------------------------------
 # Configuration
 # -----------------------------------------------------------
-for FILE in $(ls $(pwd)/*.conf); do
+for file in $(ls $(pwd)/*.conf); do
 	if [[ $QUIET != "y" ]]; then
-		printf "[%5s] Loading configuration %s.\n" "" $(basename $FILE)
+		printf "[%5s] Loading configuration %s.\n" "" $(basename $file)
 	fi
-	source $FILE
+	source $file
 done
 
 # -----------------------------------------------------------
