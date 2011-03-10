@@ -81,14 +81,15 @@ if [[ $DRYRUN != "y" ]]; then
 	done
 	echo
 fi
+
 if [[ -f $CONFIG ]]; then
 	if [[ $QUIET != "y" ]]; then
 		printf "[%5s] Loading configuration from %s.\n" "" $CONFIG
 	fi
 	source $CONFIG
 fi
+
 if [[ $QUIET != "y" ]]; then
 	printf "[%5s] Executing task %s.\n" "" $TASK
 fi
-
 source $TASK
