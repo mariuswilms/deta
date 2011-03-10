@@ -14,13 +14,13 @@
 
   Deta consists of three parts:
 
-  * The tool, which launches your tasks.
+  * The tool, launches tasks.
 
   * Functions (organized in classes) for the most common or
-    highly repetitive tasks.
+    highly repetitive actions.
 
-  * A suggestion for a directory and file structure. This aids
-    in organizing and sharing tasks between projects.
+  * A suggestion for a directory and file structure. This helps
+    organizing and sharing tasks between projects.
 
   Authors
   -------
