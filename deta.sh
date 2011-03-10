@@ -75,8 +75,8 @@ if [[ $QUIET != 'y' ]]; then
 fi
 if [[ $DRYRUN != "y" ]]; then
 	printf "[%5s] Dry run is NOT enabled! Press STRG+C to abort.
-        Starting in 5 seconds" "warn"
-	for I in 1 2 3 4 5; do
+        Starting in 3 seconds" "warn"
+	for I in 1 2 3; do
 		sleep 1
 		echo -n '.'
 	done
