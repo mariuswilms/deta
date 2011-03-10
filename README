@@ -8,19 +8,11 @@
 
   Synopsis
   --------
-  Managing an application is executing commands. Deta has a direct approach and
-  doesn't get in your way but supports creating tasks highly specific to your
-  application.
-
-  Deta consists of three parts:
-
-  * The tool, launches tasks.
-
-  * Modules containing sets of functions useful in various
-    situations. Allow to share and reuse functionality accross
-    projects.
-
-  * The configuration file, defining environment settings.
+  Managing an application is executing commands, tasks are highly specific to
+  individual applications. Deta supports you in instantly creating tasks in
+  plain shell script. No extra abstraction layers where you don't need them but
+  a small script for launching the taks, a handful of reusable functions and a
+  sane configuration management.
 
   Authors
   -------
