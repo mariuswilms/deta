@@ -75,16 +75,12 @@ fi
 # -----------------------------------------------------------
 # Configuration
 # -----------------------------------------------------------
-CONFIG=$(pwd)/deta.conf
-
-if [[ ! -f $CONFIG ]]; then
-	printf "[%5s] No configuration file at %s.\n" "fail" $CONFIG
-	exit 1
-fi
-if [[ $QUIET != "y" ]]; then
-	printf "[%5s] Loading configuration from %s.\n" "" $CONFIG
-fi
-source $CONFIG
+for FILE in $(ls $(pwd)/*.conf); do
+	if [[ $QUIET != "y" ]]; then
+		printf "[%5s] Loading configuration %s.\n" "" $(basename $FILE)
+	fi
+	source $FILE
+done
 
 # -----------------------------------------------------------
 # Dryrun

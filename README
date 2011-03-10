@@ -57,8 +57,8 @@
      $ cd /path/to/project/scripts
      $ ln -s ../libraries/deta/deta.sh ./deta
 
-  5. Copy the default configuration into the `scripts` directory.
-     $ cp ../libraries/deta/deta.conf .
+  5. Copy the default configuration for the dev env into the `scripts` directory.
+     $ cp ../libraries/deta/dev.conf .
 
   Quickstart
   ----------
@@ -94,9 +94,11 @@
   -----------
   Tasks
   '''''
-  Tasks are sourced by the deta tool they automatically have access to all the
-  configuration from `deta.conf` and some other global variables. Following
-  variables are available: QUIET (y|n), DRYRUN (y|n), DETA (deta directory)
+  Tasks are sourced by the deta tool they automatically have access to all
+  the env configurations (loaded from *.conf).
+
+  Following global variables are always available within tasks:
+  QUIET (y|n), DRYRUN (y|n), DETA (deta directory)
 
   Tasks are plain shell files and share the same interpreter as the
   deta tool (which is BASH).
@@ -122,8 +124,12 @@
   Environments are inspired by the way Lithium[1] detects and handles
   environment configuration. Environments (or env for short) allow you to keep
   host specific configuration settings in one place. You may have an env called
-  DEV, STAGE or PROD. The configuration is kept in a dedicated file called
-  `deta.conf`.
+  DEV, STAGE or PROD. Configuration settings are is kept in dedicated files on a
+  per env basis.
+
+  By default deta comes with a configuration for the DEV env. You can add new
+  environments by copying dev.conf to prod.conf and adjusting the prefixes
+  in it i.e DEV_ becomes PROD_.
 
   [1] Lithium framework, http://lithify.me
 
