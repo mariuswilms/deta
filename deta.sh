@@ -27,12 +27,12 @@ fi
 # Paths
 # -----------------------------------------------------------
 if [[ -L $0 ]]; then
-	SELF=$(readlink -n $0)
+	local SELF=$(readlink -n $0)
 else
-	SELF=$0
+	local SELF=$0
 fi
 DETA=$(dirname $SELF)
-CONFIG=$(pwd)/deta.conf
+local CONFIG=$(pwd)/deta.conf
 
 # -----------------------------------------------------------
 # Options & Argument parsing
