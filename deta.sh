@@ -40,7 +40,7 @@ CONFIG=$(pwd)/deta.conf
 QUIET="n"
 DRYRUN="n"
 
-while getopts ":q:n:d" OPT; do
+while getopts ":qnd" OPT; do
 	case $OPT in
 		q)
 			QUIET="y"
@@ -52,12 +52,12 @@ while getopts ":q:n:d" OPT; do
 			set -x
 			;;
 		\?)
-			printf "Invalid option '%s'." $OPTARG
+			printf "Invalid option '%s'." $OPT
 			exit 1
 			;;
 	esac
-	shift
 done
+shift $(expr $OPTIND - 1)
 
 if [[ $# == 0 ]]; then
 	echo "Usage: $(basename $0) [-q] [-n] [-d] TASK"
