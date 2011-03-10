@@ -8,19 +8,19 @@
 
   Synopsis
   --------
-  A tool which comes straight to point. Plain shell scripting. Don't
-  want to learn a new languages and rules in order to just execute a
-  few commands? You feel comfortable with the shell? This is for you.
+  Managing an application is executing commands. Deta has a direct approach and
+  doesn't get in your way but supports creating tasks highly specific to your
+  application.
 
   Deta consists of three parts:
 
   * The tool, launches tasks.
 
-  * Functions (organized in classes) for the most common or
-    highly repetitive actions.
+  * Modules containing sets of functions useful in various
+    situations. Allow to share and reuse functionality accross
+    projects.
 
-  * A suggestion for a directory and file structure. This helps
-    organizing and sharing tasks between projects.
+  * The configuration file, defining environment settings.
 
   Authors
   -------
