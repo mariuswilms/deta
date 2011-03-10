@@ -71,32 +71,32 @@
   Quickstart
   ----------
   1. Create a subdirectory for our task.
-  $ mkdir deploy
+     $ mkdir deploy
 
   2. Start to edit the new task.
-  $ $EDITOR deploy/prepare.sh
+     $ $EDITOR deploy/prepare.sh
 
   3. Source the core and g11n modules and require a THIS role.
-  {{{
-    source $DETA/core.sh
-    source $DETA/g11n.sh
+     {{{
+       source $DETA/core.sh
+       source $DETA/g11n.sh
 
-    role THIS
-    # ...
-  }}}
+       role THIS
+       # ...
+     }}}
 
   4. Our task will clone the project and recompile all MO files.
-  {{{
-    # ...
-    git clone --verbose --depth 0 file://$THIS_PROJECT $THIS_TMP
-    cd $THIS_TMP
+     {{{
+       # ...
+       git clone --verbose --depth 0 file://$THIS_PROJECT $THIS_TMP
+       cd $THIS_TMP
 
-    g11n_remove_mo app/locale
-    g11n_compile_mo app/locale
-  }}}
+       g11n_remove_mo app/locale
+       g11n_compile_mo app/locale
+     }}}
 
   5. Run the tasks through the deta tool.
-  $ ./deta deploy/prepare.sh
+     $ ./deta deploy/prepare.sh
 
   Terminology
   -----------
@@ -127,7 +127,7 @@
 
   Environments
   ''''''''''''
-  Environments are inspired by the way Lithium [1] detects and handles
+  Environments are inspired by the way Lithium[1] detects and handles
   environment configuration. Environments (or env for short) allow you to keep
   host specific configuration settings in one place. You may have an env called
   DEV, STAGE or PROD. The configuration is kept in a dedicated file called
@@ -136,7 +136,7 @@
   [1] Lithium framework, http://lithify.me
 
   Roles
-  ''''''
+  '''''
   Environments can _take_ roles. Tasks where you transfer transfer things
   between two machines would require SOURCE and a TARGET roles, whereas tasks
   that just build some stuff locally require a THIS role.
@@ -187,5 +187,3 @@
 
   As an alternative the project has a dedicated AUTHORS file where every contributor
   is listed with her/his name/nick along with an email address.
-
-
