@@ -43,8 +43,8 @@
   -----------------------
   0.1 (in progress)
 
-  The tool is known to run fine under linux and darwin. There is currently
-  no support for Windows. It requires a POSIX compatible shell.
+  The BASH (Bourne-Again SHell) is required. Deta is continously
+  tested with recent BASH versions on Linux and Darwin.
 
   Download
   --------
