@@ -78,6 +78,7 @@ if [[ $DRYRUN != "y" ]]; then
         Starting in 3 seconds" "warn"
 	for I in {1..3}; do
 		echo -n '.'
+		sleep 1
 	done
 	echo
 fi
