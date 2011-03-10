@@ -18,7 +18,7 @@ printf "[%5s] Module %s loaded.\n" "ok" "util"
 # @DESCRIPTION:
 # Ensures the provided directory is existent and empty. **USE WITH CAUTON**
 # Will remove existing directories.
-exists_and_empty {
+exists_and_empty() {
 	if [ -d $1 ]; then
 		printf "[%5s] Removing directory %s forcefully." "ok" $1
 		rm -rf $1
@@ -31,7 +31,7 @@ exists_and_empty {
 # @USAGE: [directory] [file]
 # @DESCRIPTION:
 # Creates a manifest from the contents of the given directory.
-create_manifest {
+create_manifest() {
 	printf "[%5s] Creating manifest from %s in %s." "ok" $1 $2
 	mtree -K md5digest -x -c -p $1 > $2
 }

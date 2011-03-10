@@ -17,7 +17,7 @@ printf "[%5s] Module %s loaded.\n" "ok" "g11n"
 # @USAGE: [directory with PO files]
 # @DESCRIPTION:
 # Compiles all PO files in the given directory into MO format.
-g11n_compile_mo {
+g11n_compile_mo() {
 	for FILE in $(find $1 -type f -name *.po); do
 		msgfmt -o ${FILE/.po/.mo} --verbose $FILE
 	done
@@ -27,7 +27,7 @@ g11n_compile_mo {
 # @USAGE: [directory with MO files]
 # @DESCRIPTION:
 # Removes all compiled MO files in the given directory.
-g11n_remove_mo {
+g11n_remove_mo() {
 	find $1 -type f -name *.mo | xargs rm -v
 }
 

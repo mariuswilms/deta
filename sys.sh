@@ -17,7 +17,7 @@ printf "[%5s] Module %s loaded.\n" "ok" "sys"
 # @USAGE: [command]
 # @DESCRIPTION:
 # Checks if the given command is callable.
-sys_check_command {
+sys_check_command() {
 	which $1 &> /dev/null
 	if [[ $? == 0 ]]; then
 		printf "[%5s] Command %s at %s.\n" "ok" $1 $(which $1)
@@ -30,7 +30,7 @@ sys_check_command {
 # @USAGE: [command (with args)]
 # @DESCRIPTION:
 # Checks if the give command has a return code equal 0.
-sys_check_command_return {
+sys_check_command_return() {
 	$@ &> /dev/null
 	if [[ $? == 0 ]]; then
 		printf "[%5s] Command %s returned %s.\n" "ok" $1 $?
@@ -44,7 +44,7 @@ sys_check_command_return {
 # @DESCRIPTION:
 # Checks if a given service status is OK. Works only with existing init
 # scripts which must be located within /etc/init.d./[service]
-sys_check_service {
+sys_check_service() {
 	if [[ -d /etc/init.d ]]; then
 		/etc/init.d/$1 status > /dev/null
 		if [[ $? == 0 ]]; then
@@ -61,7 +61,7 @@ sys_check_service {
 # @USAGE: [module]
 # @DESCRIPTION:
 # Checks if a certain PHP module is enabled.
-sys_check_php_module {
+sys_check_php_module() {
 	php -m | grep $1 > /dev/null
 	if [[ $? == 0 ]]; then
 		printf "[%5s] PHP %s extension is installed.\n" "ok" $1
@@ -74,7 +74,7 @@ sys_check_php_module {
 # @USAGE: [setting] [value]
 # @DESCRIPTION:
 # Checks if a PHP setting equals a given value.
-sys_check_php_setting {
+sys_check_php_setting() {
 	php -i | grep -e "$1.*$2" > /dev/null
 	if [[ $? == 0 ]]; then
 		printf "[%5s] PHP setting %s is %s.\n" "ok" $1 $2
@@ -88,7 +88,7 @@ sys_check_php_setting {
 # @DESCRIPTION:
 # Checks whether a certain format is supported by imagemagick for reading. The
 # format must be provided in its long version i.e. "Portable Network Graphics".
-sys_check_im_format_r {
+sys_check_im_format_r() {
 	identify -list format | grep -e "r.....$1" > /dev/null
 	if [[ $? == 0 ]]; then
 		printf "[%5s] Imagemagick has read support for %s.\n" "ok" "$1"
@@ -103,7 +103,7 @@ sys_check_im_format_r {
 # Checks whether a certain format is supported by imagemagick for reading and
 # writing. The format must be provided in its long version i.e. "Portable
 # Network Graphics".
-sys_check_im_format_rw {
+sys_check_im_format_rw() {
 	identify -list format | grep -e "rw....$1" > /dev/null
 	if [[ $? == 0 ]]; then
 		printf "[%5s] Imagemagick has read-write support for %s.\n" "ok" "$1"
@@ -117,7 +117,7 @@ sys_check_im_format_rw {
 # @DESCRIPTION:
 # Checks whether a certain format is supported by sox. The format must
 # be provided in its short version i.e. "ogg".
-sys_check_sox_format {
+sys_check_sox_format() {
 	sox -h | grep $1 > /dev/null
 	if [[ $? == 0 ]]; then
 		printf "[%5s] Sox has support for %s.\n" "ok" "$1"
@@ -131,7 +131,7 @@ sys_check_sox_format {
 # @DESCRIPTION:
 # Checks whether a certain format is supported by ffmpeg for reading. The
 # format must be provided in its long version i.e. "raw H.264 video format".
-sys_check_ffmpeg_format_r {
+sys_check_ffmpeg_format_r() {
 	ffmpeg -formats 2>&1 | grep -e "D..*$1" > /dev/null
 	if [[ $? == 0 ]]; then
 		printf "[%5s] Ffmpeg has read support for %s.\n" "ok" "$1"
@@ -146,7 +146,7 @@ sys_check_ffmpeg_format_r {
 # Checks whether a certain format is supported by ffmpeg for reading and
 # writing. The format must be provided in its long version i.e. "raw H.264
 # video format".
-sys_check_ffmpeg_format_rw {
+sys_check_ffmpeg_format_rw() {
 	ffmpeg -formats 2>&1 | grep -e "DE.*$1" > /dev/null
 	if [[ $? == 0 ]]; then
 		printf "[%5s] Ffmpeg has read-write support for %s.\n" "ok" "$1"
@@ -159,7 +159,7 @@ sys_check_ffmpeg_format_rw {
 # @USAGE: [module]
 # @DESCRIPTION:
 # Checks whether a certain module is loaded into apache.
-sys_check_apache_module {
+sys_check_apache_module() {
 	httpd -t &> /dev/null
 	if [[ $? == 0 ]]; then
 		httpd -M 2>&1 | grep "$1_module" > /dev/null
@@ -177,7 +177,7 @@ sys_check_apache_module {
 # @USAGE: [engine]
 # @DESCRIPTION:
 # Checks whether a certain storage engine is available with MySQL.
-sys_check_mysql_engine {
+sys_check_mysql_engine() {
 	mysql -e 'SHOW ENGINES;' &> /dev/null
 	if [[ $? == 0 ]]; then
 		mysql -e 'SHOW ENGINES;' 2>&1 | grep -E "$1.*(YES|DEFAULT)" > /dev/null
