@@ -18,7 +18,7 @@
 set -o nounset
 set -o errexit
 
-if [[ $(uname) = "Darwin" ]]; then
+if [[ $(uname) == "Darwin" ]]; then
 	# Disable copying of resource forks on Darwin.
 	export COPYFILE_DISABLE="true"
 fi
