@@ -68,7 +68,7 @@ TASK="$1"
 # -----------------------------------------------------------
 # Main
 # -----------------------------------------------------------
-if [[ $QUIET != 'y' ]]; then
+if [[ $QUIET != "y" ]]; then
 	echo "========================================================="
 	echo "deta 0.1"
 	echo
@@ -83,16 +83,13 @@ if [[ $DRYRUN != "y" ]]; then
 	echo
 fi
 if [[ -f $CONFIG ]]; then
-	source $CONFIG
-
-	if [[ $QUIET != 'y' ]]; then
-		printf "[%5s] Loaded configuration from %s.\n" "ok" $CONFIG
+	if [[ $QUIET != "y" ]]; then
+		printf "[%5s] Loading configuration from %s.\n" "" $CONFIG
 	fi
-else
-	printf "[%5s] Fail to load configuration from %s.\n" "fail" $CONFIG
+	source $CONFIG
 fi
-if [[ $QUIET != 'y' ]]; then
-	printf "[%5s] Executing task %s.\n" "ok" $TASK
+if [[ $QUIET != "y" ]]; then
+	printf "[%5s] Executing task %s.\n" "" $TASK
 fi
 
 source $TASK
