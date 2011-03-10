@@ -60,7 +60,7 @@ while getopts ":q:n:d" OPT; do
 done
 
 if [[ $# == 0 ]]; then
-	echo "Invalid usage."
+	echo "Usage: $(basename $0) [-q] [-n] [-d] TASK"
 	exit 1
 fi
 TASK="$1"
