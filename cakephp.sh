@@ -18,5 +18,6 @@ printf "[%5s] Module %s loaded.\n" "ok" "cakephp"
 # @DESCRIPTION:
 # Modifies configure statements in i.e. app/core.php in place.
 cakephp_configure() {
+	printf "[%5s] Setting %s to %s in %s.\n" "" $@
 	sed -i "" "s/'$1',.*)/'$1', $2)/g" $3
 }
