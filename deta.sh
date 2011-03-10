@@ -32,7 +32,6 @@ else
 	local SELF=$0
 fi
 DETA=$(dirname $SELF)
-local CONFIG=$(pwd)/deta.conf
 
 # -----------------------------------------------------------
 # Options & Argument parsing
@@ -66,13 +65,31 @@ fi
 TASK="$1"
 
 # -----------------------------------------------------------
-# Main
+# Header
 # -----------------------------------------------------------
 if [[ $QUIET != "y" ]]; then
 	echo "========================================================="
-	echo "deta 0.1"
+	echo "DETA 0.1"
 	echo
 fi
+
+# -----------------------------------------------------------
+# Configuration
+# -----------------------------------------------------------
+local CONFIG=$(pwd)/deta.conf
+
+if [[ ! -f $CONFIG ]]; then
+	printf "[%5s] No configuration file at %s.\n" "fail" $CONFIG
+	exit 1
+fi
+if [[ $QUIET != "y" ]]; then
+	printf "[%5s] Loading configuration from %s.\n" "" $CONFIG
+fi
+source $CONFIG
+
+# -----------------------------------------------------------
+# Dryrun
+# -----------------------------------------------------------
 if [[ $DRYRUN != "y" ]]; then
 	printf "[%5s] Dry run is NOT enabled! Press STRG+C to abort.
         Starting in 3 seconds" "warn"
@@ -83,13 +100,9 @@ if [[ $DRYRUN != "y" ]]; then
 	echo
 fi
 
-if [[ -f $CONFIG ]]; then
-	if [[ $QUIET != "y" ]]; then
-		printf "[%5s] Loading configuration from %s.\n" "" $CONFIG
-	fi
-	source $CONFIG
-fi
-
+# -----------------------------------------------------------
+# Task
+# -----------------------------------------------------------
 if [[ $QUIET != "y" ]]; then
 	printf "[%5s] Executing task %s.\n" "" $TASK
 fi
