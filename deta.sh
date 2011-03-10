@@ -27,11 +27,10 @@ fi
 # Paths
 # -----------------------------------------------------------
 if [[ -L $0 ]]; then
-	local SELF=$(readlink -n $0)
+	DETA=$(dirname $(readlink -n $0))
 else
-	local SELF=$0
+	DETA=$(dirname $0)
 fi
-DETA=$(dirname $SELF)
 
 # -----------------------------------------------------------
 # Options & Argument parsing
@@ -76,7 +75,7 @@ fi
 # -----------------------------------------------------------
 # Configuration
 # -----------------------------------------------------------
-local CONFIG=$(pwd)/deta.conf
+CONFIG=$(pwd)/deta.conf
 
 if [[ ! -f $CONFIG ]]; then
 	printf "[%5s] No configuration file at %s.\n" "fail" $CONFIG
