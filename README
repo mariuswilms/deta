@@ -75,7 +75,7 @@
      {{{
         source $DETA/sys.sh
 
-        check_command rsync
+        sys_check_command rsync
         # ...
      }}}
 
