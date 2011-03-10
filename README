@@ -50,8 +50,8 @@
   --------
   http://github.com/davidpersson/deta/downloads
 
-  Installation and Basic Usage
-  ----------------------------
+  Installation
+  ------------
   1. Extract the downloaded archive.
 
   2. Move or copy the extracted directory davidpersson-deta-[hash]
@@ -61,26 +61,108 @@
      suggestion - other setups are possible, too.
      $ mkdir /path/to/project/scripts
 
-  4. Link the deta script into your project.
+  4. Link the deta tool into your project.
      $ cd /path/to/project/scripts
      $ ln -s ../libraries/deta/deta.sh ./deta
 
   5. Copy the default configuration into the `scripts` directory.
      $ cp ../libraries/deta/deta.conf .
 
-  6. Create your first task. Task are plain shell files, which are
-     included by the deta script.
-     $ mkdir sys
-     $ $EDITOR sys/check.sh
-     {{{
-        source $DETA/sys.sh
+  Quickstart
+  ----------
+  1. Create a subdirectory for our task.
+  $ mkdir deploy
 
-        sys_check_command rsync
-        # ...
-     }}}
+  2. Start to edit the new task.
+  $ $EDITOR deploy/prepare.sh
 
-   7. Run the brandnew task.
-      $ ./deta sys/check.sh
+  3. Source the core and g11n modules and require a THIS role.
+  {{{
+    source $DETA/core.sh
+    source $DETA/g11n.sh
+
+    role THIS
+    # ...
+  }}}
+
+  4. Our task will clone the project and recompile all MO files.
+  {{{
+    # ...
+    git clone --verbose --depth 0 file://$THIS_PROJECT $THIS_TMP
+    cd $THIS_TMP
+
+    g11n_remove_mo app/locale
+    g11n_compile_mo app/locale
+  }}}
+
+  5. Run the tasks through the deta tool.
+  $ ./deta deploy/prepare.sh
+
+  Terminology
+  -----------
+  Tasks
+  '''''
+  Tasks are sourced by the deta tool they automatically have access to all the
+  configuration from `deta.conf` and some other global variables. Following
+  variables are available: QUIET (y|n), DRYRUN (y|n), DETA (deta directory)
+
+  Tasks are plain shell files and share the same interpreter as the
+  deta tool (which is BASH).
+
+  Tasks can be located wherever you want. In the end you just pass the path to
+  the deta tool. However it is nice to be able to group tasks, therefore it is
+  suggested to create subdirectories directly in the `scripts` directory.
+
+  Modules
+  '''''''
+  Modules contain sets of functions and are loaded on demand by sourcing
+  them in the beginning of each task. Modules shipped with deta are located
+  in the directory specified by $DETA. Of course you can also built your own
+  modules and load them in a similar way.
+  {{{
+    source $DETA/core.sh
+    source $DETA/sys.sh
+    # ...
+  }}}
+
+  Environments
+  ''''''''''''
+  Environments are inspired by the way Lithium [1] detects and handles
+  environment configuration. Environments (or env for short) allow you to keep
+  host specific configuration settings in one place. You may have an env called
+  DEV, STAGE or PROD. The configuration is kept in a dedicated file called
+  `deta.conf`.
+
+  [1] Lithium framework, http://lithify.me
+
+  Roles
+  ''''''
+  Environments can _take_ roles. Tasks where you transfer transfer things
+  between two machines would require SOURCE and a TARGET roles, whereas tasks
+  that just build some stuff locally require a THIS role.
+
+  To indicate that a task requires a role call the role function (from the core
+  module) right below the source statements.
+  {{{
+    source $DETA/core.sh
+
+    role SOURCE
+    role TARGET
+    # ...
+  }}}
+
+  The function will map an env to a role. This means a configuration setting
+  available as i.e. DEV_HOST will become also available as THIS_HOST. When the
+  env for a role can't be detected automatically it will prompt you for one.
+
+  Envs can be automatically wired to roles within the configuration file. The
+  following statement will cause the role function to use the DEV env for the
+  THIS role when the current hostname equals the one specified for the DEV env.
+  {{{
+    # ...
+    DEV_THIS=$([[ $(hostname) == $DEV_HOST ]] && echo "y" || echo "n")
+    # ...
+  }}}
 
   Bugs
   ----
