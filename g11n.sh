@@ -23,13 +23,3 @@ g11n_compile_mo() {
 		msgfmt -o ${file/.po/.mo} --verbose $file
 	done
 }
-
-# @FUNCTION: g11n_remove_mo
-# @USAGE: [directory with MO files]
-# @DESCRIPTION:
-# Removes all compiled MO files in the given directory.
-g11n_remove_mo() {
-	printf "[%5s] Removing *.mo from %s.\n" "" $@
-	find $1 -type f -name *.mo | xargs rm -v
-}
-
