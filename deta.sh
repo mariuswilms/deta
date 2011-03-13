@@ -33,7 +33,7 @@ else
 fi
 
 # -----------------------------------------------------------
-# Options & Argument parsing
+# Standard Options & Argument parsing
 # -----------------------------------------------------------
 QUIET="n"
 DRYRUN="n"
