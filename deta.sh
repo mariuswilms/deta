@@ -59,6 +59,16 @@ shift $(expr $OPTIND - 1)
 
 if [[ $# == 0 ]]; then
 	echo "Usage: $(basename $0) [-q] [-n] [-d] TASK"
+	echo
+	echo "Available env configuration:"
+	for file in $(ls *.conf); do
+		echo " * $file"
+	done
+	echo
+	echo "Available tasks:"
+	for file in $(find . -type f -name *.sh); do
+		echo " * $file"
+	done
 	exit 1
 fi
 TASK="$1"
