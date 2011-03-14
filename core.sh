@@ -51,3 +51,34 @@ _env_to_role() {
 	printf "[%5s] Mapped env %s to role %s.\n" "ok" $@
 }
 
+# @VARIABLE ONEXIT
+# @DESCRIPTION
+# Used within onexit() and _onexit() functions as a
+# stack. Don't access directly.
+ONEXIT=()
+
+# @FUNCTION: onexit
+# @USAGE: [command]
+# @DESCRIPTION:
+# Queues given command to execute it later. Registers
+# handler first time it is used.
+onexit() {
+	if [[ -z ${ONEXIT-} ]]; then
+		printf "[%5s] Trapping %s signal.\n" "" "EXIT"
+		trap _onexit EXIT
+	fi
+	ONEXIT[${#ONEXIT[*]}]=$@
+}
+
+# @FUNCTION: _onexit
+# @USAGE:
+# @DESCRIPTION:
+# Supposed to be registered as a handler for trapping EXIT
+# signals. Executes commands on ONEXIT stack.
+_onexit() {
+	for command in "${ONEXIT[@]}"; do
+		printf "[%5s] Executing %s.\n" "" "$command"
+		eval $command
+	done
+}
+
