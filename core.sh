@@ -51,6 +51,22 @@ _env_to_role() {
 	printf "[%5s] Mapped env %s to role %s.\n" "ok" $@
 }
 
+# @FUNCTION: dry
+# @USAGE:
+# @DESCRIPTION:
+# Checks if dryrun is enabled and displays warning message.
+dry() {
+	if [[ $DRYRUN != "y" ]]; then
+		printf "[%5s] Dry run is NOT enabled! Press STRG+C to abort.
+			Starting in 3 seconds" "warn"
+		for I in {1..3}; do
+			echo -n '.'
+			sleep 1
+		done
+		echo
+	fi
+}
+
 # @VARIABLE ONEXIT
 # @DESCRIPTION
 # Used within onexit() and _onexit() functions as a

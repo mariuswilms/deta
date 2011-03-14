@@ -99,19 +99,6 @@ done
 source $DETA/core.sh
 
 # -----------------------------------------------------------
-# Dryrun
-# -----------------------------------------------------------
-if [[ $DRYRUN != "y" ]]; then
-	printf "[%5s] Dry run is NOT enabled! Press STRG+C to abort.
-        Starting in 3 seconds" "warn"
-	for I in {1..3}; do
-		echo -n '.'
-		sleep 1
-	done
-	echo
-fi
-
-# -----------------------------------------------------------
 # Task
 # -----------------------------------------------------------
 if [[ $QUIET != "y" ]]; then
