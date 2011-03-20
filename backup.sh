@@ -27,7 +27,7 @@ archive() {
 	cd -
 
 	printf "[%5s] Encrypting archive.\n" ""
-	read -p "Encrypt for: (y/n) " user
+	read -p "Encrypt for: " user
 	gpg -v -z 0 -r $user --encrypt $2/$label.tar
 
 	printf "[%5s] Verifying encrypted archive.\n" ""
