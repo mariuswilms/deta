@@ -68,23 +68,27 @@
   2. Start to edit the new task.
      $ $EDITOR deploy/prepare.sh
 
-  3. Source the core and g11n modules and require a THIS role.
+  3. Source the g11n module and require a THIS role.
      {{{
-       source $DETA/core.sh
        source $DETA/g11n.sh
 
        role THIS
        # ...
      }}}
 
-  4. Our task will clone the project and recompile all MO files.
+  4. Our task will clone the project into a temporary directory and recompile
+     all MO files. After the task has finished we want the temporary directory
+     to be deleted.
      {{{
        # ...
-       git clone --verbose --depth 0 file://$THIS_PROJECT $THIS_TMP
-       cd $THIS_TMP
+       TMP=$(mktemp -d -t deta)
+       defer rm -r $TMP
 
-       g11n_remove_mo app/locale
+       git clone --verbose --depth 0 file://$THIS_PROJECT $THIS_TMP
+       cd $TMP
+
        g11n_compile_mo app/locale
+       # ...
      }}}
 
   5. Run the tasks through the deta tool.
@@ -98,7 +102,7 @@
   the env configurations (loaded from *.conf).
 
   Following global variables are always available within tasks:
-  QUIET (y|n), DRYRUN (y|n), DETA (deta directory)
+  QUIET (y|n), DRYRUN (y|n), DETA (deta directory), TASK (current task)
 
   Tasks are plain shell files and share the same interpreter as the
   deta tool (which is BASH).
@@ -114,10 +118,12 @@
   in the directory specified by $DETA. Of course you can also built your own
   modules and load them in a similar way.
   {{{
-    source $DETA/core.sh
+    source $DETA/g11n.sh
     source $DETA/sys.sh
     # ...
   }}}
+  By default the core module is always loaded, making functions as role and
+  defer available in any task.
 
   Environments
   ''''''''''''
@@ -130,6 +136,9 @@
   By default deta comes with a configuration for the DEV env. You can add new
   environments by copying dev.conf to prod.conf and adjusting the prefixes
   in it i.e DEV_ becomes PROD_.
+
+  All environment configurations are by default loaded automatically
+  before a task is executed.
 
   [1] Lithium framework, http://lithify.me
 
