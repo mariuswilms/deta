@@ -84,7 +84,7 @@
        TMP=$(mktemp -d -t deta)
        defer rm -r $TMP
 
-       git clone --verbose --depth 0 file://$THIS_PROJECT $THIS_TMP
+       git clone --verbose --depth 0 $THIS_REPO $TMP
        cd $TMP
 
        g11n_compile_mo app/locale
@@ -151,7 +151,7 @@
   To indicate that a task requires a role call the role function (from the core
   module) right below the source statements.
   {{{
-    source $DETA/core.sh
+    # source ...
 
     role SOURCE
     role TARGET
