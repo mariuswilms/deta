@@ -58,7 +58,7 @@ _env_to_role() {
 dry() {
 	if [[ $DRYRUN != "y" ]]; then
 		printf "[%5s] Dry run is NOT enabled! Press STRG+C to abort.
-			Starting in 3 seconds" "warn"
+	Starting in 3 seconds" "warn"
 		for I in {1..3}; do
 			echo -n '.'
 			sleep 1
