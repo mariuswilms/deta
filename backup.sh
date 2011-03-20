@@ -50,7 +50,7 @@ dearchive() {
 	printf "[%5s] Decrypting archive.\n" ""
 	gpg -v --decrypt $1 | tar xv -C $2
 
-	local size_before=$(ls -lah $2/$label.tar.gpg | awk '{ print $5 }')
-	local size_after=$(du -hs $1 | awk '{ print $1 }')
-	printf "[%5s] Archive unpacked to %s (%s->%s).\n" "ok" "$2/$label.tar.gpg" $size_before $size_after
+	local size_before=$(ls -lah $1 | awk '{ print $5 }')
+	local size_after=$(du -hs $2 | awk '{ print $1 }')
+	printf "[%5s] Archive unpacked to %s (%s->%s).\n" "ok" $2 $size_before $size_after
 }
