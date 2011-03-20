@@ -72,7 +72,7 @@ _rsync_ignore() {
 	for excluded in $1; do
 		echo $excluded >> $tmp
 	done
-	# onexit rm $tmp
+	# defer rm $tmp
 	echo "--exclude-from=$tmp"
 }
 

@@ -67,32 +67,32 @@ dry() {
 	fi
 }
 
-# @VARIABLE ONEXIT
+# @VARIABLE DEFERRED
 # @DESCRIPTION
-# Used within onexit() and _onexit() functions as a
+# Used within defer() and _defer() functions as a
 # stack. Don't access directly.
-ONEXIT=()
+DEFERRED=()
 
-# @FUNCTION: onexit
+# @FUNCTION: defer
 # @USAGE: [command]
 # @DESCRIPTION:
 # Queues given command to execute it later. Registers
 # handler first time it is used.
-onexit() {
-	if [[ -z ${ONEXIT-} ]]; then
+defer() {
+	if [[ -z ${DEFERRED-} ]]; then
 		printf "[%5s] Trapping %s signal.\n" "" "EXIT"
-		trap _onexit EXIT
+		trap _defer EXIT
 	fi
-	ONEXIT[${#ONEXIT[*]}]=$@
+	DEFERRED[${#DEFERRED[*]}]=$@
 }
 
-# @FUNCTION: _onexit
+# @FUNCTION: _defer
 # @USAGE:
 # @DESCRIPTION:
 # Supposed to be registered as a handler for trapping EXIT
-# signals. Executes commands on ONEXIT stack.
-_onexit() {
-	for command in "${ONEXIT[@]}"; do
+# signals. Executes commands on DEFERRED stack.
+_defer() {
+	for command in "${DEFERRED[@]}"; do
 		printf "[%5s] Executing %s.\n" "" "$command"
 		eval $command
 	done
