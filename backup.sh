@@ -20,22 +20,24 @@ printf "[%5s] Module %s loaded.\n" "ok" "backup"
 # Symlinks are *not* dereferenced when creating the archive.
 archive() {
 	local label=${3}-$(date +%Y-%m-%d-%H-%M)
+	local tmp=$(mktemp -d -t deta)
+	defer rm -rf $tmp
 
 	printf "[%5s] Creating and verifying archive from %s.\n" "" $1
 	cd $1
-	tar -Wp -cf $2/$label.tar *
+	tar -Wp -cf $tmp/$label.tar *
 	cd -
 
 	printf "[%5s] Encrypting archive.\n" ""
 	read -p "Encrypt for: " user
-	gpg -v -z 0 -r $user --encrypt $2/$label.tar
+	gpg -v -z 0 -r $user --encrypt $tmp/$label.tar
 
 	printf "[%5s] Verifying encrypted archive.\n" ""
-	gpg -v -ba -u $user $2/$label.tar.gpg
-	gpg -v --verify $2/$label.tar.gpg.asc
+	gpg -v -ba -u $user $tmp/$label.tar.gpg
+	gpg -v --verify $tmp/$label.tar.gpg.asc
 
-	rm -v $2/$label.tar.gpg.asc
-	rm -v $2/$label.tar
+	printf "[%5s] Copying archive into target directory.\n" ""
+	cp $tmp/$label.tar.gpg $2/
 
 	local size_before=$(du -hs $1 | awk '{ print $1 }')
 	local size_after=$(ls -lah $2/$label.tar.gpg | awk '{ print $5 }')
