@@ -84,24 +84,20 @@ if [[ $QUIET != "y" ]]; then
 fi
 
 # -----------------------------------------------------------
-# Configuration
-# -----------------------------------------------------------
-for file in $(ls $(pwd)/*.conf); do
-	if [[ $QUIET != "y" ]]; then
-		printf "[%5s] Loading configuration %s.\n" "" $(basename $file)
-	fi
-	source $file
-done
-
-# -----------------------------------------------------------
 # Load standard module.
 # -----------------------------------------------------------
 source $DETA/core.sh
 
 # -----------------------------------------------------------
+# Configuration
+# -----------------------------------------------------------
+for file in $(ls $(pwd)/*.conf); do
+	msg "Loading configuration %s." $(basename $file)
+	source $file
+done
+
+# -----------------------------------------------------------
 # Task
 # -----------------------------------------------------------
-if [[ $QUIET != "y" ]]; then
-	printf "[%5s] Executing task %s.\n" "" $TASK
-fi
+msg "Executing task %s." $TASK
 source $TASK

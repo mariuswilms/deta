@@ -11,7 +11,7 @@
 # @LINK      http://github.com/davidpersson/deta
 #
 
-printf "[%5s] Module %s loaded.\n" "ok" "backup"
+msgok "Module %s loaded." "backup"
 
 # @FUNCTION: archive
 # @USAGE: [source dir] [target dir] [label prefix]
@@ -23,25 +23,25 @@ archive() {
 	local tmp=$(mktemp -d -t deta)
 	defer rm -rf $tmp
 
-	printf "[%5s] Creating and verifying archive from %s.\n" "" $1
+	msg "Creating and verifying archive from %s." $1
 	cd $1
 	tar -Wp -cf $tmp/$label.tar *
 	cd -
 
-	printf "[%5s] Encrypting archive.\n" ""
+	msg "Encrypting archive."
 	read -p "Encrypt for: " user
 	gpg -v -z 0 -r $user --encrypt $tmp/$label.tar
 
-	printf "[%5s] Verifying encrypted archive.\n" ""
+	msg "Verifying encrypted archive."
 	gpg -v -ba -u $user $tmp/$label.tar.gpg
 	gpg -v --verify $tmp/$label.tar.gpg.asc
 
-	printf "[%5s] Copying archive into target directory.\n" ""
-	cp $tmp/$label.tar.gpg $2/
+	msg "Copying archive into target directory."
+	cp -v $tmp/$label.tar.gpg $2/
 
 	local size_before=$(du -hs $1 | awk '{ print $1 }')
 	local size_after=$(ls -lah $2/$label.tar.gpg | awk '{ print $5 }')
-	printf "[%5s] Archive created at %s (%s->%s).\n" "ok" "$2/$label.tar.gpg" $size_before $size_after
+	msgok "Archive created at %s (%s->%s)." "$2/$label.tar.gpg" $size_before $size_after
 }
 
 # @FUNCTION: dearchive
@@ -49,10 +49,10 @@ archive() {
 # @DESCRIPTION:
 # Decrypts and unpacks archive [source] to directory [target].
 dearchive() {
-	printf "[%5s] Decrypting archive.\n" ""
+	msg "Decrypting archive."
 	gpg -v --decrypt $1 | tar xv -C $2
 
 	local size_before=$(ls -lah $1 | awk '{ print $5 }')
 	local size_after=$(du -hs $2 | awk '{ print $1 }')
-	printf "[%5s] Archive unpacked to %s (%s->%s).\n" "ok" $2 $size_before $size_after
+	msgok "Archive unpacked to %s (%s->%s)." $2 $size_before $size_after
 }

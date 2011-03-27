@@ -11,7 +11,7 @@
 # @LINK      http://github.com/davidpersson/deta
 #
 
-printf "[%5s] Module %s loaded.\n" "ok" "sys"
+msgok "Module %s loaded." "sys"
 
 # @FUNCTION: sys_check_command
 # @USAGE: [command]
@@ -20,9 +20,9 @@ printf "[%5s] Module %s loaded.\n" "ok" "sys"
 sys_check_command() {
 	which $1 &> /dev/null
 	if [[ $? == 0 ]]; then
-		printf "[%5s] Command %s at %s.\n" "ok" $1 $(which $1)
+		msgok "Command %s at %s." $1 $(which $1)
 	else
-		printf "[%5s] Command %s not found.\n" "fail" $1
+		msgfail "Command %s not found." $1
 	fi
 }
 
@@ -33,9 +33,9 @@ sys_check_command() {
 sys_check_command_return() {
 	$@ &> /dev/null
 	if [[ $? == 0 ]]; then
-		printf "[%5s] Command %s returned %s.\n" "ok" $1 $?
+		msgok "Command %s returned %s." $1 $?
 	else
-		printf "[%5s] Command %s returned %s.\n" "fail" $1 $?
+		msgfail "Command %s returned %s." $1 $?
 	fi
 }
 
@@ -48,12 +48,12 @@ sys_check_service() {
 	if [[ -d /etc/init.d ]]; then
 		/etc/init.d/$1 status > /dev/null
 		if [[ $? == 0 ]]; then
-			printf "[%5s] Service %s running.\n" "ok" $1
+			msgok "Service %s running." $1
 		else
-			printf "[%5s] Service %s not running?\n" "fail"
+			msgfail "Service %s not running?" "fail"
 		fi
 	else
-		printf "[%5s] Cannot check for service %s.\n" "skip" $1
+		msgskip "Cannot check for service %s." $1
 	fi
 }
 
@@ -64,9 +64,9 @@ sys_check_service() {
 sys_check_php_module() {
 	php -m | grep $1 > /dev/null
 	if [[ $? == 0 ]]; then
-		printf "[%5s] PHP %s extension is installed.\n" "ok" $1
+		msgok "PHP %s extension is installed." $1
 	else
-		printf "[%5s] PHP %s extension not installed.\n" "fail" $1
+		msgfail "PHP %s extension not installed." $1
 	fi
 }
 
@@ -77,9 +77,9 @@ sys_check_php_module() {
 sys_check_php_setting() {
 	php -i | grep -e "$1.*$2" > /dev/null
 	if [[ $? == 0 ]]; then
-		printf "[%5s] PHP setting %s is %s.\n" "ok" $1 $2
+		msgok "PHP setting %s is %s." $1 $2
 	else
-		printf "[%5s] PHP setting %s is not %s.\n" "fail" $1 $2
+		msgfail "PHP setting %s is not %s." $1 $2
 	fi
 }
 
@@ -91,9 +91,9 @@ sys_check_php_setting() {
 sys_check_im_format_r() {
 	identify -list format | grep -e "r.....$1" > /dev/null
 	if [[ $? == 0 ]]; then
-		printf "[%5s] Imagemagick has read support for %s.\n" "ok" "$1"
+		msgok "Imagemagick has read support for %s." "$1"
 	else
-		printf "[%5s] Imagemagick has no read support for %s.\n" "fail" "$1"
+		msgfail "Imagemagick has no read support for %s." "$1"
 	fi
 }
 
@@ -106,9 +106,9 @@ sys_check_im_format_r() {
 sys_check_im_format_rw() {
 	identify -list format | grep -e "rw....$1" > /dev/null
 	if [[ $? == 0 ]]; then
-		printf "[%5s] Imagemagick has read-write support for %s.\n" "ok" "$1"
+		msgok "Imagemagick has read-write support for %s." "$1"
 	else
-		printf "[%5s] Imagemagick has no read-write support for %s.\n" "fail" "$1"
+		msgfail "Imagemagick has no read-write support for %s." "$1"
 	fi
 }
 
@@ -120,9 +120,9 @@ sys_check_im_format_rw() {
 sys_check_sox_format() {
 	sox -h | grep $1 > /dev/null
 	if [[ $? == 0 ]]; then
-		printf "[%5s] Sox has support for %s.\n" "ok" "$1"
+		msgok "Sox has support for %s." "$1"
 	else
-		printf "[%5s] Sox has no support for %s.\n" "fail" "$1"
+		msgfail "Sox has no support for %s." "$1"
 	fi
 }
 
@@ -134,9 +134,9 @@ sys_check_sox_format() {
 sys_check_ffmpeg_format_r() {
 	ffmpeg -formats 2>&1 | grep -e "D..*$1" > /dev/null
 	if [[ $? == 0 ]]; then
-		printf "[%5s] Ffmpeg has read support for %s.\n" "ok" "$1"
+		msgok "Ffmpeg has read support for %s." "$1"
 	else
-		printf "[%5s] Ffmpeg has no read support for %s.\n" "fail" "$1"
+		msgfail "Ffmpeg has no read support for %s." "$1"
 	fi
 }
 
@@ -149,9 +149,9 @@ sys_check_ffmpeg_format_r() {
 sys_check_ffmpeg_format_rw() {
 	ffmpeg -formats 2>&1 | grep -e "DE.*$1" > /dev/null
 	if [[ $? == 0 ]]; then
-		printf "[%5s] Ffmpeg has read-write support for %s.\n" "ok" "$1"
+		msgok "Ffmpeg has read-write support for %s." "$1"
 	else
-		printf "[%5s] Ffmpeg has no read-write support for %s.\n" "fail" "$1"
+		msgfail "Ffmpeg has no read-write support for %s." "$1"
 	fi
 }
 
@@ -164,12 +164,12 @@ sys_check_apache_module() {
 	if [[ $? == 0 ]]; then
 		httpd -M 2>&1 | grep "$1_module" > /dev/null
 		if [[ $? == 0 ]]; then
-			printf "[%5s] Apache module %s loaded.\n" "ok" "$1"
+			msgok "Apache module %s loaded." "$1"
 		else
-			printf "[%5s] Apache is missing module %s.\n" "fail" "$1"
+			msgfail "Apache is missing module %s." "$1"
 		fi
 	else
-		printf "[%5s] Cannot check for apache module %s, the httpd command errors out.\n" "skip" "$1"
+		msgskip "Cannot check for apache module %s, the httpd command errors out." "$1"
 	fi
 }
 
@@ -182,11 +182,11 @@ sys_check_mysql_engine() {
 	if [[ $? == 0 ]]; then
 		mysql -e 'SHOW ENGINES;' 2>&1 | grep -E "$1.*(YES|DEFAULT)" > /dev/null
 		if [[ $? == 0 ]]; then
-			printf "[%5s] MySQL has support for engine %s.\n" "ok" "$1"
+			msgok "MySQL has support for engine %s." "$1"
 		else
-			printf "[%5s] MySQL has no support for engine %s.\n" "fail" "$1"
+			msgfail "MySQL has no support for engine %s." "$1"
 		fi
 	else
-		printf "[%5s] Cannot check for MySQL engine %s, the mysql command errors out.\n" "skip" "$1"
+		msgskip "Cannot check for MySQL engine %s, the mysql command errors out." "$1"
 	fi
 }

@@ -11,7 +11,7 @@
 # @LINK      http://github.com/davidpersson/deta
 #
 
-printf "[%5s] Module %s loaded.\n" "ok" "util"
+msgok "Module %s loaded." "util"
 
 # @FUNCTION: exists_and_empty
 # @USAGE: [directory]
@@ -20,10 +20,10 @@ printf "[%5s] Module %s loaded.\n" "ok" "util"
 # Will remove existing directories.
 exists_and_empty() {
 	if [ -d $1 ]; then
-		printf "[%5s] Removing directory %s forcefully.\n" "" $1
+		msg "Removing directory %s forcefully." $1
 		rm -rf $1
 	fi
-	printf "[%5s] Creating directory %s.\n" "" $1
+	msg "Creating directory %s." $1
 	mkdir -p $1
 }
 
@@ -32,6 +32,6 @@ exists_and_empty() {
 # @DESCRIPTION:
 # Creates a manifest from the contents of the given directory.
 create_manifest() {
-	printf "[%5s] Creating manifest from %s in %s.\n" "" $1 $2
+	msg "Creating manifest from %s in %s." $1 $2
 	mtree -K md5digest -x -c -p $1 > $2
 }

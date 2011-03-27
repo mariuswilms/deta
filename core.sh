@@ -11,7 +11,29 @@
 # @LINK      http://github.com/davidpersson/deta
 #
 
-printf "[%5s] Module %s loaded.\n" "ok" "core"
+# @FUNCTION: msg*
+# @USAGE: [message] [replacement0..]
+# @DESCRIPTION:
+# Outputs status messages honoring QUIET flag.
+msg()     { if [[ $QUIET != "y" ]]; then _msg ""     "$@"; fi }
+msgok()   { if [[ $QUIET != "y" ]]; then _msg "ok"   "$@"; fi }
+msgskip() { if [[ $QUIET != "y" ]]; then _msg "skip" "$@"; fi }
+msgdry()  { if [[ $QUIET != "y" ]]; then _msg "dry"  "$@"; fi }
+msgwarn() { _msg "warn" "$@" >&2; }
+msgfail() { _msg "fail" "$@" >&2; }
+
+# @FUNCTION: _msg
+# @USAGE: [status] [message] [replacement0..]
+# @DESCRIPTION:
+# Outputs status messages.
+_msg() {
+	local status=$1
+	local message=$2
+	shift 2
+	printf "[%5s] %s\n" "$status" "$(printf "$message" $@)"
+}
+
+msgok "Module %s loaded." "core"
 
 # @FUNCTION: role
 # @USAGE: [role]
@@ -36,7 +58,7 @@ role() {
 			break
 		done
 	fi
-	printf "[%5s] Using role %s.\n" "ok" $@
+	msgok "Using role %s." $1
 }
 
 # @FUNCTION: _env_to_role
@@ -48,7 +70,7 @@ _env_to_role() {
 	for c in $(set | grep -E "^$1_"); do
 		eval ${c/$1_/$2_}
 	done
-	printf "[%5s] Mapped env %s to role %s.\n" "ok" $@
+	msgok "Mapped env %s to role %s." $@
 }
 
 # @FUNCTION: dry
@@ -57,8 +79,8 @@ _env_to_role() {
 # Checks if dryrun is enabled and displays warning message.
 dry() {
 	if [[ $DRYRUN != "y" ]]; then
-		printf "[%5s] Dry run is NOT enabled! Press STRG+C to abort.
-	Starting in 3 seconds" "warn"
+		msgwarn "Dry run is NOT enabled! Press STRG+C to abort."
+		msg "Starting in 3 seconds."
 		for I in {1..3}; do
 			echo -n '.'
 			sleep 1
@@ -80,7 +102,7 @@ DEFERRED=()
 # handler first time it is used.
 defer() {
 	if [[ -z ${DEFERRED-} ]]; then
-		printf "[%5s] Trapping %s signal.\n" "" "EXIT"
+		msg "Trapping %s signal." "EXIT"
 		trap _defer EXIT
 	fi
 	DEFERRED[${#DEFERRED[*]}]=$@
@@ -93,7 +115,7 @@ defer() {
 # signals. Executes commands on DEFERRED stack.
 _defer() {
 	for command in "${DEFERRED[@]}"; do
-		printf "[%5s] Executing %s.\n" "" "$command"
+		msg "Executing %s." "$command"
 		eval $command
 	done
 }

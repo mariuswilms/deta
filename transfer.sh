@@ -11,7 +11,7 @@
 # @LINK      http://github.com/davidpersson/deta
 #
 
-printf "[%5s] Module %s loaded.\n" "ok" "transfer"
+msgok "Module %s loaded." "transfer"
 
 # @FUNCTION: sync
 # @USAGE: [source] [target] [ignore]
@@ -23,9 +23,9 @@ printf "[%5s] Module %s loaded.\n" "ok" "transfer"
 # DRYRUN support. Symlinks are copied as symlinks.
 sync() {
 	if [[ $DRYRUN != "n" ]]; then
-		printf "[%5s] Pretending syncing from %s to target %s.\n" "dry" $1 $2
+		msgdry "Pretending syncing from %s to target %s." $1 $2
 	else
-		printf "[%5s] Syncing from %s to target %s.\n" "" $1 $2
+		msg "Syncing from %s to target %s." $1 $2
 	fi
 	rsync --stats -h -z -p -r --delete \
 			$(_rsync_ignore "$3") \
@@ -47,7 +47,7 @@ sync_sanity() {
 	local backup=$DRYRUN
 	DRYRUN="y"
 
-	printf "[%5s] Running sync sanity check.\n" "dry"
+	msgdry "Running sync sanity check."
 	local out=$(sync $1 $2 "$3" 2>&1)
 
 	DRYRUN=$backup

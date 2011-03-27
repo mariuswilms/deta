@@ -11,7 +11,7 @@
 # @LINK      http://github.com/davidpersson/deta
 #
 
-printf "[%5s] Module %s loaded.\n" "ok" "invoke"
+msgok "Module %s loaded." "invoke"
 
 # @FUNCTION: run_ssh
 # @USAGE: [host] < [commands]
@@ -23,13 +23,13 @@ run_ssh() {
 	while read -r line; do in+="$line\n"; done
 
 	if [ $DRYRUN != "n" ]; then
-		printf "[%5s] Would have executed following command/s on %s.\n" "dry" $1
+		msgdry "Would have executed following command/s on %s." $1
 		echo -e $in
 	else
-		printf "[%5s] Begin executing command/s on %s.\n" "" $1
+		msg "Begin executing command/s on %s." $1
 		echo ">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>"
 		echo -e $in | ssh -T $1
 		echo "<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<"
-		printf "[%5s] Finished executing command/s on %s.\n" "ok" $1
+		msgok "Finished executing command/s on %s." $1
 	fi
 }

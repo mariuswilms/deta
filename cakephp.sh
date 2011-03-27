@@ -11,13 +11,13 @@
 # @LINK      http://github.com/davidpersson/deta
 #
 
-printf "[%5s] Module %s loaded.\n" "ok" "cakephp"
+msgok "Module %s loaded." "cakephp"
 
 # @FUNCTION: cakephp_configure
 # @USAGE: [name] [new value] [config file]
 # @DESCRIPTION:
 # Modifies configure statements in i.e. app/core.php in place.
 cakephp_configure() {
-	printf "[%5s] Setting %s to %s in %s.\n" "" $@
+	msg "Setting %s to %s in %s." $@
 	sed -i "" "s/'$1',.*)/'$1', $2)/g" $3
 }

@@ -11,14 +11,14 @@
 # @LINK      http://github.com/davidpersson/deta
 #
 
-printf "[%5s] Module %s loaded.\n" "ok" "g11n"
+msgok "Module %s loaded." "g11n"
 
 # @FUNCTION: g11n_compile_mo
 # @USAGE: [directory with PO files]
 # @DESCRIPTION:
 # Compiles all PO files in the given directory into MO format.
 g11n_compile_mo() {
-	printf "[%5s] Compiling *.po in %s.\n" "" $@
+	msg "Compiling *.po in %s." $@
 	for file in $(find $1 -type f -name *.po); do
 		msgfmt -o ${file/.po/.mo} --verbose $file
 	done
