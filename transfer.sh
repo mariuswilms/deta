@@ -54,7 +54,7 @@ sync_sanity() {
 
 	set +o errexit # grep may not match nything at all.
 	echo "$out" | grep deleting
-	set +o errexit
+	set -o errexit
 	read -p "Looks good? (y/n) " continue
 
 	if [[ $continue != "y" ]]; then
