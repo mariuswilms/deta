@@ -20,7 +20,7 @@ printf "[%5s] Module %s loaded.\n" "ok" "transfer"
 # which have been removed in [source] will also be removed from [target].
 # Specify a whitespace separated list of patterns to ignore. Files matching the
 # patterns won't be transferred from [source] to [target].  This function has
-# DRYRUN support.
+# DRYRUN support. Symlinks are copied as symlinks.
 sync() {
 	if [[ $DRYRUN != "n" ]]; then
 		printf "[%5s] Pretending syncing from %s to target %s.\n" "dry" $1 $2
@@ -29,7 +29,7 @@ sync() {
 	fi
 	rsync --stats -h -z -p -r --delete \
 			$(_rsync_ignore "$3") \
-			--copy-links \
+			--links \
 			--times \
 			--verbose \
 			$(_rsync_dryrun) \
