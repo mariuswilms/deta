@@ -26,7 +26,10 @@ run_ssh() {
 		printf "[%5s] Would have executed following command/s on %s.\n" "dry" $1
 		echo -e $in
 	else
-		printf "[%5s] Executing command/s on %s.\n" "" $1
+		printf "[%5s] Begin executing command/s on %s.\n" "" $1
+		echo ">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>"
 		echo -e $in | ssh -T $1
+		echo "<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<"
+		printf "[%5s] Finished executing command/s on %s.\n" "ok" $1
 	fi
 }
