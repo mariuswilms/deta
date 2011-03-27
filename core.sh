@@ -30,6 +30,8 @@ _msg() {
 	local status=$1
 	local message=$2
 	shift 2
+
+	local IFS=""
 	printf "[%5s] %s\n" "$status" "$(printf "$message" $@)"
 }
 
