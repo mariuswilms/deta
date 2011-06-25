@@ -79,6 +79,8 @@ fi
 # Load standard module.
 # -----------------------------------------------------------
 source $DETA/core.sh
+# We can now start using the messaging functions as they've
+# just been loaded from core.sh.
 
 # -----------------------------------------------------------
 # Configuration
