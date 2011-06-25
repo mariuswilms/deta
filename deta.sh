@@ -40,19 +40,10 @@ DRYRUN="n"
 
 while getopts ":qnd" OPT; do
 	case $OPT in
-		q)
-			QUIET="y"
-			;;
-		n)
-			DRYRUN="y"
-			;;
-		d)
-			set -x
-			;;
-		\?)
-			printf "Invalid option '%s'." $OPT
-			exit 1
-			;;
+		q)  QUIET="y";;
+		n)  DRYRUN="y";;
+		d)  set -x;;
+		\?) printf "Invalid option '%s'." $OPT; exit 1;;
 	esac
 done
 shift $(expr $OPTIND - 1)
