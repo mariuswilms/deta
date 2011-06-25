@@ -85,7 +85,7 @@ source $DETA/core.sh
 # -----------------------------------------------------------
 # Configuration
 # -----------------------------------------------------------
-for file in $(ls $(pwd)/*.conf); do
+for file in $(ls $(pwd)/*.conf 2> /dev/null); do
 	msg "Loading configuration %s." $(basename $file)
 	source $file
 done
