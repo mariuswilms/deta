@@ -57,7 +57,7 @@ if [[ $# == 0 ]]; then
 	done
 	echo
 	echo "Available tasks:"
-	for file in $(find . -type f -name *.sh); do
+	for file in $(find . -type f -name '*.sh'); do
 		echo " * $file"
 	done
 	echo
