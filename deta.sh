@@ -60,6 +60,7 @@ if [[ $# == 0 ]]; then
 	for file in $(find . -type f -name *.sh); do
 		echo " * $file"
 	done
+	echo
 	exit 1
 fi
 TASK="$1"
