@@ -52,7 +52,7 @@ if [[ $# == 0 ]]; then
 	echo "Usage: $(basename $0) [-q] [-n] [-d] TASK"
 	echo
 	echo "Available env configuration:"
-	for file in $(ls *.conf); do
+	for file in $(ls *.conf 2> /dev/null); do
 		echo " * $file"
 	done
 	echo
