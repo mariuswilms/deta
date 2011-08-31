@@ -35,3 +35,12 @@ create_manifest() {
 	msg "Creating manifest from %s in %s." $1 $2
 	mtree -K md5digest -x -c -p $1 > $2
 }
+
+# @FUNCTION: fill
+# @USAGE: [placeholder] [replace] [file]
+# @DESCRIPTION:
+# Replaces placeholders in a file with actual values.
+fill() {
+	msg "Replacing placeholder %s with value %s in %s." $@
+	sed -i "s|$1|$2|g" $3
+}
