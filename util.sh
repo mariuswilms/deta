@@ -42,5 +42,5 @@ create_manifest() {
 # Replaces placeholders in a file with actual values.
 fill() {
 	msg "Replacing placeholder %s with value %s in %s." $@
-	sed -i "s|$1|$2|g" $3
+	sed -i "" "s|$1|$2|g" $3
 }
