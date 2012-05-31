@@ -85,10 +85,12 @@ source $DETA/core.sh
 # -----------------------------------------------------------
 # Configuration
 # -----------------------------------------------------------
+set +o errexit
 for file in $(ls $(pwd)/*.conf 2> /dev/null); do
 	msg "Loading configuration %s." $(basename $file)
 	source $file
 done
+set -o errexit
 
 # -----------------------------------------------------------
 # Task
