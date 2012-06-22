@@ -16,28 +16,22 @@ msgok "Module %s loaded." "backup"
 # @FUNCTION: archive
 # @USAGE: [source dir] [target dir] [label prefix]
 # @DESCRIPTION:
-# Archives source directory by creating a labeled archive in target directory.
-# Symlinks are *not* dereferenced when creating the archive.
+# Archives source directory by creating a labeled and encrypted archive in
+# target directory. For symmetric encryption this function depends on gpg to be
+# installed. Symlinks are *not* dereferenced when creating the archive.
 archive() {
 	local label=${3}-$(date +%Y-%m-%d-%H-%M)
-	local tmp=$(mktemp -d -t deta)
-	defer rm -rf $tmp
 
-	msg "Creating and verifying archive from %s." $1
+	msg "Creating and encrypting archive from %s in target %s." $1 $2
+	read -p "Encrypt for: " user
 	cd $1
-	tar -Wp -cf $tmp/$label.tar *
+	tar -p -cf - * | gpg -v -z 0 -r $user --encrypt -o $2/$label.tar.gpg -
 	cd -
 
-	msg "Encrypting archive."
-	read -p "Encrypt for: " user
-	gpg -v -z 0 -r $user --encrypt $tmp/$label.tar
-
 	msg "Verifying encrypted archive."
-	gpg -v -ba -u $user $tmp/$label.tar.gpg
-	gpg -v --verify $tmp/$label.tar.gpg.asc
-
-	msg "Copying archive into target directory."
-	cp -v $tmp/$label.tar.gpg $2/
+	gpg -v -ba -u $user $2/$label.tar.gpg
+	gpg -v --verify $2/$label.tar.gpg.asc
+	rm $2/$label.tar.gpg.asc
 
 	local size_before=$(du -hs $1 | awk '{ print $1 }')
 	local size_after=$(ls -lah $2/$label.tar.gpg | awk '{ print $5 }')
