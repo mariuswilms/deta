@@ -83,6 +83,7 @@ dry() {
 	if [[ $DRYRUN != "y" ]]; then
 		msgwarn "Dry run is NOT enabled! Press STRG+C to abort."
 		msg "Starting in 3 seconds."
+		echo -n "  "
 		for I in {1..3}; do
 			echo -n '.'
 			sleep 1
