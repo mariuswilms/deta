@@ -46,5 +46,5 @@ fill() {
 
 	# Workaround for older BSD versions of sed that need
 	# a suffix after -i while interpreting -e as the suffix.
-	test -f ${3}-e && rm ${3}-e
+	if [[ -f ${3}-e ]]; then rm ${3}-e; fi
 }
