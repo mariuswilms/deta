@@ -28,11 +28,6 @@ archive() {
 	tar -p -cf - * | gpg -v -z 0 -r $user --encrypt -o $2/$label.tar.gpg -
 	cd -
 
-	msg "Verifying encrypted archive."
-	gpg -v -ba -u $user $2/$label.tar.gpg
-	gpg -v --verify $2/$label.tar.gpg.asc
-	rm $2/$label.tar.gpg.asc
-
 	local size_before=$(du -hs $1 | awk '{ print $1 }')
 	local size_after=$(ls -lah $2/$label.tar.gpg | awk '{ print $5 }')
 	msgok "Archive created at %s (%s->%s)." "$2/$label.tar.gpg" $size_before $size_after
@@ -49,4 +44,19 @@ dearchive() {
 	local size_before=$(ls -lah $1 | awk '{ print $5 }')
 	local size_after=$(du -hs $2 | awk '{ print $1 }')
 	msgok "Archive unpacked to %s (%s->%s)." $2 $size_before $size_after
+}
+
+# @FUNCTION: verifyarchive
+# @USAGE: [path to file to verify]
+# @DESCRIPTION:
+# Verifies an encrypted archive.
+verifyarchive() {
+	local file=$1
+
+	msg "Verifying encrypted archive."
+	read -p "Encrypted for: " user
+
+	gpg -v -ba -u $user $file
+	gpg -v --verify ${file}.asc
+	rm ${file}.asc
 }
