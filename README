@@ -24,13 +24,6 @@
   The code is distributed under the terms of the MIT License. For
   the full license text see the LICENSE file.
 
-  Donations
-  ---------
-  If you enjoy working with deta and this open source project is of
-  great use to you, consider buying me a book from my amazon wish list.
-
-  http://amzn.com/w/1YHE04BY8UDI - Your donation is much appreciated.
-
   Versions & Requirements
   -----------------------
   0.1.0
@@ -95,6 +88,10 @@
 
   5. Run the tasks through the deta tool.
      $ ./deta deploy/prepare.sh
+
+  Example Tasks
+  -------------
+  You can find ready-to-use tasks in the "contrib" subdirectory.
 
   Terminology
   -----------
@@ -179,20 +176,3 @@
   issue tracker. You'll find the tracker at:
 
   http://github.com/davidpersson/deta/issues
-
-  Contributing
-  ------------
-  If you have some ideas for improving this tool just fork the repository,
-  make your changes and when ready send a pull request to notify me about the
-  changes you made. I'll review them and see if I can merge them back. Please
-  style your code according to the code which is already there.
-
-  Please note that code which is supposed to be merged into this (blessed)
-  repository must carry the same header (including the copyright statement) as
-  all code in the library and should be free of any @author tags. This may seem
-  a little strange at first. But let me explain: Multiple copyright
-  holders/licenses complicate things where not necessary. @author tags seem to
-  mark sections of code as belonging to, owned or claimed by the specific author.
-
-  As an alternative the project has a dedicated AUTHORS file where every contributor
-  is listed with her/his name/nick along with an email address.
