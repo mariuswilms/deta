@@ -13,6 +13,42 @@
 
 msgok "Module %s loaded." "transfer"
 
+# @FUNCTION: download
+# @USAGE: [URL] [target]
+# @DESCRIPTION:
+# Downloads from various sources. Implements "svn export"-like functionality
+# for GIT. Automatically dearchives downloaded archives. The source URL may
+# point to an archive, a repository or a single file.
+download() {
+	msg "Downloading %s to %s." $1 $2
+
+	case $1 in
+		# Partially GitHub specific
+		*".zip"* | *"/zipball/"*)
+			tmp=$(mktemp -d -t deta)
+			defer rm -rf $tmp
+
+			curl -# -L -k $1 > $tmp/download.zip
+			unzip $tmp/download -d $2
+		;;
+		# Partially GitHub specific
+		*".tar.gz"* | *"/tarball/"*)
+			curl -# -L -k $1 | tar vxz -C $2
+		;;
+		# Must come after filetype-specific download strategies.
+		"http://"* | "https://"*)
+			curl -# -L -k $1 --O $2
+		;;
+		"git://"*)
+			git clone --verbose --depth 1 $1 $2
+			rm -r $2/.git*
+		;;
+		"svn://"*)
+			svn export $1 $2
+		;;
+	esac
+}
+
 # @FUNCTION: sync
 # @USAGE: [source] [target] [ignore]
 # @DESCRIPTION:
