@@ -88,10 +88,13 @@ sync_sanity() {
 
 	DRYRUN=$backup
 
-	set +o errexit # grep may not match nything at all.
+	set +o errexit # grep may not match anything at all.
+	echo "To be deleted on target:"
 	echo "$out" | grep deleting
+	echo "To be tranferred to target:"
+	echo "$out" | grep '<'
 	set -o errexit
-	read -p "Looks good? (y/n) " continue
+	read -p "Looks good? (y/N) " continue
 
 	if [[ $continue != "y" ]]; then
 		return 1
