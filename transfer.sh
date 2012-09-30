@@ -20,7 +20,7 @@ msgok "Module %s loaded." "transfer"
 # for GIT. Automatically dearchives downloaded archives. The source URL may
 # point to an archive, a repository or a single file.
 download() {
-	msg "Downloading %s to %s." $1 $2
+	msg "Downloading %s." $1
 
 	case $1 in
 		# Partially GitHub specific
