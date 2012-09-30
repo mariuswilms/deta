@@ -40,7 +40,7 @@ download() {
 			curl -# -L -k $1 --O $2
 		;;
 		"git://"*)
-			git clone --verbose --depth 1 $1 $2
+			git clone --no-hardlinks --progress --depth 1 $1 $2
 			rm -fr $2/.git*
 		;;
 		"svn://"*)
