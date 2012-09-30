@@ -41,7 +41,7 @@ download() {
 		;;
 		"git://"*)
 			git clone --verbose --depth 1 $1 $2
-			rm -r $2/.git*
+			rm -fr $2/.git*
 		;;
 		"svn://"*)
 			svn export $1 $2
