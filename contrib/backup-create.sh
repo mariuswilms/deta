@@ -43,6 +43,7 @@ done
 
 sync_sanity "$SOURCE_HOST:$SOURCE_PATH/*" $TMP "$SOURCE_IGNORE"
 
+# Temporarily disable errexit (Files not synced are considered a non critical error).
 set +o errexit
 sync "$SOURCE_HOST:$SOURCE_PATH/*" $TMP "$SOURCE_IGNORE"
 set -o errexit
