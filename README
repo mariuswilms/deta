@@ -14,10 +14,6 @@
   a small tool for launching the tasks, a handful of reusable functions and a
   sane configuration management.
 
-  Authors
-  -------
-  See the AUTHORS file.
-
   Copyright & License
   -------------------
   Deta is Copyright (c) 2011-2012 David Persson if not otherwise stated.
@@ -32,10 +28,6 @@
 
   The BASH (Bourne-Again SHell) is required. Deta is continously
   tested with recent BASH versions on Linux and Darwin.
-
-  Download
-  --------
-  http://github.com/davidpersson/deta/downloads
 
   Installation
   ------------
@@ -169,10 +161,3 @@
     DEV_THIS=$([[ $(hostname) == $DEV_HOST ]] && echo "y" || echo "n")
     # ...
   }}}
-
-  Bugs
-  ----
-  If you've found a bug or would like to suggest a feature create a ticket in the
-  issue tracker. You'll find the tracker at:
-
-  http://github.com/davidpersson/deta/issues
