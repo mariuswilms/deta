@@ -28,7 +28,7 @@ download() {
 			tmp=$(mktemp -d -t deta)
 			defer rm -rf $tmp
 
-			curl -# -L -k $1 > $tmp/download.zip
+			curl -# -L -k $1 --O $tmp/download.zip
 			unzip $tmp/download -d $2
 		;;
 		# Partially GitHub specific
