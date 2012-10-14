@@ -82,8 +82,8 @@ source $DETA/core.sh
 # -----------------------------------------------------------
 set +o errexit
 for file in $(ls $(pwd)/*.conf 2> /dev/null); do
-	msg "Loading configuration %s." $(basename $file)
 	source $file
+	msgok "Loaded %s." ${file##./}
 done
 set -o errexit
 
