@@ -37,43 +37,38 @@ fi
 # -----------------------------------------------------------
 QUIET="n"
 DRYRUN="n"
+VERSION="0.3.0-head"
 
-while getopts ":qnd" OPT; do
+while getopts ":qndV" OPT; do
 	case $OPT in
 		q)  QUIET="y";;
 		n)  DRYRUN="y";;
 		d)  set -x;;
+		V)  echo "DETA $VERSION by David Persson."; exit;;
 		\?) printf "Invalid option '%s'." $OPT; exit 1;;
 	esac
 done
 shift $(expr $OPTIND - 1)
 
 if [[ $# == 0 ]]; then
-	echo "Usage: $(basename $0) [-q] [-n] [-d] TASK"
+	echo "Usage: deta.sh [options] <task>"
 	echo
-	echo "Available env configuration:"
-	for file in $(ls *.conf 2> /dev/null); do
-		echo " * $file"
-	done
-	echo
-	echo "Available tasks:"
+	echo "Tasks:"
 	for file in $(find . -type f -name '*.sh'); do
-		echo " * $file"
+		echo "  ${file##./}"
 	done
+	echo
+	echo "Options:"
+	echo "  -n        Enable dry-run."
+	echo "  -V        Show current version."
+	echo "  -d        Enable debug output."
+	echo "  -q        Quiet mode, surpress most output except errors."
 	echo
 	exit 1
 fi
+
 TASK="$1"
 shift
-
-# -----------------------------------------------------------
-# Header
-# -----------------------------------------------------------
-if [[ $QUIET != "y" ]]; then
-	echo "========================================================="
-	echo "DETA 0.3.0"
-	echo
-fi
 
 # -----------------------------------------------------------
 # Load standard module.
