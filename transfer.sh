@@ -33,7 +33,7 @@ download() {
 		;;
 		# Partially GitHub specific
 		*".tar.gz"* | *"/tarball/"*)
-			curl -# -L -k $1 | tar vxz -C $2
+			curl -L -k $1 | tar vxz -C $2
 		;;
 		# Must come after filetype-specific download strategies.
 		"http://"* | "https://"*)
