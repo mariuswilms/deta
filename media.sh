@@ -51,7 +51,7 @@ function compress_img() {
 
 	local after=$(ls -lah $1 | awk '{ print $5 }')
 	msgok "Compressed $1 ($before -> $after)"
-done
+}
 
 # @FUNCTION: bundle_js
 # @USAGE: [target file] [files...]
