@@ -41,11 +41,11 @@ done
 # 	./deta db/dump.sh
 # SESSION
 
-sync_sanity "$SOURCE_HOST:$SOURCE_PATH/*" $TMP "$SOURCE_IGNORE"
+sync_sanity "$SOURCE_USER@$SOURCE_HOST:$SOURCE_PATH/*" $TMP "$SOURCE_IGNORE"
 
 # Temporarily disable errexit (Files not synced are considered a non critical error).
 set +o errexit
-sync "$SOURCE_HOST:$SOURCE_PATH/*" $TMP "$SOURCE_IGNORE"
+sync "$SOURCE_USER@$SOURCE_HOST:$SOURCE_PATH/*" $TMP "$SOURCE_IGNORE"
 set -o errexit
 
 archive $TMP $TARGET_PATH ${SOURCE_HOST}-${SOURCE_NAME}
