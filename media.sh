@@ -13,6 +13,9 @@
 
 msgok "Module %s loaded." "media"
 
+COMPRESSOR_JS="yuicompressor"
+COMPRESSOR_CSS="yuicompressor"
+
 # @FUNCTION: compress_js
 # @USAGE: [file]
 # @DESCRIPTION:
@@ -20,7 +23,9 @@ msgok "Module %s loaded." "media"
 function compress_js() {
 	local before=$(ls -lah $1 | awk '{ print $5 }')
 
-	$YUICOMPRESSOR -o $1 --nomunge --charset utf-8 $1
+	switch $COMPRESSOR_JS in
+		yuicompressor) yuicompressor -o $1 --nomunge --charset utf-8 $1;;
+	esac
 
 	local after=$(ls -lah $1 | awk '{ print $5 }')
 	msgok "Compressed $1 ($before -> $after)"
@@ -33,7 +38,9 @@ function compress_js() {
 function compress_css() {
 	local before=$(ls -lah $1 | awk '{ print $5 }')
 
-	$YUICOMPRESSOR -o $1 --nomunge --charset utf-8 $1
+	switch $COMPRESSOR_CSS in
+		yuicompressor) yuicompressor -o $1 --nomunge --charset utf-8 $1;;
+	esac
 
 	local after=$(ls -lah $1 | awk '{ print $5 }')
 	msgok "Compressed $1 ($before -> $after)"
