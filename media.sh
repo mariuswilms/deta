@@ -14,8 +14,8 @@
 msgok "Module %s loaded." "media"
 
 # Which compressor to use when compressing JavaScript files. Currently
-# "yuicompressor" and "uglifyjs2" are supported. For more information see the
-# documentation for compress_js().
+# "yuicompressor", "closure-compiler", "uglify-js" and "uglify-js2" are
+# supported. For more information see the documentation for compress_js().
 COMPRESSOR_JS=${COMPRESSOR_JS:-"yuicompressor"}
 
 # Which compressor to use when compressing CSS files. Currently only
@@ -31,8 +31,10 @@ function compress_js() {
 	local before=$(ls -lah $1 | awk '{ print $5 }')
 
 	switch $COMPRESSOR_JS in
-		yuicompressor) yuicompressor -o $1 --nomunge --charset utf-8 $1;;
-		uglifyjs2)     uglifyjs2 $1 -c --comments -o $1;;
+		yuicompressor)    yuicompressor -o $1 --nomunge --charset utf-8 $1;;
+		uglify-js)        uglifyjs --overwrite $1;;
+		uglify-js2)       uglifyjs2 $1 -c --comments -o $1;;
+		closure-compiler) closure-compiler --js $1 --js_output_file $1;;
 	esac
 
 	local after=$(ls -lah $1 | awk '{ print $5 }')
