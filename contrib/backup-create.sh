@@ -36,7 +36,7 @@ select file in $(ls -t $TARGET_PATH/*) "none"; do
 done
 
 # Uncomment and modify to run tasks on source.
-# run_ssh $SOURCE_HOST <<-SESSION
+# run_ssh $SOURCE_USER@$SOURCE_HOST <<-SESSION
 # 	cd $SOURCE_PATH/scripts
 # 	./deta db/dump.sh
 # SESSION
