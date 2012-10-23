@@ -30,7 +30,7 @@ archive() {
 
 	local size_before=$(du -hs $1 | awk '{ print $1 }')
 	local size_after=$(ls -lah $2/$label.tar.gpg | awk '{ print $5 }')
-	msgok "Archive created at %s (%s->%s)." "$2/$label.tar.gpg" $size_before $size_after
+	msgok "Archive created at %s (%s -> %s)." "$2/$label.tar.gpg" $size_before $size_after
 }
 
 # @FUNCTION: dearchive
@@ -43,7 +43,7 @@ dearchive() {
 
 	local size_before=$(ls -lah $1 | awk '{ print $5 }')
 	local size_after=$(du -hs $2 | awk '{ print $1 }')
-	msgok "Archive unpacked to %s (%s->%s)." $2 $size_before $size_after
+	msgok "Archive unpacked to %s (%s -> %s)." $2 $size_before $size_after
 }
 
 # @FUNCTION: verifyarchive
