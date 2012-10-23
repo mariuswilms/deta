@@ -16,12 +16,12 @@ msgok "Module %s loaded." "media"
 # Which compressor to use when compressing JavaScript files. Currently
 # "yuicompressor" and "uglifyjs2" are supported. For more information see the
 # documentation for compress_js().
-COMPRESSOR_JS="yuicompressor"
+COMPRESSOR_JS=${COMPRESSOR_JS:-"yuicompressor"}
 
 # Which compressor to use when compressing CSS files. Currently only
 # "yuicompressor" is supported. For more information see the
 # documentation for compress_css().
-COMPRESSOR_CSS="yuicompressor"
+COMPRESSOR_CSS=${COMPRESSOR_CSS:-"yuicompressor"}
 
 # @FUNCTION: compress_js
 # @USAGE: [file]
