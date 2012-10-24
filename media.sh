@@ -30,7 +30,7 @@ COMPRESSOR_CSS=${COMPRESSOR_CSS:-"yuicompressor"}
 function compress_js() {
 	local before=$(ls -lah $1 | awk '{ print $5 }')
 
-	switch $COMPRESSOR_JS in
+	case $COMPRESSOR_JS in
 		yuicompressor)    yuicompressor -o $1 --nomunge --charset utf-8 $1;;
 		uglify-js)        uglifyjs --overwrite $1;;
 		uglify-js2)       uglifyjs2 $1 -c --comments -o $1;;
@@ -48,8 +48,8 @@ function compress_js() {
 function compress_css() {
 	local before=$(ls -lah $1 | awk '{ print $5 }')
 
-	switch $COMPRESSOR_CSS in
-		yuicompressor) yuicompressor -o $1 --nomunge --charset utf-8 $1;;
+	case $COMPRESSOR_CSS in
+		yuicompressor)    yuicompressor -o $1 --charset utf-8 $1;;
 	esac
 
 	local after=$(ls -lah $1 | awk '{ print $5 }')
