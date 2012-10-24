@@ -68,6 +68,7 @@ sync() {
 			--links \
 			--times \
 			--verbose \
+			--itemize-changes \
 			$(_rsync_dryrun) \
 			$1 $2
 }
@@ -91,11 +92,16 @@ sync_sanity() {
 	set +o errexit # grep may not match anything at all.
 	echo "To be deleted on target:"
 	echo "$out" | grep deleting
+	echo
 	echo "To be tranferred to target:"
-	echo "$out" | grep '<'
+	echo "$out" | grep '^<'
+	echo
+	echo "To be created on target:"
+	echo "$out" | grep '^c'
+	echo
 	set -o errexit
-	read -p "Looks good? (y/N) " continue
 
+	read -p "Looks good? (y/N) " continue
 	if [[ $continue != "y" ]]; then
 		return 1
 	fi
