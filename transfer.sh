@@ -90,11 +90,11 @@ sync_sanity() {
 	DRYRUN=$backup
 
 	set +o errexit # grep may not match anything at all.
+	echo "To be changed on target:"
+	echo "$out" | grep -E '^<[a-z]+.*[a-z\?].*'
+	echo
 	echo "To be deleted on target:"
 	echo "$out" | grep deleting
-	echo
-	echo "To be tranferred to target:"
-	echo "$out" | grep '^<'
 	echo
 	echo "To be created on target:"
 	echo "$out" | grep '^c'
