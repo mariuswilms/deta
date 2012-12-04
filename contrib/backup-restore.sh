@@ -18,7 +18,6 @@ source $DETA/backup.sh
 role SOURCE # The env where the backups are.
 
 TMP=$(mktemp -d -t deta)
-defer rm -rf $TMP
 
 PS3="Select a previous backup to restore from (most recent first): "
 select file in $(ls -t $SOURCE_PATH/*.tar.gpg); do
