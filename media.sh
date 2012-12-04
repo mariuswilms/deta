@@ -63,8 +63,17 @@ function compress_css() {
 function compress_img() {
 	local before=$(ls -lah $1 | awk '{ print $5 }')
 
-	pngcrush -rem alla -rem text -q $1 $1.tmp
-	mv $1.tmp $1
+	case $1 in
+		*.png)
+			pngcrush -rem alla -rem text -q $1 $1.tmp
+			mv $1.tmp $1
+		;;
+		*.jpg)
+			mogrify -strip $1
+			jpegtran -optimize -copy none $1 -outfile $1.tmp
+			mv $1.tmp $1
+		;;
+	esac
 
 	local after=$(ls -lah $1 | awk '{ print $5 }')
 	msgok "Compressed $1 ($before -> $after)"
