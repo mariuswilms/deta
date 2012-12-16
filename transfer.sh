@@ -28,16 +28,16 @@ download() {
 			tmp=$(mktemp -d -t deta)
 			defer rm -rf $tmp
 
-			curl -# -L -k $1 --O $tmp/download.zip
+			curl -# -L $1 --O $tmp/download.zip
 			unzip $tmp/download -d $2
 		;;
 		# Partially GitHub specific
 		*".tar.gz"* | *"/tarball/"*)
-			curl -L -k $1 | tar vxz -C $2
+			curl -s -L $1 | tar vxz -C $2
 		;;
 		# Must come after filetype-specific download strategies.
 		"http://"* | "https://"*)
-			curl -# -L -k $1 --O $2
+			curl -# -L $1 --O $2
 		;;
 		"git://"*)
 			git clone --no-hardlinks --progress --depth 1 $1 $2
