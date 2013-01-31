@@ -34,18 +34,18 @@ Installation
 1. Extract the downloaded archive.
 
 2. Move or copy the extracted directory davidpersson-deta-[hash]
-   to /path/to/your/project/libraries.
+   to /path/to/your/project/lib.
 
-3. Create a `scripts` directory within your project. This is just a
+3. Create a `bin` directory within your project. This is just a
    suggestion - other setups are possible, too.
-   $ mkdir /path/to/project/scripts
+   $ mkdir /path/to/project/bin
 
 4. Link the deta tool into your project.
-   $ cd /path/to/project/scripts
-   $ ln -s ../libraries/deta/deta.sh ./deta
+   $ cd /path/to/project/bin
+   $ ln -s ../bin/deta/deta.sh ./deta
 
-5. Copy the default configuration for the dev env into the `scripts` directory.
-   $ cp ../libraries/deta/dev.conf .
+5. Copy the default configuration for the dev env into the `bin` directory.
+   $ cp ../bin/deta/dev.conf .
 
 Quickstart
 ----------
@@ -100,7 +100,7 @@ deta tool (which is BASH).
 
 Tasks can be located wherever you want. In the end you just pass the path to
 the deta tool. However it is nice to be able to group tasks, therefore it is
-suggested to create subdirectories directly in the `scripts` directory.
+suggested to create subdirectories directly in the `bin` directory.
 
 Modules
 '''''''
