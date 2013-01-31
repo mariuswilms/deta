@@ -42,7 +42,7 @@ Installation
 
 4. Link the deta tool into your project.
    $ cd /path/to/project/bin
-   $ ln -s ../bin/deta/deta.sh ./deta
+   $ ln -s ../bin/deta/deta.sh .
 
 5. Copy the default configuration for the dev env into the `bin` directory.
    $ cp ../bin/deta/dev.conf .
@@ -79,7 +79,7 @@ Quickstart
    }}}
 
 5. Run the tasks through the deta tool.
-   $ ./deta deploy/prepare.sh
+   $ ./deta.sh deploy/prepare.sh
 
 Example Tasks
 -------------
