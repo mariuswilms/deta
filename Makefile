@@ -13,8 +13,11 @@
 
 PREFIX ?= /usr/local
 
-install: deta.sh
-	@ln -s $< $(PREFIX)/bin/$<
+install: deta
+	mkdir -p $(PREFIX)/bin/
+	ln -s $(CURDIR)/deta.sh $(PREFIX)/bin/
+	mkdir -p $(PREFIX)/config/
+	cp -p dev.conf $(PREFIX)/config/
 
 uninstall:
 	rm $< $(PREFIX)/bin/deta.sh
