@@ -31,19 +31,25 @@ tested with recent BASH versions on Linux and Darwin.
 
 Installation
 ------------
-1. Clone the repository or extract a downloaded archive, then move
-   or copy the resulting directory into /path/to/your/lib/.
+It is suggested to install deta on a per-project basis.
 
-2. Create a `bin` directory within your project. This is just a
-   suggestion - other setups are possible, too.
-   $ mkdir /path/to/project/bin
+Clone the repository or extract a downloaded archive, then move
+or copy the resulting directory to /project/lib/deta.
 
-3. Link the deta tool into your project.
-   $ cd /path/to/project/bin
-   $ ln -s ../bin/deta/deta.sh .
+Change to the `deta` directory and run make, preferrably with a prefix:
+$ cd /project/lib/deta
+$ PREFIX=/project make install
 
-4. Copy the default configuration for the dev env into the `bin` directory.
-   $ cp ../bin/deta/dev.conf .
+This will link the deta tool into the `bin` directory in your project's
+root directory and copy the default development configuraton into
+a `config` directory. Thus making the deta tool available as:
+$ cd /project/bin
+$ ./deta.sh
+
+Other setups are possible too but than installation must be performed manually.
+You can remove the tool (but keep the configuration) by running:
+$ cd /project/lib/deta
+$ PREFIX=/project make uninstall
 
 Quickstart
 ----------
