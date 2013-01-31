@@ -31,20 +31,18 @@ tested with recent BASH versions on Linux and Darwin.
 
 Installation
 ------------
-1. Extract the downloaded archive.
+1. Clone the repository or extract a downloaded archive, then move
+   or copy the resulting directory into /path/to/your/lib/.
 
-2. Move or copy the extracted directory davidpersson-deta-[hash]
-   to /path/to/your/project/lib.
-
-3. Create a `bin` directory within your project. This is just a
+2. Create a `bin` directory within your project. This is just a
    suggestion - other setups are possible, too.
    $ mkdir /path/to/project/bin
 
-4. Link the deta tool into your project.
+3. Link the deta tool into your project.
    $ cd /path/to/project/bin
    $ ln -s ../bin/deta/deta.sh .
 
-5. Copy the default configuration for the dev env into the `bin` directory.
+4. Copy the default configuration for the dev env into the `bin` directory.
    $ cp ../bin/deta/dev.conf .
 
 Quickstart
