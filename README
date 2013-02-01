@@ -53,13 +53,10 @@ $ PREFIX=/project make uninstall
 
 Quickstart
 ----------
-1. Create a subdirectory for our task.
-   $ mkdir deploy
+1. Start to edit a new task.
+   $ $EDITOR deploy.sh
 
-2. Start to edit the new task.
-   $ $EDITOR deploy/prepare.sh
-
-3. Source the g11n module and require a THIS role.
+2. Source the g11n module and require a THIS role.
    {{{
      source $DETA/g11n.sh
 
@@ -67,7 +64,7 @@ Quickstart
      # ...
    }}}
 
-4. Our task will clone the project into a temporary directory and recompile
+3. Our task will clone the project into a temporary directory and recompile
    all MO files. After the task has finished we want the temporary directory
    to be deleted.
    {{{
@@ -82,8 +79,8 @@ Quickstart
      # ...
    }}}
 
-5. Run the tasks through the deta tool.
-   $ ./deta.sh deploy/prepare.sh
+4. Run the tasks through the deta tool.
+   $ ./deta.sh deploy.sh
 
 Example Tasks
 -------------
