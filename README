@@ -162,3 +162,19 @@ THIS role when the current hostname equals the one specified for the DEV env.
   DEV_THIS=$([[ $(hostname) == $DEV_HOST ]] && echo "y" || echo "n")
   # ...
 }}}
+
+Shell Environment Variables
+---------------------------
+There are some environment variables that affect the way deta behaves.
+
+DETA_COMPRESSOR_JS
+Which compressor to use when compressing JavaScript files. Currently
+"yuicompressor", "closure-compiler", "uglify-js" and "uglify-js2" are
+supported. For more information see the documentation for compress_js() in the
+media module. Defaults to "yuicompressor".
+
+DETA_COMPRESSOR_CSS
+Which compressor to use when compressing CSS files. Currently only
+"yuicompressor" is supported. For more information see the documentation for
+compress_css() in the media module. Defaults to "yuicompressor".
+
