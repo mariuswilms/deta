@@ -26,6 +26,8 @@ fi
 # -----------------------------------------------------------
 # Paths
 # -----------------------------------------------------------
+CONFIG_PATH=$(pwd)
+
 if [[ -L $0 ]]; then
 	DETA=$(dirname $(readlink -n $0))
 else
@@ -39,13 +41,15 @@ QUIET="n"
 DRYRUN="n"
 VERSION="0.3.0-head"
 
-while getopts ":qndV" OPT; do
+while getopts ":qndV:c:" OPT; do
 	case $OPT in
+		c)  CONFIG_PATH=$OPTARG;;
 		q)  QUIET="y";;
 		n)  DRYRUN="y";;
 		d)  set -x;;
 		V)  echo "DETA $VERSION by David Persson."; exit;;
-		\?) printf "Invalid option '%s'." $OPT; exit 1;;
+		:)  printf "Option '%s' requires an argument.\n" $OPTARG; exit 1;;
+		\?) printf "Invalid option '%s'.\n" $OPT; exit 1;;
 	esac
 done
 shift $(expr $OPTIND - 1)
@@ -59,6 +63,7 @@ if [[ $# == 0 ]]; then
 	done
 	echo
 	echo "Options:"
+	echo "  -c <path> Path to the directory holding configurations, defaults to current directory."
 	echo "  -n        Enable dry-run."
 	echo "  -V        Show current version."
 	echo "  -d        Enable debug output."
@@ -81,7 +86,7 @@ source $DETA/core.sh
 # Configuration
 # -----------------------------------------------------------
 set +o errexit
-for file in $(ls $(pwd)/*.conf 2> /dev/null); do
+for file in $CONFIG_PATH/*.conf 2> /dev/null); do
 	source $file
 	msgok "Loaded %s." ${file##./}
 done
