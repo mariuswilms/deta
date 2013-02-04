@@ -42,9 +42,9 @@ $ PREFIX=/project make install
 
 This will link the deta tool into the `bin` directory in your project's
 root directory and copy the default development configuraton into
-a `config` directory. Thus making the deta tool available as:
+a `config/deta` directory. Thus making the deta tool available as:
 $ cd /project/bin
-$ ./deta.sh
+$ ./deta.sh -c ../config/deta
 
 Other setups are possible too but than installation must be performed manually.
 You can remove the tool (but keep the configuration) by running:
