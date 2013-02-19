@@ -86,7 +86,7 @@ source $DETA/core.sh
 # Configuration
 # -----------------------------------------------------------
 set +o errexit
-for file in $CONFIG_PATH/*.conf 2> /dev/null); do
+for file in $(ls $CONFIG_PATH/*.conf 2> /dev/null); do
 	source $file
 	msgok "Loaded %s." ${file##./}
 done
