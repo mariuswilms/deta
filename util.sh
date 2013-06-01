@@ -60,3 +60,14 @@ clear_vcs() {
 	find $1 -type d -name .git    | xargs rm -rf
 	find $1 -type f -name '.git*' | xargs rm
 }
+
+# @FUNCTION: apply_patches
+# @USAGE: [path to patchfile 1] [path to patchfile 2] [...]
+# @DESCRIPTION:
+# Applies a set of patches. Strips the first prefix off by default.
+apply_patches() {
+	for file in "$@"; do
+		msg "Applying patch %s." $file
+		patch -p1 < $file
+	done
+}
