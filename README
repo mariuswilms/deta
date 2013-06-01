@@ -1,198 +1,180 @@
 
-  |===\  (==== ===== /===\
-  |    ) |--     |   |-=-|
-  |===/  (====   |   |   |
+|===\  (==== ===== /===\
+|    ) |--     |   |-=-|
+|===/  (====   |   |   |
 
-  ---- Shell build, backup and deploy
-       system foundation.
+---- Shell build, backup and deploy
+     system foundation.
 
-  Synopsis
-  --------
-  Managing an application is executing commands, tasks are highly specific to
-  individual applications. Deta supports you in instantly creating tasks in
-  plain shell script. No extra abstraction layers where you don't need them but
-  a small tool for launching the tasks, a handful of reusable functions and a
-  sane configuration management.
+Synopsis
+--------
+Managing an application is executing commands, tasks are highly specific to
+individual applications. Deta supports you in instantly creating tasks in
+plain shell script. No extra abstraction layers where you don't need them but
+a small tool for launching the tasks, a handful of reusable functions and a
+sane configuration management.
 
-  Authors
-  -------
-  See the AUTHORS file.
+Copyright & License
+-------------------
+Deta is Copyright (c) 2011-2013 David Persson if not otherwise stated.
+The code is distributed under the terms of the MIT License. For
+the full license text see the LICENSE file.
 
-  Copyright & License
-  -------------------
-  Deta is Copyright (c) 2011 David Persson if not otherwise stated.
-  The code is distributed under the terms of the MIT License. For
-  the full license text see the LICENSE file.
+Versions & Requirements
+-----------------------
+0.1.0
+0.2.0
+0.3.0
 
-  Donations
-  ---------
-  If you enjoy working with deta and this open source project is of
-  great use to you, consider buying me a book from my amazon wish list.
+The BASH (Bourne-Again SHell) is required. Deta is continously
+tested with recent BASH versions on Linux and Darwin.
 
-  http://amzn.com/w/1YHE04BY8UDI - Your donation is much appreciated.
+Installation
+------------
+It is suggested to install deta on a per-project basis.
 
-  Versions & Requirements
-  -----------------------
-  0.1.0
-  0.2.0
-  0.3.0 (in progress)
+Clone the repository or extract a downloaded archive, then move
+or copy the resulting directory to /project/lib/deta.
 
-  The BASH (Bourne-Again SHell) is required. Deta is continously
-  tested with recent BASH versions on Linux and Darwin.
+Change to the `deta` directory and run make, preferrably with a prefix:
+$ cd /project/lib/deta
+$ PREFIX=/project make install
 
-  Download
-  --------
-  http://github.com/davidpersson/deta/downloads
+This will link the deta tool into the `bin` directory in your project's
+root directory and copy the default development configuraton into
+a `config/deta` directory. Thus making the deta tool available as:
+$ cd /project/bin
+$ ./deta.sh -c ../config/deta
 
-  Installation
-  ------------
-  1. Extract the downloaded archive.
+Other setups are possible too but than installation must be performed manually.
+You can remove the tool (but keep the configuration) by running:
+$ cd /project/lib/deta
+$ PREFIX=/project make uninstall
 
-  2. Move or copy the extracted directory davidpersson-deta-[hash]
-     to /path/to/your/project/libraries.
+Quickstart
+----------
+1. Start to edit a new task.
+   $ $EDITOR deploy.sh
 
-  3. Create a `scripts` directory within your project. This is just a
-     suggestion - other setups are possible, too.
-     $ mkdir /path/to/project/scripts
+2. Source the g11n module and require a THIS role.
+   {{{
+     source $DETA/g11n.sh
 
-  4. Link the deta tool into your project.
-     $ cd /path/to/project/scripts
-     $ ln -s ../libraries/deta/deta.sh ./deta
+     role THIS
+     # ...
+   }}}
 
-  5. Copy the default configuration for the dev env into the `scripts` directory.
-     $ cp ../libraries/deta/dev.conf .
+3. Our task will clone the project into a temporary directory and recompile
+   all MO files. After the task has finished we want the temporary directory
+   to be deleted.
+   {{{
+     # ...
+     TMP=$(mktemp -d -t deta)
+     defer rm -r $TMP
 
-  Quickstart
-  ----------
-  1. Create a subdirectory for our task.
-     $ mkdir deploy
+     git clone --verbose --depth 0 $THIS_REPO $TMP
+     cd $TMP
 
-  2. Start to edit the new task.
-     $ $EDITOR deploy/prepare.sh
+     g11n_compile_mo app/locale
+     # ...
+   }}}
 
-  3. Source the g11n module and require a THIS role.
-     {{{
-       source $DETA/g11n.sh
+4. Run the tasks through the deta tool.
+   $ ./deta.sh deploy.sh
 
-       role THIS
-       # ...
-     }}}
+Example Tasks
+-------------
+You can find ready-to-use tasks in the "contrib" subdirectory.
 
-  4. Our task will clone the project into a temporary directory and recompile
-     all MO files. After the task has finished we want the temporary directory
-     to be deleted.
-     {{{
-       # ...
-       TMP=$(mktemp -d -t deta)
-       defer rm -r $TMP
+Terminology
+-----------
+Tasks
+'''''
+Tasks are sourced by the deta tool they automatically have access to all
+the env configurations (loaded from *.conf).
 
-       git clone --verbose --depth 0 $THIS_REPO $TMP
-       cd $TMP
+Following global variables are always available within tasks:
+QUIET (y|n), DRYRUN (y|n), DETA (deta directory), TASK (current task)
 
-       g11n_compile_mo app/locale
-       # ...
-     }}}
+Tasks are plain shell files and share the same interpreter as the
+deta tool (which is BASH).
 
-  5. Run the tasks through the deta tool.
-     $ ./deta deploy/prepare.sh
+Tasks can be located wherever you want. In the end you just pass the path to
+the deta tool. However it is nice to be able to group tasks, therefore it is
+suggested to create subdirectories directly in the `bin` directory.
 
-  Terminology
-  -----------
-  Tasks
-  '''''
-  Tasks are sourced by the deta tool they automatically have access to all
-  the env configurations (loaded from *.conf).
+Modules
+'''''''
+Modules contain sets of functions and are loaded on demand by sourcing
+them in the beginning of each task. Modules shipped with deta are located
+in the directory specified by $DETA. Of course you can also built your own
+modules and load them in a similar way.
+{{{
+  source $DETA/g11n.sh
+  source $DETA/sys.sh
+  # ...
+}}}
+By default the core module is always loaded, making functions as role and
+defer available in any task.
 
-  Following global variables are always available within tasks:
-  QUIET (y|n), DRYRUN (y|n), DETA (deta directory), TASK (current task)
+Environments
+''''''''''''
+Environments are inspired by the way Lithium[1] detects and handles
+environment configuration. Environments (or env for short) allow you to keep
+host specific configuration settings in one place. You may have an env called
+DEV, STAGE or PROD. Configuration settings are is kept in dedicated files on a
+per env basis.
 
-  Tasks are plain shell files and share the same interpreter as the
-  deta tool (which is BASH).
+By default deta comes with a configuration for the DEV env. You can add new
+environments by copying dev.conf to prod.conf and adjusting the prefixes
+in it i.e DEV_ becomes PROD_.
 
-  Tasks can be located wherever you want. In the end you just pass the path to
-  the deta tool. However it is nice to be able to group tasks, therefore it is
-  suggested to create subdirectories directly in the `scripts` directory.
+All environment configurations are by default loaded automatically
+before a task is executed.
 
-  Modules
-  '''''''
-  Modules contain sets of functions and are loaded on demand by sourcing
-  them in the beginning of each task. Modules shipped with deta are located
-  in the directory specified by $DETA. Of course you can also built your own
-  modules and load them in a similar way.
-  {{{
-    source $DETA/g11n.sh
-    source $DETA/sys.sh
-    # ...
-  }}}
-  By default the core module is always loaded, making functions as role and
-  defer available in any task.
+[1] Lithium framework, http://lithify.me
 
-  Environments
-  ''''''''''''
-  Environments are inspired by the way Lithium[1] detects and handles
-  environment configuration. Environments (or env for short) allow you to keep
-  host specific configuration settings in one place. You may have an env called
-  DEV, STAGE or PROD. Configuration settings are is kept in dedicated files on a
-  per env basis.
+Roles
+'''''
+Environments can _take_ roles. Tasks where you transfer transfer things
+between two machines would require SOURCE and a TARGET roles, whereas tasks
+that just build some stuff locally require a THIS role.
 
-  By default deta comes with a configuration for the DEV env. You can add new
-  environments by copying dev.conf to prod.conf and adjusting the prefixes
-  in it i.e DEV_ becomes PROD_.
+To indicate that a task requires a role call the role function (from the core
+module) right below the source statements.
+{{{
+  # source ...
 
-  All environment configurations are by default loaded automatically
-  before a task is executed.
+  role SOURCE
+  role TARGET
+  # ...
+}}}
 
-  [1] Lithium framework, http://lithify.me
+The function will map an env to a role. This means a configuration setting
+available as i.e. DEV_HOST will become also available as THIS_HOST. When the
+env for a role can't be detected automatically it will prompt you for one.
 
-  Roles
-  '''''
-  Environments can _take_ roles. Tasks where you transfer transfer things
-  between two machines would require SOURCE and a TARGET roles, whereas tasks
-  that just build some stuff locally require a THIS role.
+Envs can be automatically wired to roles within the configuration file. The
+following statement will cause the role function to use the DEV env for the
+THIS role when the current hostname equals the one specified for the DEV env.
+{{{
+  # ...
+  DEV_THIS=$([[ $(hostname) == $DEV_HOST ]] && echo "y" || echo "n")
+  # ...
+}}}
 
-  To indicate that a task requires a role call the role function (from the core
-  module) right below the source statements.
-  {{{
-    # source ...
+Shell Environment Variables
+---------------------------
+There are some environment variables that affect the way deta behaves.
 
-    role SOURCE
-    role TARGET
-    # ...
-  }}}
+DETA_COMPRESSOR_JS
+Which compressor to use when compressing JavaScript files. Currently
+"yuicompressor", "closure-compiler", "uglify-js" and "uglify-js2" are
+supported. For more information see the documentation for compress_js() in the
+media module. Defaults to "yuicompressor".
 
-  The function will map an env to a role. This means a configuration setting
-  available as i.e. DEV_HOST will become also available as THIS_HOST. When the
-  env for a role can't be detected automatically it will prompt you for one.
+DETA_COMPRESSOR_CSS
+Which compressor to use when compressing CSS files. Currently only
+"yuicompressor" is supported. For more information see the documentation for
+compress_css() in the media module. Defaults to "yuicompressor".
 
-  Envs can be automatically wired to roles within the configuration file. The
-  following statement will cause the role function to use the DEV env for the
-  THIS role when the current hostname equals the one specified for the DEV env.
-  {{{
-    # ...
-    DEV_THIS=$([[ $(hostname) == $DEV_HOST ]] && echo "y" || echo "n")
-    # ...
-  }}}
-
-  Bugs
-  ----
-  If you've found a bug or would like to suggest a feature create a ticket in the
-  issue tracker. You'll find the tracker at:
-
-  http://github.com/davidpersson/deta/issues
-
-  Contributing
-  ------------
-  If you have some ideas for improving this tool just fork the repository,
-  make your changes and when ready send a pull request to notify me about the
-  changes you made. I'll review them and see if I can merge them back. Please
-  style your code according to the code which is already there.
-
-  Please note that code which is supposed to be merged into this (blessed)
-  repository must carry the same header (including the copyright statement) as
-  all code in the library and should be free of any @author tags. This may seem
-  a little strange at first. But let me explain: Multiple copyright
-  holders/licenses complicate things where not necessary. @author tags seem to
-  mark sections of code as belonging to, owned or claimed by the specific author.
-
-  As an alternative the project has a dedicated AUTHORS file where every contributor
-  is listed with her/his name/nick along with an email address.

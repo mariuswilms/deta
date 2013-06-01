@@ -1,12 +1,12 @@
 #
 # deta
 #
-# Copyright (c) 2011 David Persson
+# Copyright (c) 2011-2013 David Persson
 #
 # Distributed under the terms of the MIT License.
 # Redistributions of files must retain the above copyright notice.
 #
-# @COPYRIGHT 2011 David Persson <nperson@gmx.de>
+# @COPYRIGHT 2011-2013 David Persson <nperson@gmx.de>
 # @LICENSE   http://www.opensource.org/licenses/mit-license.php The MIT License
 # @LINK      http://github.com/davidpersson/deta
 #
@@ -42,5 +42,32 @@ create_manifest() {
 # Replaces placeholders in a file with actual values.
 fill() {
 	msg "Replacing placeholder %s with value %s in %s." $@
-	sed -i "" "s|$1|$2|g" $3
+	sed -i -e "s|$1|$2|g" $3
+
+	# Workaround for older BSD versions of sed that need
+	# a suffix after -i while interpreting -e as the suffix.
+	if [[ -f ${3}-e ]]; then rm ${3}-e; fi
+}
+
+# @FUNCTION: clear_vcs
+# @USAGE: [directory]
+# @DESCRIPTION:
+# Forcefully removes any directories and files needed by version control
+# systems like SVN and GIT.
+clear_vcs() {
+	msg "Removing any VCS traces from directory %s." $1
+	find $1 -type d -name .svn    | xargs rm -rf
+	find $1 -type d -name .git    | xargs rm -rf
+	find $1 -type f -name '.git*' | xargs rm
+}
+
+# @FUNCTION: apply_patches
+# @USAGE: [path to patchfile 1] [path to patchfile 2] [...]
+# @DESCRIPTION:
+# Applies a set of patches. Strips the first prefix off by default.
+apply_patches() {
+	for file in "$@"; do
+		msg "Applying patch %s." $file
+		patch -p1 < $file
+	done
 }

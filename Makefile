@@ -11,15 +11,16 @@
 # @LINK      http://github.com/davidpersson/deta
 #
 
-msgok "Module %s loaded." "g11n"
+PREFIX ?= /usr/local
 
-# @FUNCTION: g11n_compile_mo
-# @USAGE: [directory with PO files]
-# @DESCRIPTION:
-# Compiles all PO files in the given directory into MO format.
-g11n_compile_mo() {
-	msg "Compiling *.po in %s." $@
-	for file in $(find $1 -type f -name *.po); do
-		msgfmt -o ${file/.po/.mo} --verbose $file
-	done
-}
+install: deta
+	mkdir -p $(PREFIX)/bin/
+	ln -s $(CURDIR)/deta.sh $(PREFIX)/bin/
+	mkdir -p $(PREFIX)/config/deta
+	cp -p dev.conf $(PREFIX)/config/deta/
+
+uninstall:
+	rm $< $(PREFIX)/bin/deta.sh
+
+.PHONY: install uninstall
+

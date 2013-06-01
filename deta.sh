@@ -1,13 +1,13 @@
 #!/bin/bash
 #
-# deta
+# DETA
 #
-# Copyright (c) 2011 David Persson
+# Copyright (c) 2011-2013 David Persson
 #
 # Distributed under the terms of the MIT License.
 # Redistributions of files must retain the above copyright notice.
 #
-# @COPYRIGHT 2011 David Persson <nperson@gmx.de>
+# @COPYRIGHT 2011-2013 David Persson <nperson@gmx.de>
 # @LICENSE   http://www.opensource.org/licenses/mit-license.php The MIT License
 # @LINK      http://github.com/davidpersson/deta
 #
@@ -26,6 +26,8 @@ fi
 # -----------------------------------------------------------
 # Paths
 # -----------------------------------------------------------
+CONFIG_PATH=$(pwd)
+
 if [[ -L $0 ]]; then
 	DETA=$(dirname $(readlink -n $0))
 else
@@ -37,43 +39,41 @@ fi
 # -----------------------------------------------------------
 QUIET="n"
 DRYRUN="n"
+VERSION="0.3.0-head"
 
-while getopts ":qnd" OPT; do
+while getopts ":qndV:c:" OPT; do
 	case $OPT in
+		c)  CONFIG_PATH=$OPTARG;;
 		q)  QUIET="y";;
 		n)  DRYRUN="y";;
 		d)  set -x;;
-		\?) printf "Invalid option '%s'." $OPT; exit 1;;
+		V)  echo "DETA $VERSION by David Persson."; exit;;
+		:)  printf "Option '%s' requires an argument.\n" $OPTARG; exit 1;;
+		\?) printf "Invalid option '%s'.\n" $OPT; exit 1;;
 	esac
 done
 shift $(expr $OPTIND - 1)
 
 if [[ $# == 0 ]]; then
-	echo "Usage: $(basename $0) [-q] [-n] [-d] TASK"
+	echo "Usage: deta.sh [options] <task>"
 	echo
-	echo "Available env configuration:"
-	for file in $(ls *.conf 2> /dev/null); do
-		echo " * $file"
-	done
-	echo
-	echo "Available tasks:"
+	echo "Tasks:"
 	for file in $(find . -type f -name '*.sh'); do
-		echo " * $file"
+		echo "  ${file##./}"
 	done
+	echo
+	echo "Options:"
+	echo "  -c <path> Path to the directory holding configurations, defaults to current directory."
+	echo "  -n        Enable dry-run."
+	echo "  -V        Show current version."
+	echo "  -d        Enable debug output."
+	echo "  -q        Quiet mode, surpress most output except errors."
 	echo
 	exit 1
 fi
+
 TASK="$1"
 shift
-
-# -----------------------------------------------------------
-# Header
-# -----------------------------------------------------------
-if [[ $QUIET != "y" ]]; then
-	echo "========================================================="
-	echo "DETA 0.2.0"
-	echo
-fi
 
 # -----------------------------------------------------------
 # Load standard module.
@@ -86,9 +86,9 @@ source $DETA/core.sh
 # Configuration
 # -----------------------------------------------------------
 set +o errexit
-for file in $(ls $(pwd)/*.conf 2> /dev/null); do
-	msg "Loading configuration %s." $(basename $file)
+for file in $(ls $CONFIG_PATH/*.conf 2> /dev/null); do
 	source $file
+	msgok "Loaded %s." ${file##./}
 done
 set -o errexit
 

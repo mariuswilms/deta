@@ -11,15 +11,22 @@
 # @LINK      http://github.com/davidpersson/deta
 #
 
-msgok "Module %s loaded." "g11n"
+# This task will optimize your local GIT repository.
 
-# @FUNCTION: g11n_compile_mo
-# @USAGE: [directory with PO files]
-# @DESCRIPTION:
-# Compiles all PO files in the given directory into MO format.
-g11n_compile_mo() {
-	msg "Compiling *.po in %s." $@
-	for file in $(find $1 -type f -name *.po); do
-		msgfmt -o ${file/.po/.mo} --verbose $file
-	done
-}
+role THIS
+
+cd $THIS_PATH
+
+if [[ ! -d .git ]]; then
+	msgfail "Not a GIT repository."
+	exit 1
+fi
+
+du -hs .git
+
+git prune
+git gc --aggressive
+git prune-packed
+git repack -a
+
+du -hs .git

@@ -1,17 +1,53 @@
 #
 # deta
 #
-# Copyright (c) 2011 David Persson
+# Copyright (c) 2011-2013 David Persson
 #
 # Distributed under the terms of the MIT License.
 # Redistributions of files must retain the above copyright notice.
 #
-# @COPYRIGHT 2011 David Persson <nperson@gmx.de>
+# @COPYRIGHT 2011-2013 David Persson <nperson@gmx.de>
 # @LICENSE   http://www.opensource.org/licenses/mit-license.php The MIT License
 # @LINK      http://github.com/davidpersson/deta
 #
 
 msgok "Module %s loaded." "transfer"
+
+# @FUNCTION: download
+# @USAGE: [URL] [target]
+# @DESCRIPTION:
+# Downloads from various sources. Implements "svn export"-like functionality
+# for GIT. Automatically dearchives downloaded archives. The source URL may
+# point to an archive, a repository or a single file.
+download() {
+	msg "Downloading %s." $1
+
+	case $1 in
+		# Partially GitHub specific
+		*".zip"* | *"/zipball/"*)
+			tmp=$(mktemp -d -t deta)
+			defer rm -rf $tmp
+
+			curl -# -f -L $1 --O $tmp/download.zip
+			unzip $tmp/download -d $2
+		;;
+		# Partially GitHub specific
+		*".tar.gz"* | *"/tarball/"*)
+			curl -s -S -f -L $1 | tar vxz -C $2
+		;;
+		# Must come after filetype-specific download strategies.
+		"http://"* | "https://"*)
+			curl -# -f -L $1 --O $2
+		;;
+		"git://"*)
+			git clone --no-hardlinks --progress --depth 1 $1 $2
+			rm -fr $2/.git*
+		;;
+		"svn://"*)
+			svn export $1 $2
+		;;
+	esac
+}
 
 # @FUNCTION: sync
 # @USAGE: [source] [target] [ignore]
@@ -32,6 +68,7 @@ sync() {
 			--links \
 			--times \
 			--verbose \
+			--itemize-changes \
 			$(_rsync_dryrun) \
 			$1 $2
 }
@@ -52,11 +89,19 @@ sync_sanity() {
 
 	DRYRUN=$backup
 
-	set +o errexit # grep may not match nything at all.
+	set +o errexit # grep may not match anything at all.
+	echo "To be changed on target:"
+	echo "$out" | grep -E '^<[a-z]+.*[a-z\?].*'
+	echo
+	echo "To be deleted on target:"
 	echo "$out" | grep deleting
+	echo
+	echo "To be created on target:"
+	echo "$out" | grep '^c'
+	echo
 	set -o errexit
-	read -p "Looks good? (y/n) " continue
 
+	read -p "Looks good? (y/N) " continue
 	if [[ $continue != "y" ]]; then
 		return 1
 	fi

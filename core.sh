@@ -1,12 +1,12 @@
 #
 # deta
 #
-# Copyright (c) 2011 David Persson
+# Copyright (c) 2011-2013 David Persson
 #
 # Distributed under the terms of the MIT License.
 # Redistributions of files must retain the above copyright notice.
 #
-# @COPYRIGHT 2011 David Persson <nperson@gmx.de>
+# @COPYRIGHT 2011-2013 David Persson <nperson@gmx.de>
 # @LICENSE   http://www.opensource.org/licenses/mit-license.php The MIT License
 # @LINK      http://github.com/davidpersson/deta
 #
@@ -83,6 +83,7 @@ dry() {
 	if [[ $DRYRUN != "y" ]]; then
 		msgwarn "Dry run is NOT enabled! Press STRG+C to abort."
 		msg "Starting in 3 seconds."
+		echo -n "  "
 		for I in {1..3}; do
 			echo -n '.'
 			sleep 1

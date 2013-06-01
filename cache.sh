@@ -11,15 +11,17 @@
 # @LINK      http://github.com/davidpersson/deta
 #
 
-msgok "Module %s loaded." "g11n"
+msgok "Module %s loaded." "cache"
 
-# @FUNCTION: g11n_compile_mo
-# @USAGE: [directory with PO files]
+# @FUNCTION: cache_flush_memcached
 # @DESCRIPTION:
-# Compiles all PO files in the given directory into MO format.
-g11n_compile_mo() {
-	msg "Compiling *.po in %s." $@
-	for file in $(find $1 -type f -name *.po); do
-		msgfmt -o ${file/.po/.mo} --verbose $file
-	done
+# Flushed memcached cache entirely. The host and port are
+# hardcoded to localhost:11211
+cache_flush_memcached() {
+	msg "Flushing memcached cache."
+
+	set +o errexit
+	(echo -e 'flush_all'; sleep 1) | telnet localhost 11211
+	set -o errexit
 }
+

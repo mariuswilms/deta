@@ -1,12 +1,12 @@
 #
 # deta
 #
-# Copyright (c) 2011 David Persson
+# Copyright (c) 2011-2013 David Persson
 #
 # Distributed under the terms of the MIT License.
 # Redistributions of files must retain the above copyright notice.
 #
-# @COPYRIGHT 2011 David Persson <nperson@gmx.de>
+# @COPYRIGHT 2011-2013 David Persson <nperson@gmx.de>
 # @LICENSE   http://www.opensource.org/licenses/mit-license.php The MIT License
 # @LINK      http://github.com/davidpersson/deta
 #
@@ -16,32 +16,21 @@ msgok "Module %s loaded." "backup"
 # @FUNCTION: archive
 # @USAGE: [source dir] [target dir] [label prefix]
 # @DESCRIPTION:
-# Archives source directory by creating a labeled archive in target directory.
-# Symlinks are *not* dereferenced when creating the archive.
+# Archives source directory by creating a labeled and encrypted archive in
+# target directory. For symmetric encryption this function depends on gpg to be
+# installed. Symlinks are *not* dereferenced when creating the archive.
 archive() {
 	local label=${3}-$(date +%Y-%m-%d-%H-%M)
-	local tmp=$(mktemp -d -t deta)
-	defer rm -rf $tmp
 
-	msg "Creating and verifying archive from %s." $1
-	cd $1
-	tar -Wp -cf $tmp/$label.tar *
-	cd -
-
-	msg "Encrypting archive."
+	msg "Creating and encrypting archive from %s in target %s." $1 $2
 	read -p "Encrypt for: " user
-	gpg -v -z 0 -r $user --encrypt $tmp/$label.tar
-
-	msg "Verifying encrypted archive."
-	gpg -v -ba -u $user $tmp/$label.tar.gpg
-	gpg -v --verify $tmp/$label.tar.gpg.asc
-
-	msg "Copying archive into target directory."
-	cp -v $tmp/$label.tar.gpg $2/
+	cd $1
+	tar -p -cf - * | gpg -v -z 0 -r $user --encrypt -o $2/$label.tar.gpg -
+	cd -
 
 	local size_before=$(du -hs $1 | awk '{ print $1 }')
 	local size_after=$(ls -lah $2/$label.tar.gpg | awk '{ print $5 }')
-	msgok "Archive created at %s (%s->%s)." "$2/$label.tar.gpg" $size_before $size_after
+	msgok "Archive created at %s (%s -> %s)." "$2/$label.tar.gpg" $size_before $size_after
 }
 
 # @FUNCTION: dearchive
@@ -54,5 +43,20 @@ dearchive() {
 
 	local size_before=$(ls -lah $1 | awk '{ print $5 }')
 	local size_after=$(du -hs $2 | awk '{ print $1 }')
-	msgok "Archive unpacked to %s (%s->%s)." $2 $size_before $size_after
+	msgok "Archive unpacked to %s (%s -> %s)." $2 $size_before $size_after
+}
+
+# @FUNCTION: verifyarchive
+# @USAGE: [path to file to verify]
+# @DESCRIPTION:
+# Verifies an encrypted archive.
+verifyarchive() {
+	local file=$1
+
+	msg "Verifying encrypted archive."
+	read -p "Encrypted for: " user
+
+	gpg -v -ba -u $user $file
+	gpg -v --verify ${file}.asc
+	rm ${file}.asc
 }
