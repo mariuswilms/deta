@@ -26,7 +26,8 @@ COMPRESSOR_CSS=${COMPRESSOR_CSS:-"yuicompressor"}
 # @FUNCTION: compress_js
 # @USAGE: <target file> <source file 1> [source file 2] [...]
 # @DESCRIPTION:
-# Compresses and bundles JavaScript files.
+# Compresses and bundles JavaScript files. Depending on the setting of
+# COMPRESSOR_JS relies on certain tools to be available.
 function compress_js() {
 	local target=$1
 	shift
@@ -51,7 +52,8 @@ function compress_js() {
 # @FUNCTION: compress_css
 # @USAGE: <target file> <source file 1> [source file 2] [...]
 # @DESCRIPTION:
-# Compresses and bundles CSS files.
+# Compresses and bundles CSS files. Depending on the setting of
+# COMPRESSOR_CSS relies on certain tools to be available.
 function compress_css() {
 	local target=$1
 	shift
