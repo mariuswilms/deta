@@ -19,10 +19,10 @@ msgok "Module %s loaded." "cache"
 # Flushes memcached cache entirely. The port if not given defaults to
 # default assigned memcached port 11211.
 cache_flush_memcached() {
-	host=$1
-	port=${2:-11211}
+	local host=$1
+	local port=${2:-"11211"}
 
-	msg "Flushing memcached on %s:%d cache." $host $port
+	msg "Flushing memcached cache on %s:%d." $host $port
 
 	set +o errexit
 	(echo -e 'flush_all'; sleep 1) | telnet $host $port
