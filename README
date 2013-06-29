@@ -169,7 +169,7 @@ There are some environment variables that affect the way deta behaves.
 
 DETA_COMPRESSOR_JS
 Which compressor to use when compressing JavaScript files. Currently
-"yuicompressor", "closure-compiler", "uglify-js" and "uglify-js2" are
+"yuicompressor", "closure-compiler" and "uglify-js" (>= 2.0) are
 supported. For more information see the documentation for compress_js() in the
 asset module. Defaults to "yuicompressor".
 

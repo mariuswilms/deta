@@ -14,7 +14,7 @@
 msgok "Module %s loaded." "asset"
 
 # Which compressor to use when compressing JavaScript files. Currently
-# "yuicompressor", "closure-compiler", "uglify-js" and "uglify-js2" are
+# "yuicompressor", "closure-compiler" and "uglify-js" (>= 2.0) are
 # supported. For more information see the documentation for compress_js().
 COMPRESSOR_JS=${COMPRESSOR_JS:-"yuicompressor"}
 
@@ -32,8 +32,7 @@ function compress_js() {
 
 	case $COMPRESSOR_JS in
 		yuicompressor)    yuicompressor -o $1 --nomunge --charset utf-8 $1;;
-		uglify-js)        uglifyjs --overwrite $1;;
-		uglify-js2)       uglifyjs2 $1 -c --comments -o $1;;
+		uglify-js)        uglifyjs $1 -c --comments -o $1;;
 		closure-compiler) closure-compiler --js $1 --js_output_file $1;;
 	esac
 
