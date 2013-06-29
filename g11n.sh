@@ -14,7 +14,7 @@
 msgok "Module %s loaded." "g11n"
 
 # @FUNCTION: g11n_compile_mo
-# @USAGE: [directory with PO files]
+# @USAGE: <directory with PO files>
 # @DESCRIPTION:
 # Compiles all PO files in the given directory into MO format.
 g11n_compile_mo() {

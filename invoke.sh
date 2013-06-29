@@ -14,7 +14,7 @@
 msgok "Module %s loaded." "invoke"
 
 # @FUNCTION: run_ssh
-# @USAGE: [host] < [commands]
+# @USAGE: <host> < <commands>
 # @DESCRIPTION:
 # Executes commands from STDIN on a remote host.
 # This function has DRYRUN support.

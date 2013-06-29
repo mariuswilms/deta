@@ -14,7 +14,7 @@
 msgok "Module %s loaded." "cakephp"
 
 # @FUNCTION: cakephp_configure
-# @USAGE: [name] [new value] [config file]
+# @USAGE: <name> <new value> <config file>
 # @DESCRIPTION:
 # Modifies configure statements in i.e. app/core.php in place.
 cakephp_configure() {

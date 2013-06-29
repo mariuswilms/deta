@@ -14,7 +14,7 @@
 msgok "Module %s loaded." "util"
 
 # @FUNCTION: exists_and_empty
-# @USAGE: [directory]
+# @USAGE: <directory>
 # @DESCRIPTION:
 # Ensures the provided directory is existent and empty. **USE WITH CAUTON**
 # Will remove existing directories.
@@ -28,7 +28,7 @@ exists_and_empty() {
 }
 
 # @FUNCTION: create_manifest
-# @USAGE: [directory] [file]
+# @USAGE: <directory> <file>
 # @DESCRIPTION:
 # Creates a manifest from the contents of the given directory.
 create_manifest() {
@@ -37,7 +37,7 @@ create_manifest() {
 }
 
 # @FUNCTION: fill
-# @USAGE: [placeholder] [replace] [file]
+# @USAGE: <placeholder> <replace> <file>
 # @DESCRIPTION:
 # Replaces placeholders in a file with actual values.
 fill() {
@@ -50,7 +50,7 @@ fill() {
 }
 
 # @FUNCTION: clear_vcs
-# @USAGE: [directory]
+# @USAGE: <directory>
 # @DESCRIPTION:
 # Forcefully removes any directories and files needed by version control
 # systems like SVN and GIT.
@@ -62,7 +62,7 @@ clear_vcs() {
 }
 
 # @FUNCTION: apply_patches
-# @USAGE: [path to patchfile 1] [path to patchfile 2] [...]
+# @USAGE: <path to patchfile 1> [path to patchfile 2] [...]
 # @DESCRIPTION:
 # Applies a set of patches. Strips the first prefix off by default.
 apply_patches() {

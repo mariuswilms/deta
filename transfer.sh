@@ -14,7 +14,7 @@
 msgok "Module %s loaded." "transfer"
 
 # @FUNCTION: download
-# @USAGE: [URL] [target]
+# @USAGE: <URL> <target>
 # @DESCRIPTION:
 # Downloads from various sources. Implements "svn export"-like functionality
 # for GIT. Automatically dearchives downloaded archives. The source URL may
@@ -50,12 +50,12 @@ download() {
 }
 
 # @FUNCTION: sync
-# @USAGE: [source] [target] [ignore]
+# @USAGE: <source> <target> <ignore>
 # @DESCRIPTION:
-# Will rsync all directories and files from [source] to [target]. Thus files
-# which have been removed in [source] will also be removed from [target].
+# Will rsync all directories and files from <source> to <target>. Thus files
+# which have been removed in <source> will also be removed from <target>.
 # Specify a whitespace separated list of patterns to ignore. Files matching the
-# patterns won't be transferred from [source] to [target].  This function has
+# patterns won't be transferred from <source> to <target>.  This function has
 # DRYRUN support. Symlinks are copied as symlinks.
 sync() {
 	if [[ $DRYRUN != "n" ]]; then
@@ -74,9 +74,9 @@ sync() {
 }
 
 # @FUNCTION: sync_sanity
-# @USAGE: [source] [target] [ignore]
+# @USAGE: <source> <target> <ignore>
 # @DESCRIPTION:
-# Performs sanity checks on a sync from [source] to [target]. Will ask for
+# Performs sanity checks on a sync from <source> to <target>. Will ask for
 # confirmation if and return 1 thus aborting the script when the errexit option
 # is set. Best used right before the actual sync call. See the sync function
 # for more information on behavior and arguments.
@@ -108,7 +108,7 @@ sync_sanity() {
 }
 
 # @FUNCTION: _rsync_ignore
-# @USAGE: [ignore]
+# @USAGE: <ignore>
 # @DESCRIPTION:
 # Takes a list of ignores and creates an argument to be passed to rsync.
 _rsync_ignore() {
@@ -122,7 +122,6 @@ _rsync_ignore() {
 }
 
 # @FUNCTION: _rsync_dryrun
-# @USAGE:
 # @DESCRIPTION:
 # Creates the dryrun argument to be passed to rsync. This function
 # has DRYRUN support.

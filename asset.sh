@@ -24,7 +24,7 @@ COMPRESSOR_JS=${COMPRESSOR_JS:-"yuicompressor"}
 COMPRESSOR_CSS=${COMPRESSOR_CSS:-"yuicompressor"}
 
 # @FUNCTION: compress_js
-# @USAGE: [file]
+# @USAGE: <file>
 # @DESCRIPTION:
 # Compresses JavaScript file in-place.
 function compress_js() {
@@ -42,7 +42,7 @@ function compress_js() {
 }
 
 # @FUNCTION: compress_css
-# @USAGE: [file]
+# @USAGE: <file>
 # @DESCRIPTION:
 # Compresses CSS file in-place.
 function compress_css() {
@@ -57,7 +57,7 @@ function compress_css() {
 }
 
 # @FUNCTION: compress_img
-# @USAGE: [file]
+# @USAGE: <file>
 # @DESCRIPTION:
 # Compresses image file in-place.
 function compress_img() {
@@ -80,7 +80,7 @@ function compress_img() {
 }
 
 # @FUNCTION: bundle_js
-# @USAGE: [target file] [files...]
+# @USAGE: <target file> [files...]
 # @DESCRIPTION:
 # Compresses CSS file in-place.
 function bundle_js() {

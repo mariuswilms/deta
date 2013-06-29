@@ -14,7 +14,7 @@
 msgok "Module %s loaded." "backup"
 
 # @FUNCTION: archive
-# @USAGE: [source dir] [target dir] [label prefix]
+# @USAGE: <source dir> <target dir> <label prefix>
 # @DESCRIPTION:
 # Archives source directory by creating a labeled and encrypted archive in
 # target directory. For symmetric encryption this function depends on gpg to be
@@ -34,9 +34,9 @@ archive() {
 }
 
 # @FUNCTION: dearchive
-# @USAGE: [source file] [target dir]
+# @USAGE: <source file> <target dir>
 # @DESCRIPTION:
-# Decrypts and unpacks archive [source] to directory [target].
+# Decrypts and unpacks archive <source> to directory <target>.
 dearchive() {
 	msg "Decrypting archive."
 	gpg -v --decrypt $1 | tar xv -C $2
@@ -47,7 +47,7 @@ dearchive() {
 }
 
 # @FUNCTION: verifyarchive
-# @USAGE: [path to file to verify]
+# @USAGE: <path to file to verify>
 # @DESCRIPTION:
 # Verifies an encrypted archive.
 verifyarchive() {

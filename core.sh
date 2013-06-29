@@ -12,7 +12,7 @@
 #
 
 # @FUNCTION: msg*
-# @USAGE: [message] [replacement0..]
+# @USAGE: <message> [replacement0..]
 # @DESCRIPTION:
 # Outputs status messages honoring QUIET flag.
 msg()     { if [[ $QUIET != "y" ]]; then _msg ""     "$@"; fi }
@@ -23,7 +23,7 @@ msgwarn() { _msg "warn" "$@" >&2; }
 msgfail() { _msg "fail" "$@" >&2; }
 
 # @FUNCTION: _msg
-# @USAGE: [status] [message] [replacement0..]
+# @USAGE: <status> <message> [replacement0..]
 # @DESCRIPTION:
 # Outputs status messages.
 _msg() {
@@ -38,12 +38,12 @@ _msg() {
 msgok "Module %s loaded." "core"
 
 # @FUNCTION: role
-# @USAGE: [role]
+# @USAGE: <role>
 # @DESCRIPTION:
 # Maps an env (left) to role provided
 # to this function (right). Detects role by:
 # 1. Checking all available envs for a variable i.e.
-#    DEV_[role]="y" will select DEV as the role.
+#    DEV_<role>="y" will select DEV as the role.
 # 2. Prompting the user to select from available env.
 role() {
 	local pair=$(set | grep -m 1 "_$1=y" );
@@ -64,7 +64,7 @@ role() {
 }
 
 # @FUNCTION: _env_to_role
-# @USAGE: [env] [role]
+# @USAGE: <env> <role>
 # @DESCRIPTION:
 # Maps all variables from env to role.
 _env_to_role() {
@@ -76,7 +76,6 @@ _env_to_role() {
 }
 
 # @FUNCTION: dry
-# @USAGE:
 # @DESCRIPTION:
 # Checks if dryrun is enabled and displays warning message.
 dry() {
@@ -99,7 +98,7 @@ dry() {
 DEFERRED=()
 
 # @FUNCTION: defer
-# @USAGE: [command]
+# @USAGE: <command>
 # @DESCRIPTION:
 # Queues given command to execute it later. Registers
 # handler first time it is used.
@@ -112,7 +111,6 @@ defer() {
 }
 
 # @FUNCTION: _defer
-# @USAGE:
 # @DESCRIPTION:
 # Supposed to be registered as a handler for trapping EXIT
 # signals. Executes commands on DEFERRED stack.

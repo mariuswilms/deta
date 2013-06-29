@@ -14,6 +14,7 @@
 msgok "Module %s loaded." "cache"
 
 # @FUNCTION: cache_flush_memcached
+# @USAGE: <memcached host> [memcached port]
 # @DESCRIPTION:
 # Flushes memcached cache entirely. The host and port are
 # hardcoded to localhost:11211
@@ -26,6 +27,7 @@ cache_flush_memcached() {
 }
 
 # @FUNCTION: cache_flush_phpstat
+# @USAGE: <php>
 # @DESCRIPTION:
 # Flushes the PHP stat cache. Requires a 'THIS' environment.
 cache_flush_phpstat() {
@@ -34,6 +36,7 @@ cache_flush_phpstat() {
 }
 
 # @FUNCTION: cache_flush_apc
+# @USAGE: <php>
 # @DESCRIPTION:
 # Flushes the APC system and user caches. Needs PHP command with APC
 # extension to be available. Requires a 'THIS' environment.
