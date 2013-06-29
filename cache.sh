@@ -27,7 +27,7 @@ cache_flush_memcached() {
 
 # @FUNCTION: cache_flush_phpstat
 # @DESCRIPTION:
-# Flushes the PHP stat cache.
+# Flushes the PHP stat cache. Requires a 'THIS' environment.
 cache_flush_phpstat() {
 	msg "Clearing PHP stat cache."
 	$THIS_PHP -r "clearstatcache();"
@@ -36,7 +36,7 @@ cache_flush_phpstat() {
 # @FUNCTION: cache_flush_apc
 # @DESCRIPTION:
 # Flushes the APC system and user caches. Needs PHP command with APC
-# extension to be available.
+# extension to be available. Requires a 'THIS' environment.
 cache_flush_apc() {
 	if [[ $($THIS_PHP -m | grep -q apc) == 0 ]]; then
 		msg "Clearing APC system and user cache."
