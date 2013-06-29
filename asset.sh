@@ -24,43 +24,52 @@ COMPRESSOR_JS=${COMPRESSOR_JS:-"yuicompressor"}
 COMPRESSOR_CSS=${COMPRESSOR_CSS:-"yuicompressor"}
 
 # @FUNCTION: compress_js
-# @USAGE: <file>
+# @USAGE: <target file> <source file 1> [source file 2] [...]
 # @DESCRIPTION:
-# Compresses JavaScript file in-place.
+# Compresses and bundles JavaScript files.
 function compress_js() {
-	local before=$(ls -lah $1 | awk '{ print $5 }')
+	local target=$1
+	shift
+
+	msg "Compressing %s to %s." "$@" $target
 
 	case $COMPRESSOR_JS in
-		yuicompressor)    yuicompressor -o $1 --nomunge --charset utf-8 $1;;
-		uglify-js)        uglifyjs $1 -c --comments -o $1;;
-		closure-compiler) closure-compiler --js $1 --js_output_file $1;;
+		yuicompressor)
+			yuicompressor -o $target --nomunge --charset utf-8 $@
+			;;
+		uglify-js)
+			uglifyjs $@ -c --comments -o $target \
+				--source-map $target.map
+			;;
+		closure-compiler)
+			closure-compiler --js $@ --js_output_file $target \
+				--create_source_map $target.map
+			;;
 	esac
-
-	local after=$(ls -lah $1 | awk '{ print $5 }')
-	msgok "Compressed $1 ($before -> $after)"
 }
 
 # @FUNCTION: compress_css
-# @USAGE: <file>
+# @USAGE: <target file> <source file 1> [source file 2] [...]
 # @DESCRIPTION:
-# Compresses CSS file in-place.
+# Compresses and bundles CSS files.
 function compress_css() {
-	local before=$(ls -lah $1 | awk '{ print $5 }')
+	local target=$1
+	shift
+
+	msg "Compressing %s to %s." $1 $target
 
 	case $COMPRESSOR_CSS in
-		yuicompressor)    yuicompressor -o $1 --charset utf-8 $1;;
+		yuicompressor)    yuicompressor -o $target --charset utf-8 $@;;
 	esac
-
-	local after=$(ls -lah $1 | awk '{ print $5 }')
-	msgok "Compressed $1 ($before -> $after)"
 }
 
 # @FUNCTION: compress_img
-# @USAGE: <file>
+# @USAGE: <image file>
 # @DESCRIPTION:
-# Compresses image file in-place.
+# Compresses image file in-place. Relies on pngcrush, imagemagick
+# and jpegtran to be available on the system.
 function compress_img() {
-	local before=$(ls -lah $1 | awk '{ print $5 }')
+	msg "Compressing %s to %s." $1 $1
 
 	case $1 in
 		*.png)
@@ -73,25 +82,5 @@ function compress_img() {
 			mv $1.tmp $1
 		;;
 	esac
-
-	local after=$(ls -lah $1 | awk '{ print $5 }')
-	msgok "Compressed $1 ($before -> $after)"
-}
-
-# @FUNCTION: bundle_js
-# @USAGE: <target file> [files...]
-# @DESCRIPTION:
-# Compresses CSS file in-place.
-function bundle_js() {
-	local target=$1
-	shift
-
-	msg "Creating JavaScript bundle in $target."
-
-	for file in $@; do
-		msg "Including $file."
-		cat $file >> $target
-		echo ";"  >> $target
-	done
 }
 
