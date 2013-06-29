@@ -44,8 +44,6 @@ cache_flush_phpstat() {
 # Flushes the local APC system and user caches. Needs PHP
 # command with APC extension to be available.
 cache_flush_apc() {
-	if [[ $($1 -m | grep -q apc) == 0 ]]; then
-		msg "Clearing APC system and user cache."
-		$1 -r "apc_clear(); apc_clear('user');"
-	fi
+	msg "Clearing APC system and user cache."
+	$1 -r "apc_clear(); apc_clear('user');"
 }
