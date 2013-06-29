@@ -171,10 +171,10 @@ DETA_COMPRESSOR_JS
 Which compressor to use when compressing JavaScript files. Currently
 "yuicompressor", "closure-compiler", "uglify-js" and "uglify-js2" are
 supported. For more information see the documentation for compress_js() in the
-media module. Defaults to "yuicompressor".
+asset module. Defaults to "yuicompressor".
 
 DETA_COMPRESSOR_CSS
 Which compressor to use when compressing CSS files. Currently only
 "yuicompressor" is supported. For more information see the documentation for
-compress_css() in the media module. Defaults to "yuicompressor".
+compress_css() in the asset module. Defaults to "yuicompressor".
 
