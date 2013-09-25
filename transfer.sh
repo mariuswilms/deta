@@ -39,7 +39,7 @@ download() {
 		"http://"* | "https://"*)
 			curl -# -f -L $1 --O $2
 		;;
-		"git://"*)
+		"git"* | *".git")
 			git clone --no-hardlinks --progress --depth 1 $1 $2
 			rm -fr $2/.git*
 		;;
