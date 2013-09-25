@@ -50,6 +50,23 @@ function compress_js() {
 	esac
 }
 
+# @FUNCTION: bundle_js
+# @USAGE: <target file> [files...]
+# @DESCRIPTION:
+# Safely bundles multiple JavaScript files into one.
+function bundle_js() {
+   local target=$1
+   shift
+
+   msg "Creating JavaScript bundle in $target."
+
+   for file in $@; do
+       msg "Including $file."
+       cat $file >> $target
+       echo ";"  >> $target
+   done
+}
+
 # @FUNCTION: compress_css
 # @USAGE: <target file> <source file 1> [source file 2] [...]
 # @DESCRIPTION:
