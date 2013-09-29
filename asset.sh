@@ -100,7 +100,7 @@ function compress_css() {
 # @FUNCTION: bundle_css
 # @USAGE: <target file> [files...]
 # @DESCRIPTION:
-# Bbundles multiple CSS files into one.
+# Bundles multiple CSS files into one.
 # @FIXME Make safe for files containing @charset.
 function bundle_css() {
 	local target=$1
