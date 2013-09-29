@@ -83,6 +83,23 @@ function compress_css() {
 	esac
 }
 
+# @FUNCTION: bundle_css
+# @USAGE: <target file> [files...]
+# @DESCRIPTION:
+# Bbundles multiple CSS files into one.
+# @FIXME Make safe for files containing @charset.
+function bundle_css() {
+   local target=$1
+   shift
+
+   msg "Creating CSS bundle in $target."
+
+   for file in $@; do
+       msg "Including $file."
+       cat $file >> $target
+   done
+}
+
 # @FUNCTION: compress_img
 # @USAGE: <image file>
 # @DESCRIPTION:
