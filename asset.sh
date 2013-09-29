@@ -55,16 +55,16 @@ function compress_js() {
 # @DESCRIPTION:
 # Safely bundles multiple JavaScript files into one.
 function bundle_js() {
-   local target=$1
-   shift
+	local target=$1
+	shift
 
-   msg "Creating JavaScript bundle in $target."
+	msg "Creating JavaScript bundle in $target."
 
-   for file in $@; do
-       msg "Including $file."
-       cat $file >> $target
-       echo ";"  >> $target
-   done
+	for file in $@; do
+		msg "Including $file."
+		cat $file >> $target
+		echo ";"  >> $target
+	done
 }
 
 # @FUNCTION: compress_css
@@ -96,15 +96,15 @@ function compress_css() {
 # Bbundles multiple CSS files into one.
 # @FIXME Make safe for files containing @charset.
 function bundle_css() {
-   local target=$1
-   shift
+	local target=$1
+	shift
 
-   msg "Creating CSS bundle in $target."
+	msg "Creating CSS bundle in $target."
 
-   for file in $@; do
-       msg "Including $file."
-       cat $file >> $target
-   done
+	for file in $@; do
+		msg "Including $file."
+		cat $file >> $target
+	done
 }
 
 # @FUNCTION: compress_img
