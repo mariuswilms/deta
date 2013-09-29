@@ -84,8 +84,15 @@ function compress_css() {
 			;;
 		sqwish)
 			# Does not support bundling by itself.
-			bundle_css $target $@
-			sqwish $target -o $target
+			if [[ $# > 2 ]]; then
+				tmp=$(mktemp -t deta)
+				defer rm $tmp
+
+				bundle_css $tmp $@
+			else
+				tmp=$target
+			fi
+			sqwish $tmp -o $target
 			;;
 	esac
 }
