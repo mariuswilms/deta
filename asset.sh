@@ -18,9 +18,9 @@ msgok "Module %s loaded." "asset"
 # supported. For more information see the documentation for compress_js().
 COMPRESSOR_JS=${COMPRESSOR_JS:-"uglify-js"}
 
-# Which compressor to use when compressing CSS files. Currently only
-# "yuicompressor" is supported. For more information see the
-# documentation for compress_css().
+# Which compressor to use when compressing CSS files. Currently
+# "yuicompressor" and "sqwish" are supported. For more information
+# see the documentation for compress_css().
 COMPRESSOR_CSS=${COMPRESSOR_CSS:-"yuicompressor"}
 
 # @FUNCTION: compress_js
@@ -79,7 +79,14 @@ function compress_css() {
 	msg "Compressing %s to %s." $1 $target
 
 	case $COMPRESSOR_CSS in
-		yuicompressor)    yuicompressor -o $target --charset utf-8 $@;;
+		yuicompressor)
+			yuicompressor -o $target --charset utf-8 $@
+			;;
+		sqwish)
+			# Does not support bundling by itself.
+			bundle_css $target $@
+			sqwish $target -o $target
+			;;
 	esac
 }
 
