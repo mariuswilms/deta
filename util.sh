@@ -49,18 +49,6 @@ fill() {
 	if [[ -f ${3}-e ]]; then rm ${3}-e; fi
 }
 
-# @FUNCTION: clear_vcs
-# @USAGE: <directory>
-# @DESCRIPTION:
-# Forcefully removes any directories and files needed by version control
-# systems like SVN and GIT.
-clear_vcs() {
-	msg "Removing any VCS traces from directory %s." $1
-	find $1 -type d -name .svn    | xargs rm -rf
-	find $1 -type d -name .git    | xargs rm -rf
-	find $1 -type f -name '.git*' | xargs rm
-}
-
 # @FUNCTION: apply_patches
 # @USAGE: <path to patchfile 1> [path to patchfile 2] [...]
 # @DESCRIPTION:
