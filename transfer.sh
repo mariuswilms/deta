@@ -46,6 +46,9 @@ download() {
 		"svn://"* || *"/svn/"* || *".svn."*)
 			svn export $1 $2
 		;;
+		*)
+			curl -# -f -L $1 --O $2
+		;;
 	esac
 }
 
