@@ -43,7 +43,7 @@ download() {
 			git clone --no-hardlinks --progress --depth 1 $1 $2
 			# rm -fr $2/.git*
 		;;
-		"svn://"*)
+		"svn://"* || *"/svn/"* || *".svn."*)
 			svn export $1 $2
 		;;
 	esac
