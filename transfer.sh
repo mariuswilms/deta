@@ -35,16 +35,16 @@ download() {
 		*".tar.gz"* | *"/tarball/"*)
 			curl -s -S -f -L $1 | tar vxz -C $2
 		;;
-		# Must come after filetype-specific download strategies.
-		"http://"* | "https://"*)
-			curl -# -f -L $1 --O $2
-		;;
 		"git"* | *".git")
 			git clone --no-hardlinks --progress --depth 1 $1 $2
 			# rm -fr $2/.git*
 		;;
 		"svn://"* | *"/svn/"* | *".svn."*)
 			svn export $1 $2
+		;;
+		# Must come after filetype-specific download strategies.
+		"http://"* | "https://"*)
+			curl -# -f -L $1 --O $2
 		;;
 		*)
 			curl -# -f -L $1 --O $2
