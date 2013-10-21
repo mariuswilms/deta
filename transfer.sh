@@ -52,7 +52,7 @@ download() {
 			if [[ -f $1 ]]; then
 				cp -v $1 $2
 			elif [[ -d $1/.git ]]; then
-				git clone --no-hardlinks --progress --depth 1 $1 $2
+				git clone --no-hardlinks --progress $1 $2
 			fi
 		;;
 	esac
