@@ -45,8 +45,15 @@ download() {
 		"http://"* | "https://"*)
 			curl -# -f -L $1 --O $2
 		;;
-		*)
+		*"://"*)
 			curl -# -f -L $1 --O $2
+		;;
+		*)
+			if [[ -f $1 ]]; then
+				cp -v $1 $2
+			elif [[ -d $1/.git ]]; then
+				git clone --no-hardlinks --progress --depth 1 $1 $2
+			fi
 		;;
 	esac
 }
