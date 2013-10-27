@@ -47,21 +47,21 @@ shift $(expr $OPTIND - 1)
 # -----------------------------------------------------------
 # Paths
 # -----------------------------------------------------------
-# Search for configuration in ./config/deta, ../config/deta and .
-for DIR in "$(pwd)/config/deta" "$(pwd)/../config/deta $(pwd)"; do
+for DIR in "$(pwd)/config/deta" "$(pwd)/../config/deta"; do
 	if [[ -d $DIR ]]; then
 		CONFIG_PATH=$DIR
 		break
 	fi
 done
+CONFIG_PATH=${CONFIG_PATH:-$(pwd)}
 
-# Search for tasks in ./bin and .
-for DIR in "$(pwd)/bin" "$(pwd)"; do
+for DIR in "$(pwd)/bin"; do
 	if [[ -d $DIR ]]; then
 		TASK_PATH=$DIR
 		break
 	fi
 done
+TASK_PATH=${TASK_PATH:-$(pwd)}
 
 if [[ -L $0 ]]; then
 	DETA=$(dirname $(readlink -n $0))
