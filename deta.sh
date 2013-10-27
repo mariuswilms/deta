@@ -24,19 +24,7 @@ if [[ $(uname) == "Darwin" ]]; then
 fi
 
 # -----------------------------------------------------------
-# Paths
-# -----------------------------------------------------------
-CONFIG_PATH=$(pwd)
-TASK_PATH=$(pwd)
-
-if [[ -L $0 ]]; then
-	DETA=$(dirname $(readlink -n $0))
-else
-	DETA=$(dirname $0)
-fi
-
-# -----------------------------------------------------------
-# Standard Options & Argument parsing
+# Options
 # -----------------------------------------------------------
 QUIET="n"
 DRYRUN="n"
@@ -56,6 +44,34 @@ while getopts ":qndV:ct:" OPT; do
 done
 shift $(expr $OPTIND - 1)
 
+# -----------------------------------------------------------
+# Paths
+# -----------------------------------------------------------
+# Search for configuration in ./config/deta, ../config/deta and .
+for DIR in "$(pwd)/config/deta" "$(pwd)/../config/deta $(pwd)"; do
+	if [[ -d $DIR ]]; then
+		CONFIG_PATH=$DIR
+		break
+	fi
+done
+
+# Search for tasks in ./bin and .
+for DIR in "$(pwd)/bin" "$(pwd)"; do
+	if [[ -d $DIR ]]; then
+		TASK_PATH=$DIR
+		break
+	fi
+done
+
+if [[ -L $0 ]]; then
+	DETA=$(dirname $(readlink -n $0))
+else
+	DETA=$(dirname $0)
+fi
+
+# -----------------------------------------------------------
+# Arguments
+# -----------------------------------------------------------
 if [[ $# == 0 ]]; then
 	echo "Usage: deta.sh [options] <task>"
 	echo
@@ -88,15 +104,18 @@ source $DETA/core.sh
 # -----------------------------------------------------------
 # Configuration
 # -----------------------------------------------------------
+msgok "Configuration directory is %s." $CONFIG_PATH
+
 set +o errexit
 for file in $(ls $CONFIG_PATH/*.conf 2> /dev/null); do
 	source $file
-	msgok "Loaded %s." ${file##./}
+	msgok "Loaded %s." ${file##$CONFIG_PATH/}
 done
 set -o errexit
 
 # -----------------------------------------------------------
 # Task
 # -----------------------------------------------------------
-msg "Executing task %s." $TASK
+msgok "Task directory is %s." $TASK_PATH
+msg "Executing task %s." ${TASK##$TASK_PATH/}
 source $TASK
