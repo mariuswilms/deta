@@ -27,6 +27,7 @@ fi
 # Paths
 # -----------------------------------------------------------
 CONFIG_PATH=$(pwd)
+TASK_PATH=$(pwd)
 
 if [[ -L $0 ]]; then
 	DETA=$(dirname $(readlink -n $0))
@@ -41,9 +42,10 @@ QUIET="n"
 DRYRUN="n"
 VERSION="0.3.0-head"
 
-while getopts ":qndV:c:" OPT; do
+while getopts ":qndV:ct:" OPT; do
 	case $OPT in
 		c)  CONFIG_PATH=$OPTARG;;
+		t)  TASK_PATH=$OPTARG;;
 		q)  QUIET="y";;
 		n)  DRYRUN="y";;
 		d)  set -x;;
@@ -58,12 +60,13 @@ if [[ $# == 0 ]]; then
 	echo "Usage: deta.sh [options] <task>"
 	echo
 	echo "Tasks:"
-	for file in $(find . -type f -name '*.sh'); do
-		echo "  ${file##./}"
+	for file in $(find $TASK_PATH -type f -name '*.sh'); do
+		echo "  ${file##$TASK_PATH/}"
 	done
 	echo
 	echo "Options:"
-	echo "  -c <path> Path to the directory holding configurations, defaults to current directory."
+	echo "  -c <path> Path to the directory holding configurations."
+	echo "  -t <path> Path to the directory holding tasks."
 	echo "  -n        Enable dry-run."
 	echo "  -V        Show current version."
 	echo "  -d        Enable debug output."
