@@ -30,7 +30,7 @@ QUIET="n"
 DRYRUN="n"
 VERSION="0.3.0-head"
 
-while getopts ":qndV:ct:" OPT; do
+while getopts ":qndV:c:t:" OPT; do
 	case $OPT in
 		c)  CONFIG_PATH=$OPTARG;;
 		t)  TASK_PATH=$OPTARG;;
