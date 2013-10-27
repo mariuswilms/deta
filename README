@@ -57,9 +57,10 @@ Quickstart
 1. Start to edit a new task.
    $ $EDITOR deploy.sh
 
-2. Source the g11n module and require a THIS role.
+2. Source the g11n and transfer modules and require a THIS role.
    {{{
      source $DETA/g11n.sh
+     source $DETA/transfer.sh
 
      role THIS
      # ...
@@ -73,7 +74,7 @@ Quickstart
      TMP=$(mktemp -d -t deta)
      defer rm -r $TMP
 
-     git clone --verbose --depth 0 $THIS_REPO $TMP
+     download $THIS_REPO $TMP
      cd $TMP
 
      g11n_compile_mo app/locale
