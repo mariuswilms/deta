@@ -32,7 +32,7 @@ _msg() {
 	shift 2
 
 	local IFS=""
-	printf "[%s] [%5s] %s\n" \
+	printf "[\e[1;34m%s\e[0m] [%5s] \e[1;32m%s\e[0m\n" \
 		"$(date +%T)" \
 		"$status" \
 		"$(printf "$message" $@)"
