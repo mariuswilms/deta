@@ -32,7 +32,10 @@ _msg() {
 	shift 2
 
 	local IFS=""
-	printf "[%5s] %s\n" "$status" "$(printf "$message" $@)"
+	printf "[%s] [%5s] %s\n" \
+		"$(date +%T)" \
+		"$status" \
+		"$(printf "$message" $@)"
 }
 
 msgok "Module %s loaded." "core"
