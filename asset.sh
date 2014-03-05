@@ -19,8 +19,8 @@ msgok "Module %s loaded." "asset"
 COMPRESSOR_JS=${COMPRESSOR_JS:-"uglify-js"}
 
 # Which compressor to use when compressing CSS files. Currently
-# "yuicompressor" and "sqwish" are supported. For more information
-# see the documentation for compress_css().
+# "yuicompressor", "clean-css" and "sqwish" are supported. For more
+# information see the documentation for compress_css().
 COMPRESSOR_CSS=${COMPRESSOR_CSS:-"yuicompressor"}
 
 # @FUNCTION: compress_js
@@ -78,20 +78,26 @@ function compress_css() {
 
 	msg "Compressing %s to %s." $1 $target
 
+	if [[ $COMPRESSOR_CSS == {sqwish,clean-css} ]]; then
+		# Does not support bundling by itself.
+		if [[ $# > 2 ]]; then
+			tmp=$(mktemp -t deta)
+			defer rm $tmp
+
+			bundle_css $tmp $@
+		else
+			tmp=$target
+		fi
+	fi
+
 	case $COMPRESSOR_CSS in
 		yuicompressor)
 			yuicompressor -o $target --charset utf-8 $@
 			;;
+		clean-css)
+			clean-css --skip-import --skip-rebase -o $taret $tmp
+			;;
 		sqwish)
-			# Does not support bundling by itself.
-			if [[ $# > 2 ]]; then
-				tmp=$(mktemp -t deta)
-				defer rm $tmp
-
-				bundle_css $tmp $@
-			else
-				tmp=$target
-			fi
 			sqwish $tmp -o $target
 			;;
 	esac

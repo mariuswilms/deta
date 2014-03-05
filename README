@@ -177,6 +177,6 @@ asset module. Defaults to "uglify-js".
 
 DETA_COMPRESSOR_CSS
 Which compressor to use when compressing CSS files. Currently "yuicompressor"
-and "sqwish" are supported. For more information see the documentation for
-compress_css() in the asset module. Defaults to "yuicompressor".
+"clean-css" and "sqwish" are supported. For more information see the documentation
+for compress_css() in the asset module. Defaults to "yuicompressor".
 
