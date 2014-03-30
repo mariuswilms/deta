@@ -43,9 +43,9 @@ if [[ $SOURCE_HOST != 'localhost' ]]; then
 	#  ./deta.sh -c ../config/deta db/dump.sh
 	# SESSION
 
-	sync_sanity "$SOURCE_USER@$SOURCE_HOST:$SOURCE_PATH/*" $TMP "$BACKUP_IGNORE"
+	sync_sanity "$SOURCE_USER@$SOURCE_HOST:$SOURCE_PATH/*" $TMP "$BACKUP_TRANSFER_IGNORE"
 	set +o errexit
-	sync "$SOURCE_USER@$SOURCE_HOST:$SOURCE_PATH/*" $TMP "$BACKUP_IGNORE"
+	sync "$SOURCE_USER@$SOURCE_HOST:$SOURCE_PATH/*" $TMP "$BACKUP_TRANSFER_IGNORE"
 	set -o errexit
 
 	archive $TMP $TARGET_PATH ${SOURCE_HOST}-${SOURCE_NAME}
