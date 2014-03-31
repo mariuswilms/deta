@@ -44,7 +44,7 @@ integrity_spec_check() {
 # @DESCRIPTION:
 # Takes a list of ignores and creates an argument to be passed to mtree.
 _mtree_ignore() {
-	local tmp=$(mktemp -t deta)
+	local tmp=$(mktemp -t deta.XXX)
 
 	for excluded in $1; do
 		echo $excluded >> $tmp
