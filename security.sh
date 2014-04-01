@@ -34,6 +34,12 @@ integrity_spec_check() {
 	if [[ -f $2 ]]; then
 		msg "Checking against mtree spec %s." $2
 		mtree -f $2 -p $1 $(_mtree_ignore "$3")
+
+		if [[ $? == 0 ]]; then
+			msgok "All good; integrity is consistent."
+		else
+			msgfail "Integrity check failed; not consistent!"
+		fi
 	else
 		msgfail  "No mtree spec at %s." $2
 	fi
