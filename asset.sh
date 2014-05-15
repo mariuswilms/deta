@@ -32,7 +32,11 @@ function compress_js() {
 	local target=$1
 	shift
 
-	msg "Compressing %s to %s." "$@" $target
+	if [[ "$@" == $target ]]; then
+		msg "Compressing %s in-place." $target
+	else
+		msg "Compressing and bundling %s to %s." "$@" $target
+	fi
 
 	case $COMPRESSOR_JS in
 		yuicompressor)
@@ -76,7 +80,11 @@ function compress_css() {
 	local target=$1
 	shift
 
-	msg "Compressing %s to %s." $1 $target
+	if [[ "$@" == $target ]]; then
+		msg "Compressing %s in-place." $target
+	else
+		msg "Compressing and bundling %s to %s." "$@" $target
+	fi
 
 	if [[ $COMPRESSOR_CSS == {sqwish,clean-css} ]]; then
 		# Does not support bundling by itself.
@@ -126,7 +134,7 @@ function bundle_css() {
 # Compresses image file in-place. Relies on pngcrush, imagemagick
 # and jpegtran to be available on the system.
 function compress_img() {
-	msg "Compressing %s to %s." $1 $1
+	msg "Compressing %s in-place." $1
 
 	case $1 in
 		*.png)
