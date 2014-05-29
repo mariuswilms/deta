@@ -11,7 +11,7 @@
 # @LINK      http://github.com/davidpersson/deta
 #
 
-msgok "Module %s loaded." "vcs"
+msginfo "Module %s loaded." "vcs"
 
 # @FUNCTION: vcs_clear
 # @USAGE: <directory>

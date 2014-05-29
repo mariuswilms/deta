@@ -11,7 +11,7 @@
 # @LINK      http://github.com/davidpersson/deta
 #
 
-msgok "Module %s loaded." "php"
+msginfo "Module %s loaded." "php"
 
 # @FUNCTION: cakephp_configure
 # @USAGE: <name> <new value> <config file>

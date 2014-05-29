@@ -11,7 +11,7 @@
 # @LINK      http://github.com/davidpersson/deta
 #
 
-msgok "Module %s loaded." "util"
+msginfo "Module %s loaded." "util"
 
 # @FUNCTION: exists_and_empty
 # @USAGE: <directory>

@@ -28,13 +28,15 @@ fi
 # -----------------------------------------------------------
 QUIET="n"
 DRYRUN="n"
+VERBOSE="n"
 VERSION="0.3.0-head"
 
-while getopts ":qndV:c:t:" OPT; do
+while getopts ":qndvV:c:t:" OPT; do
 	case $OPT in
 		c)  CONFIG_PATH=$OPTARG;;
 		t)  TASK_PATH=$OPTARG;;
 		q)  QUIET="y";;
+		v)  VERBOSE="y";;
 		n)  DRYRUN="y";;
 		d)  set -x;;
 		V)  echo "DETA $VERSION by David Persson."; exit;;
@@ -85,8 +87,9 @@ if [[ $# == 0 ]]; then
 	echo "  -t <path> Path to the directory holding tasks."
 	echo "  -n        Enable dry-run."
 	echo "  -V        Show current version."
-	echo "  -d        Enable debug output."
 	echo "  -q        Quiet mode, surpress most output except errors."
+	echo "  -v        Enable verbose output."
+	echo "  -d        Enable debug output."
 	echo
 	exit 1
 fi
@@ -104,18 +107,18 @@ source $DETA/core.sh
 # -----------------------------------------------------------
 # Configuration
 # -----------------------------------------------------------
-msgok "Configuration directory is %s." $CONFIG_PATH
+msginfo "Configuration directory is %s." $CONFIG_PATH
 
 set +o errexit
 for file in $(ls $CONFIG_PATH/*.conf 2> /dev/null); do
 	source $file
-	msgok "Loaded %s." ${file##$CONFIG_PATH/}
+	msginfo "Loaded %s." ${file##$CONFIG_PATH/}
 done
 set -o errexit
 
 # -----------------------------------------------------------
 # Task
 # -----------------------------------------------------------
-msgok "Task directory is %s." $TASK_PATH
-msg "Executing task %s." ${TASK##$TASK_PATH/}
+msginfo "Task directory is %s." $TASK_PATH
+msginfo "Executing task %s." ${TASK##$TASK_PATH/}
 source $TASK

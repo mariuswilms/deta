@@ -11,7 +11,7 @@
 # @LINK      http://github.com/davidpersson/deta
 #
 
-msgok "Module %s loaded." "asset"
+msginfo "Module %s loaded." "asset"
 
 # Which compressor to use when compressing JavaScript files. Currently
 # "yuicompressor", "closure-compiler" and "uglify-js" (>= 2.0) are

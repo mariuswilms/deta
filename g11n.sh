@@ -11,7 +11,7 @@
 # @LINK      http://github.com/davidpersson/deta
 #
 
-msgok "Module %s loaded." "g11n"
+msginfo "Module %s loaded." "g11n"
 
 # @FUNCTION: g11n_compile_mo
 # @USAGE: <directory with PO files>

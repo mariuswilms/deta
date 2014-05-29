@@ -11,7 +11,7 @@
 # @LINK      http://github.com/davidpersson/deta
 #
 
-msgok "Module %s loaded." "security"
+msginfo "Module %s loaded." "security"
 
 # @FUNCTION: integrity_spec_create
 # @USAGE: <path> <target spec file> <ignore>
@@ -41,7 +41,7 @@ integrity_spec_check() {
 			msgfail "Integrity check failed; not consistent!"
 		fi
 	else
-		msgfail  "No mtree spec at %s." $2
+		msgfail "No mtree spec at %s." $2
 	fi
 }
 

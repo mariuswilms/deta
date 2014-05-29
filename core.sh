@@ -15,12 +15,13 @@
 # @USAGE: <message> [replacement0..]
 # @DESCRIPTION:
 # Outputs status messages honoring QUIET flag.
-msg()     { if [[ $QUIET != "y" ]]; then _msg ""     "$@"; fi }
-msgok()   { if [[ $QUIET != "y" ]]; then _msg "ok"   "$@"; fi }
-msgskip() { if [[ $QUIET != "y" ]]; then _msg "skip" "$@"; fi }
-msgdry()  { if [[ $QUIET != "y" ]]; then _msg "dry"  "$@"; fi }
-msgwarn() { _msg "warn" "$@" >&2; }
-msgfail() { _msg "fail" "$@" >&2; }
+msg()       { if [[ $QUIET != "y" ]];   then _msg ""     "$@"; fi }
+msginfo()   { if [[ $VERBOSE != "n" ]]; then _msg ""     "$@"; fi }
+msgok()     { if [[ $QUIET != "y" ]];   then _msg "ok"   "$@"; fi }
+msgskip()   { if [[ $QUIET != "y" ]];   then _msg "skip" "$@"; fi }
+msgdry()    { if [[ $QUIET != "y" ]];   then _msg "dry"  "$@"; fi }
+msgwarn()   { _msg "warn" "$@" >&2; }
+msgfail()   { _msg "fail" "$@" >&2; }
 
 # @FUNCTION: _msg
 # @USAGE: <status> <message> [replacement0..]
@@ -38,7 +39,7 @@ _msg() {
 		"$(printf "$message" $@)"
 }
 
-msgok "Module %s loaded." "core"
+msginfo "Module %s loaded." "core"
 
 # @FUNCTION: role
 # @USAGE: <role>
@@ -107,7 +108,7 @@ DEFERRED=()
 # handler first time it is used.
 defer() {
 	if [[ -z ${DEFERRED-} ]]; then
-		msg "Trapping %s signal." "EXIT"
+		msginfo "Trapping %s signal." "EXIT"
 		trap _defer EXIT
 	fi
 	DEFERRED[${#DEFERRED[*]}]=$@

@@ -11,7 +11,7 @@
 # @LINK      http://github.com/davidpersson/deta
 #
 
-msgok "Module %s loaded." "cache"
+msginfo "Module %s loaded." "cache"
 
 # @FUNCTION: cache_flush_memcached
 # @USAGE: <memcached host> [memcached port]

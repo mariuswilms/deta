@@ -11,7 +11,7 @@
 # @LINK      http://github.com/davidpersson/deta
 #
 
-msgok "Module %s loaded." "transfer"
+msginfo "Module %s loaded." "transfer"
 
 # @FUNCTION: download
 # @USAGE: <URL> <target>

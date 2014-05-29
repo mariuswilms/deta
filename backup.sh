@@ -11,7 +11,7 @@
 # @LINK      http://github.com/davidpersson/deta
 #
 
-msgok "Module %s loaded." "backup"
+msginfo "Module %s loaded." "backup"
 
 # @FUNCTION: archive
 # @USAGE: <source dir> <target dir> <label prefix>

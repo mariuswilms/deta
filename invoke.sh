@@ -11,7 +11,7 @@
 # @LINK      http://github.com/davidpersson/deta
 #
 
-msgok "Module %s loaded." "invoke"
+msginfo "Module %s loaded." "invoke"
 
 # @FUNCTION: run_ssh
 # @USAGE: <host> < <commands>
