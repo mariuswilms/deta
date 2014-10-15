@@ -131,6 +131,7 @@ DETA_CACHE_DIR=${DETA_CACHE_DIR:-"/tmp/deta_cache"}
 
 if [[ ! -d $DETA_CACHE_DIR ]]; then
 	mkdir -p $DETA_CACHE_DIR
+	msgok "Initialized internal cache directory %s." $DETA_CACHE_DIR
 fi
 
 # @FUNCTION: _cache_exists
