@@ -157,8 +157,8 @@ _cache_read_into_file() {
 	local key=$1
 	local target=$2
 
-	msgok "Read from cache into file %s." $target
 	cp $DETA_CACHE_DIR/$key $target
+	msgok "Read from cache into file %s." $target
 }
 
 # @FUNCTION: _cache_write_from_file
