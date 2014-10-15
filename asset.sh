@@ -30,7 +30,7 @@ COMPRESSOR_CSS=${COMPRESSOR_CSS:-"yuicompressor"}
 # COMPRESSOR_JS relies on certain tools to be available.
 function compress_js() {
 	local target=$1
-	local key="compress_js_${COMPRESSOR_JS}_$(md5 $@)"
+	local key="compress_js_${COMPRESSOR_JS}_$(md5 -q $@ | md5)"
 	shift
 
 	if [[ "$@" == $target ]]; then
@@ -86,7 +86,7 @@ function bundle_js() {
 # COMPRESSOR_CSS relies on certain tools to be available.
 function compress_css() {
 	local target=$1
-	local key="compress_css_${COMPRESSOR_CSS}_$(md5 $@)"
+	local key="compress_css_${COMPRESSOR_CSS}_$(md5 -q $@ | md5)"
 	shift
 
 	if [[ "$@" == $target ]]; then
@@ -150,27 +150,28 @@ function bundle_css() {
 # Compresses image file in-place. Relies on pngcrush, imagemagick
 # and jpegtran to be available on the system.
 function compress_img() {
-	local key="compress_img_$(md5 $@)"
+	local file=$1
+	local key="compress_img_$(md5 -q $@ | md5)"
 
-	msg "Compressing %s in-place." $1
+	msg "Compressing %s in-place." $file
 
 	if [[ $(_cache_exists $key) == "true" ]]; then
 		_cache_read_into_file $key $target
 		return 0
 	fi
 
-	case $1 in
+	case $file in
 		*.png)
-			pngcrush -rem alla -rem text -q $1 $1.tmp
-			mv $1.tmp $1
+			pngcrush -rem alla -rem text -q $file $file.tmp
+			mv $file.tmp $file
 		;;
 		*.jpg)
-			mogrify -strip $1
-			jpegtran -optimize -copy none $1 -outfile $1.tmp
-			mv $1.tmp $1
+			mogrify -strip $file
+			jpegtran -optimize -copy none $file -outfile $file.tmp
+			mv $file.tmp $file
 		;;
 	esac
 
-	_cache_write_from_file $key $target
+	_cache_write_from_file $key $file
 }
 
