@@ -156,7 +156,7 @@ function compress_img() {
 	msg "Compressing %s in-place." $file
 
 	if [[ $(_cache_exists $key) == "true" ]]; then
-		_cache_read_into_file $key $target
+		_cache_read_into_file $key $file
 		return 0
 	fi
 
