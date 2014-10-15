@@ -165,7 +165,7 @@ _cache_read_into_file() {
 # @USAGE: <key> <source>
 # @DESCRIPTION:
 # Will write a cached item using the provided file's contents.
-_cache_write_form_file() {
+_cache_write_from_file() {
 	local key=$1
 	local source=$2
 
