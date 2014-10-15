@@ -117,7 +117,7 @@ function compress_css() {
 			yuicompressor -o $target --charset utf-8 $@
 			;;
 		clean-css)
-			clean-css --skip-import --skip-rebase -o $taret $tmp
+			clean-css --skip-import --skip-rebase -o $target $tmp
 			;;
 		sqwish)
 			sqwish $tmp -o $target
