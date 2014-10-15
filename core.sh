@@ -125,3 +125,49 @@ _defer() {
 	done
 }
 
+# Directory which holds the cached items. Will be created
+# if it doesn't exist.
+DETA_CACHE_DIR=${DETA_CACHE_DIR:-"/tmp/deta_cache"}
+
+if [[ ! -d $DETA_CACHE_DIR ]]; then
+	mkdir -p $DETA_CACHE_DIR
+fi
+
+# @FUNCTION: _cache_exists
+# @USAGE: <key>
+# @DESCRIPTION:
+# Checks if a chached item is available under the given
+# key. Will echo "true" or "false" depending on availability.
+_cache_exists() {
+	local key=$1
+
+	if [[ -f $DETA_CACHE_DIR/$key ]]; then
+		echo "true"
+	else
+		echo "false"
+	fi
+}
+
+# @FUNCTION: _cache_read_into_file
+# @USAGE: <key> <target>
+# @DESCRIPTION:
+# Will read a cached item and copy its contents
+# into a provided file.
+_cache_read_into_file() {
+	local key=$1
+	local target=$2
+
+	msgok "Read from cache into file %s." $target
+	cp $DETA_CACHE_DIR/$key $target
+}
+
+# @FUNCTION: _cache_write_from_file
+# @USAGE: <key> <source>
+# @DESCRIPTION:
+# Will write a cached item using the provided file's contents.
+_cache_write_form_file() {
+	local key=$1
+	local source=$2
+
+	cp $source $DETA_CACHE_DIR/$key
+}

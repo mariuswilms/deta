@@ -30,12 +30,18 @@ COMPRESSOR_CSS=${COMPRESSOR_CSS:-"yuicompressor"}
 # COMPRESSOR_JS relies on certain tools to be available.
 function compress_js() {
 	local target=$1
+	local key="compress_js_${COMPRESSOR_JS}_$(md5 $@)"
 	shift
 
 	if [[ "$@" == $target ]]; then
 		msg "Compressing %s in-place." $target
 	else
 		msg "Compressing and bundling %s to %s." "$@" $target
+	fi
+
+	if [[ $(_cache_exists $key) == "true" ]]; then
+		_cache_read_into_file $key $target
+		return 0
 	fi
 
 	case $COMPRESSOR_JS in
@@ -52,6 +58,8 @@ function compress_js() {
 				--create_source_map $target.map
 			;;
 	esac
+
+	_cache_write_from_file $key $target
 }
 
 # @FUNCTION: bundle_js
@@ -78,12 +86,18 @@ function bundle_js() {
 # COMPRESSOR_CSS relies on certain tools to be available.
 function compress_css() {
 	local target=$1
+	local key="compress_css_${COMPRESSOR_CSS}_$(md5 $@)"
 	shift
 
 	if [[ "$@" == $target ]]; then
 		msg "Compressing %s in-place." $target
 	else
 		msg "Compressing and bundling %s to %s." "$@" $target
+	fi
+
+	if [[ $(_cache_exists $key) == "true" ]]; then
+		_cache_read_into_file $key $target
+		return 0
 	fi
 
 	if [[ $COMPRESSOR_CSS == {sqwish,clean-css} ]]; then
@@ -109,6 +123,8 @@ function compress_css() {
 			sqwish $tmp -o $target
 			;;
 	esac
+
+	_cache_write_from_file $key $target
 }
 
 # @FUNCTION: bundle_css
@@ -134,7 +150,14 @@ function bundle_css() {
 # Compresses image file in-place. Relies on pngcrush, imagemagick
 # and jpegtran to be available on the system.
 function compress_img() {
+	local key="compress_img_$(md5 $@)"
+
 	msg "Compressing %s in-place." $1
+
+	if [[ $(_cache_exists $key) == "true" ]]; then
+		_cache_read_into_file $key $target
+		return 0
+	fi
 
 	case $1 in
 		*.png)
@@ -147,5 +170,7 @@ function compress_img() {
 			mv $1.tmp $1
 		;;
 	esac
+
+	_cache_write_from_file $key $target
 }
 
