@@ -143,9 +143,9 @@ _cache_exists() {
 	local key=$1
 
 	if [[ -f $DETA_CACHE_DIR/$key ]]; then
-		echo "true"
+		echo "y"
 	else
-		echo "false"
+		echo "n"
 	fi
 }
 

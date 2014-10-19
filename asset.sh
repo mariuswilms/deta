@@ -39,7 +39,7 @@ function compress_js() {
 		msg "Compressing and bundling %s to %s." "$@" $target
 	fi
 
-	if [[ $(_cache_exists $key) == "true" ]]; then
+	if [[ $(_cache_exists $key) == "y" ]]; then
 		_cache_read_into_file $key $target
 		return 0
 	fi
@@ -95,7 +95,7 @@ function compress_css() {
 		msg "Compressing and bundling %s to %s." "$@" $target
 	fi
 
-	if [[ $(_cache_exists $key) == "true" ]]; then
+	if [[ $(_cache_exists $key) == "y" ]]; then
 		_cache_read_into_file $key $target
 		return 0
 	fi
@@ -155,7 +155,7 @@ function compress_img() {
 
 	msg "Compressing %s in-place." $file
 
-	if [[ $(_cache_exists $key) == "true" ]]; then
+	if [[ $(_cache_exists $key) == "y" ]]; then
 		_cache_read_into_file $key $file
 		return 0
 	fi
