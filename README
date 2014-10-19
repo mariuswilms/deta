@@ -104,6 +104,10 @@ Which compressor to use when compressing CSS files. Currently "yuicompressor"
 "clean-css" and "sqwish" are supported. For more information see the documentation
 for compress_css() in the asset module. Defaults to "yuicompressor".
 
+DETA_CACHE_DIR
+Directory which holds the cached items for the internal cache. Will be created
+if it doesn't exist. Caches asset compressions. Defaults to "/tmp/deta_cache".
+
 Terminology
 -----------
 Tasks
