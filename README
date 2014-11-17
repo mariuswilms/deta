@@ -148,11 +148,7 @@ DEV, STAGE or PROD. Configuration settings are is kept in dedicated files on a
 per env basis.
 
 By default deta comes with a configuration for the DEV env. You can add new
-environments by copying dev.conf to prod.conf and adjusting the prefixes
-in it i.e DEV_ becomes PROD_.
-
-All environment configurations are by default loaded automatically
-before a task is executed.
+environments by copying dev.conf to prod.conf.
 
 [1] Lithium framework, http://li3.me
 
@@ -173,14 +169,8 @@ module) right below the source statements.
 ```
 
 The function will map an env to a role. This means a configuration setting
-available as i.e. DEV_HOST will become also available as THIS_HOST. When the
-env for a role can't be detected automatically it will prompt you for one.
+available as i.e. HOST will become also available as SOURCE_HOST.
 
-Envs can be automatically wired to roles within the configuration file. The
-following statement will cause the role function to use the DEV env for the
-THIS role when the current hostname equals the one specified for the DEV env.
-```
-  # ...
-  DEV_THIS=$([[ $(hostname) == $DEV_HOST ]] && echo "y" || echo "n")
-  # ...
-```
+The magic "THIS" role will always map to the current environment context. The
+current environment can be set using the "-e" option when starting deta.
+

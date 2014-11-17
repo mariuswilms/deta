@@ -31,8 +31,9 @@ DRYRUN="n"
 VERBOSE="n"
 VERSION="0.3.0-head"
 
-while getopts ":qndvV:c:t:" OPT; do
+while getopts ":qndvV:c:t:e:" OPT; do
 	case $OPT in
+		e)  CONTEXT=$OPTARG;;
 		c)  CONFIG_PATH=$OPTARG;;
 		t)  TASK_PATH=$OPTARG;;
 		q)  QUIET="y";;
@@ -47,8 +48,10 @@ done
 shift $(expr $OPTIND - 1)
 
 # -----------------------------------------------------------
-# Paths
-# -----------------------------------------------------------
+# Paths and other Configurations
+# ----------------------------------------------------------
+CONTEXT=${CONTEXT:-dev}
+
 for DIR in "$(pwd)/config/deta" "$(pwd)/../config/deta"; do
 	if [[ -d $DIR ]]; then
 		CONFIG_PATH=$DIR
@@ -83,6 +86,8 @@ if [[ $# == 0 ]]; then
 	done
 	echo
 	echo "Options:"
+	echo "  -e <name> Current environment context, i.e. prod, dev or stage."
+	echo "            Defaults to dev."
 	echo "  -c <path> Path to the directory holding configurations."
 	echo "  -t <path> Path to the directory holding tasks."
 	echo "  -n        Enable dry-run."
@@ -107,18 +112,12 @@ source $DETA/core.sh
 # -----------------------------------------------------------
 # Configuration
 # -----------------------------------------------------------
+msginfo "Current env context is %s." $CONTEXT
 msginfo "Configuration directory is %s." $CONFIG_PATH
-
-set +o errexit
-for file in $(ls $CONFIG_PATH/*.conf 2> /dev/null); do
-	source $file
-	msginfo "Loaded %s." ${file##$CONFIG_PATH/}
-done
-set -o errexit
+msginfo "Task directory is %s." $TASK_PATH
 
 # -----------------------------------------------------------
 # Task
 # -----------------------------------------------------------
-msginfo "Task directory is %s." $TASK_PATH
 msginfo "Executing task %s." ${TASK##$TASK_PATH/}
 source $TASK

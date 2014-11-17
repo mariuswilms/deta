@@ -44,17 +44,18 @@ msginfo "Module %s loaded." "core"
 # @FUNCTION: role
 # @USAGE: <role>
 # @DESCRIPTION:
-# Maps an env (left) to role provided
-# to this function (right). Detects role by:
-# 1. Checking all available envs for a variable i.e.
-#    DEV_<role>="y" will select DEV as the role.
-# 2. Prompting the user to select from available env.
+# Maps an env (left) to role provided to this function (right).
+#
+# The magic role "THIS" will always be mapped using the current
+# environment context as specified by the global "CONTEXT" variable.
+# For all other roles the user is prompted to select from the
+# available environments.
 role() {
-	local pair=$(set | grep -m 1 "_$1=y" );
-
-	if [[ -n $pair ]];  then
-		 _env_to_role ${pair%_*} $1
+	if [[ $role == "THIS" ]]; then
+		_env_to_role $CONTEXT $role
 	else
+		# Grep files for _HOST string as this is assumed to
+		# indicate that this is a deta configuration file.
 		for env_ in $(set | grep -E "^[A-Z]+_HOST="); do
 			local avail+="${env_%_*} "
 		done
@@ -72,11 +73,13 @@ role() {
 # @DESCRIPTION:
 # Maps all variables from env to role.
 _env_to_role() {
-	local IFS=$'\n'
-	for c in $(set | grep -E "^$1_"); do
-		eval ${c/$1_/$2_}
-	done
+	tmp=$(mktemp -t deta)
+
+	perl -pe "s/^(.*)=/${1}_\1=/g" ${CONFIG_PATH}/${env}.conf > $tmp
+	source $tmp
 	msgok "Mapped env %s to role %s." $@
+
+	rm $tmp
 }
 
 # @FUNCTION: dry
