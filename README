@@ -126,10 +126,11 @@ Tasks are sourced by the deta tool they automatically have access to all
 the env configurations (loaded from *.conf).
 
 Following global variables are always available within tasks:
-QUIET (y|n), DRYRUN (y|n), DETA (deta directory), TASK (current task)
+QUIET (y|n), DRYRUN (y|n), DETA (deta directory), TASK (current task),
+CONTEXT (current environment context).
 
-Tasks are plain shell files and share the same interpreter as the
-deta tool (which is BASH).
+Task are plain text files using `KEY=VALUE` for defining configuration
+variables and `#` for comments.
 
 Tasks can be located wherever you want. In the end you just pass the path to
 the deta tool. However it is nice to be able to group tasks, therefore it is
