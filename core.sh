@@ -51,21 +51,25 @@ msginfo "Module %s loaded." "core"
 # For all other roles the user is prompted to select from the
 # available environments.
 role() {
-	if [[ $role == "THIS" ]]; then
+	lcoal env=${1,,}
+	local role=${2,,}
+
+	if [[ $role == "this" ]]; then
 		_env_to_role $CONTEXT $role
 	else
-		# Grep files for _HOST string as this is assumed to
-		# indicate that this is a deta configuration file.
-		for env_ in $(set | grep -E "^[A-Z]+_HOST="); do
-			local avail+="${env_%_*} "
+		set +o errexit
+		for file in $(ls $CONFIG_PATH/*.env 2> /dev/null); do
+			local avail+="$(basename -s '.env' $file) "
 		done
-		local PS3="Please select an env to map to role $1: "
+		set -o errexit
+
+		local PS3="Please select an env to map to role ${role}: "
 		select env in $avail; do
-			_env_to_role $env $1
+			_env_to_role $env $role
 			break
 		done
 	fi
-	msgok "Using role %s." $1
+	msgok "Using role %s." $role
 }
 
 # @FUNCTION: _env_to_role
@@ -73,7 +77,7 @@ role() {
 # @DESCRIPTION:
 # Maps all variables from env to role.
 _env_to_role() {
-	tmp=$(mktemp -t deta)
+	local tmp=$(mktemp -t deta)
 
 	perl -pe "s/^(.*)=/${1}_\1=/g" ${CONFIG_PATH}/${env}.conf > $tmp
 	source $tmp
