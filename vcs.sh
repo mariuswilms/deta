@@ -60,6 +60,3 @@ function git_has() {
 function git_first_commit() {
 	git log --format=%H | tail -1
 }
-
-
-
