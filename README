@@ -26,7 +26,7 @@ Versions & Requirements
 0.2.0
 0.3.0
 0.4.0
-0.5.0 (in progress)
+0.5.0
 
 The BASH (Bourne-Again SHell) is required. Deta is continously
 tested with recent BASH versions on Linux and Darwin.
