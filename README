@@ -150,7 +150,7 @@ per env basis.
 By default deta comes with a configuration for the DEV env. You can add new
 environments by copying dev.conf to prod.conf.
 
-[1] Lithium framework, http://li3.me
+[1] li3 framework, http://li3.me
 
 Roles
 '''''
