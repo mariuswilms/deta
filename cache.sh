@@ -13,19 +13,6 @@
 
 msginfo "Module %s loaded." "cache"
 
-# @FUNCTION: cache_flush_memcached
-# @USAGE: <memcached host> [memcached port]
-# @DESCRIPTION:
-# Flushes memcached cache entirely. The port if not given defaults to
-# default assigned memcached port 11211.
-cache_flush_memcached() {
-	msg "Flushing memcached cache on %s:%d." $1
-
-	set +o errexit
-	(echo -e 'flush_all'; sleep 1) | telnet $1 ${2:-"11211"}
-	set -o errexit
-}
-
 # @FUNCTION: cache_flush_phpstat
 # @USAGE: <php>
 # @DESCRIPTION:
