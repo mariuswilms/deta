@@ -25,7 +25,7 @@ if [[ $SOURCE_HOST != 'localhost' ]]; then
 	source $DETA/transfer.sh
 	source $DETA/invoke.sh
 
-	TMP=$(mktemp -d -t deta)
+	TMP=$(mktemp -d -t deta.XXX)
 	defer rm -rf $TMP
 
 	PS3="Select a previous backup to base this one onto (most recent first): "

@@ -103,7 +103,7 @@ function compress_css() {
 	if [[ $COMPRESSOR_CSS == {sqwish,clean-css} ]]; then
 		# Does not support bundling by itself.
 		if [[ $# > 2 ]]; then
-			tmp=$(mktemp -t deta)
+			tmp=$(mktemp -t deta.XXX)
 			defer rm $tmp
 
 			bundle_css $tmp $@

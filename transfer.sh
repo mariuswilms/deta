@@ -25,7 +25,7 @@ download() {
 	case $1 in
 		# Partially GitHub specific
 		*".zip"* | *"/zipball/"*)
-			tmp=$(mktemp -d -t deta)
+			tmp=$(mktemp -d -t deta.XXX)
 			defer rm -rf $tmp
 
 			curl -# -f -L $1 --O $tmp/download.zip
@@ -121,7 +121,7 @@ sync_sanity() {
 # @DESCRIPTION:
 # Takes a list of ignores and creates an argument to be passed to rsync.
 _rsync_ignore() {
-	local tmp=$(mktemp -t deta)
+	local tmp=$(mktemp -t deta.XXX)
 
 	for excluded in $1; do
 		echo $excluded >> $tmp

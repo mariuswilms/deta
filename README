@@ -81,7 +81,7 @@ Quickstart
    to be deleted.
    ```
    # ...
-   TMP=$(mktemp -d -t deta)
+   TMP=$(mktemp -d -t deta.XXX)
    defer rm -r $TMP
 
    download $THIS_REPO $TMP

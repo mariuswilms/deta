@@ -75,7 +75,7 @@ role() {
 # @DESCRIPTION:
 # Maps an env (left) to role provided to this function (right).
 _env_to_role() {
-	local tmp=$(mktemp -t deta)
+	local tmp=$(mktemp -t deta.XXX)
 
 	perl -pe "s/^(.*)=/$(echo $2 | tr '[:lower:]' '[:upper:]')_\1=/g" ${CONFIG_PATH}/${1}.env > $tmp
 	source $tmp
