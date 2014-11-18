@@ -44,18 +44,17 @@ msginfo "Module %s loaded." "core"
 # @FUNCTION: role
 # @USAGE: <role>
 # @DESCRIPTION:
-# Maps an env (left) to role provided to this function (right).
-#
 # The magic role "THIS" will always be mapped using the current
 # wnvironment context. For all other roles the user is prompted
 # to select from the available environments.
 role() {
-	lcoal env=${1,,}
-	local role=${2,,}
+	local role=$(echo $1 | tr '[:upper:]' '[:lower:]')
 
 	if [[ $role == "this" ]]; then
 		_env_to_role current $role
 	else
+		local avail=""
+
 		set +o errexit
 		for file in $(ls $CONFIG_PATH/*.env 2> /dev/null); do
 			local avail+="$(basename -s '.env' $file) "
@@ -74,11 +73,11 @@ role() {
 # @FUNCTION: _env_to_role
 # @USAGE: <env> <role>
 # @DESCRIPTION:
-# Maps all variables from env to role.
+# Maps an env (left) to role provided to this function (right).
 _env_to_role() {
 	local tmp=$(mktemp -t deta)
 
-	perl -pe "s/^(.*)=/${1}_\1=/g" ${CONFIG_PATH}/${env}.conf > $tmp
+	perl -pe "s/^(.*)=/$(echo $2 | tr '[:lower:]' '[:upper:]')_\1=/g" ${CONFIG_PATH}/${1}.env > $tmp
 	source $tmp
 	msgok "Mapped env %s to role %s." $@
 
