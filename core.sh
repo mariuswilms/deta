@@ -47,15 +47,14 @@ msginfo "Module %s loaded." "core"
 # Maps an env (left) to role provided to this function (right).
 #
 # The magic role "THIS" will always be mapped using the current
-# environment context as specified by the global "CONTEXT" variable.
-# For all other roles the user is prompted to select from the
-# available environments.
+# wnvironment context. For all other roles the user is prompted
+# to select from the available environments.
 role() {
 	lcoal env=${1,,}
 	local role=${2,,}
 
 	if [[ $role == "this" ]]; then
-		_env_to_role $CONTEXT $role
+		_env_to_role current $role
 	else
 		set +o errexit
 		for file in $(ls $CONFIG_PATH/*.env 2> /dev/null); do
