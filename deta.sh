@@ -49,7 +49,7 @@ shift $(expr $OPTIND - 1)
 # -----------------------------------------------------------
 # Paths and other Configurations
 # ----------------------------------------------------------
-for DIR in "$(pwd)/config/deta" "$(pwd)/../config/deta $(pwd)/../config"; do
+for DIR in "$(pwd)/config/deta" "$(pwd)/../config/deta" "$(pwd)/../config"; do
 	if [[ -d $DIR ]]; then
 		CONFIG_PATH=$DIR
 		break
