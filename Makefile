@@ -18,7 +18,7 @@ install: deta
 	ln -s $(CURDIR)/deta.sh $(PREFIX)/bin/
 	mkdir -p $(PREFIX)/config
 	cp -p config/dev.env $(PREFIX)/config/
-	ln -s $(PREFIX)/config/deta.env $(PREFIX)/config/current.env
+	ln -s $(PREFIX)/config/dev.env $(PREFIX)/config/current.env
 
 uninstall:
 	rm $< $(PREFIX)/bin/deta.sh
