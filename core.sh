@@ -78,7 +78,6 @@ _env_to_role() {
 	local tmp=$(mktemp -t deta.XXX)
 
 	perl -pe "s/^([a-zA-Z0-9_]+)=/$(echo $2 | tr '[:lower:]' '[:upper:]')_\1=/g" ${CONFIG_PATH}/${1}.env > $tmp
-	cat $tmp
 	source $tmp
 	msgok "Mapped env %s to role %s." $@
 
