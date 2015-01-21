@@ -50,7 +50,6 @@ function compress_js() {
 			;;
 		uglify-js)
 			uglifyjs $@ -c --comments -o $target \
-				--stats \
 				--source-map $target.map
 			;;
 		closure-compiler)
