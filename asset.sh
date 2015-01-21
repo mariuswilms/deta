@@ -33,8 +33,8 @@ COMPRESSOR_JPG=${COMPRESSOR_JPG:-"jpegtran"}
 # @FUNCTION: compress_js
 # @USAGE: <target file> <source file 1> [source file 2] [...]
 # @DESCRIPTION:
-# Compresses and bundles JavaScript files. Generates source maps if a compressing tool supports
-# Cit. Depending on the setting of COMPRESSOR_JS relies on certain tools to be available.
+# Compresses and bundles JavaScript files. Depending on the setting
+# of COMPRESSOR_JS relies on certain tools to be available.
 function compress_js() {
 	local target=$1
 	local key="compress_js_${COMPRESSOR_JS}_$(md5 -q $@ | md5)"
@@ -56,12 +56,10 @@ function compress_js() {
 			yuicompressor -o $target --nomunge --charset utf-8 $@
 			;;
 		uglify-js)
-			uglifyjs $@ -c --comments -o $target \
-				--source-map $target.map
+			uglifyjs $@ -c --comments -o $target
 			;;
 		closure-compiler)
-			closure-compiler --js $@ --js_output_file $target \
-				--create_source_map $target.map
+			closure-compiler --js $@ --js_output_file $target
 			;;
 	esac
 
