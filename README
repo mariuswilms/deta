@@ -115,6 +115,14 @@ Which compressor to use when compressing CSS files. Currently "yuicompressor"
 "clean-css" and "sqwish" are supported. For more information see the documentation
 for compress_css() in the asset module. Defaults to "yuicompressor".
 
+COMPRESSOR_PNG
+Compressor to use when compressing PNG files. Currently
+"pngcrush" and "pngquant" are supported.
+
+COMPRESSOR_JPG
+Compressor to use when compressing JPG files. Currently
+"jpegtran" is supported.
+
 DETA_CACHE_DIR
 Directory which holds the cached items for the internal cache. Will be created
 if it doesn't exist. Caches asset compressions. Defaults to "/tmp/deta_cache".

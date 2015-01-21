@@ -22,6 +22,14 @@ COMPRESSOR_JS=${COMPRESSOR_JS:-"closure-compiler"}
 # "yuicompressor", "clean-css" and "sqwish" are supported.
 COMPRESSOR_CSS=${COMPRESSOR_CSS:-"yuicompressor"}
 
+# Compressor to use when compressing PNG files. Currently
+# "pngcrush" and "pngquant" are supported.
+COMPRESSOR_PNG=${COMPRESSOR_PNG:-"pngcrush"}
+
+# Compressor to use when compressing JPG files. Currently
+# "jpegtran" is supported.
+COMPRESSOR_JPG=${COMPRESSOR_JPG:-"jpegtran"}
+
 # @FUNCTION: compress_js
 # @USAGE: <target file> <source file 1> [source file 2] [...]
 # @DESCRIPTION:
@@ -149,7 +157,7 @@ function bundle_css() {
 # and jpegtran to be available on the system.
 function compress_img() {
 	local file=$1
-	local key="compress_img_$(md5 -q $@ | md5)"
+	local key="compress_img_${COMPRESSOR_PNG}_${COMPRESSOR_JPG}_$(md5 -q $@ | md5)"
 
 	msg "Compressing %s in-place." $file
 
@@ -160,12 +168,24 @@ function compress_img() {
 
 	case $file in
 		*.png)
-			pngcrush -rem alla -rem text -q $file $file.tmp
+			case $COMPRESSOR_PNG in
+				pngcrush)
+					pngcrush -rem alla -rem text -q $file $file.tmp
+				;;
+				pngquant)
+					pngquant --speed 1 $file -o $file.tmp
+				;;
+			esac
 			mv $file.tmp $file
 		;;
 		*.jpg)
 			mogrify -strip $file
-			jpegtran -optimize -copy none $file -outfile $file.tmp
+
+			case $COMPRESSOR_JPG in
+				jpegtran)
+					jpegtran -optimize -copy none $file -outfile $file.tmp
+				;;
+			esac
 			mv $file.tmp $file
 		;;
 	esac
