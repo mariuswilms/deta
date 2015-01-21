@@ -13,21 +13,20 @@
 
 msginfo "Module %s loaded." "asset"
 
-# Which compressor to use when compressing JavaScript files. Currently
+# Compressor to use when compressing JavaScript files. Currently
 # "yuicompressor", "closure-compiler" and "uglify-js" (>= 2.0) are
-# supported. For more information see the documentation for compress_js().
-COMPRESSOR_JS=${COMPRESSOR_JS:-"uglify-js"}
+# supported.
+COMPRESSOR_JS=${COMPRESSOR_JS:-"closure-compiler"}
 
-# Which compressor to use when compressing CSS files. Currently
-# "yuicompressor", "clean-css" and "sqwish" are supported. For more
-# information see the documentation for compress_css().
+# Compressor to use when compressing CSS files. Currently
+# "yuicompressor", "clean-css" and "sqwish" are supported.
 COMPRESSOR_CSS=${COMPRESSOR_CSS:-"yuicompressor"}
 
 # @FUNCTION: compress_js
 # @USAGE: <target file> <source file 1> [source file 2] [...]
 # @DESCRIPTION:
-# Compresses and bundles JavaScript files. Depending on the setting of
-# COMPRESSOR_JS relies on certain tools to be available.
+# Compresses and bundles JavaScript files. Generates source maps if a compressing tool supports
+# Cit. Depending on the setting of COMPRESSOR_JS relies on certain tools to be available.
 function compress_js() {
 	local target=$1
 	local key="compress_js_${COMPRESSOR_JS}_$(md5 -q $@ | md5)"
@@ -81,8 +80,8 @@ function bundle_js() {
 # @FUNCTION: compress_css
 # @USAGE: <target file> <source file 1> [source file 2] [...]
 # @DESCRIPTION:
-# Compresses and bundles CSS files. Depending on the setting of
-# COMPRESSOR_CSS relies on certain tools to be available.
+# Compresses and bundles CSS files. Generates source maps if a compressing tool supports
+# Cit. Depending on the setting of COMPRESSOR_CSS relies on certain tools to be available.
 function compress_css() {
 	local target=$1
 	local key="compress_css_${COMPRESSOR_CSS}_$(md5 -q $@ | md5)"
