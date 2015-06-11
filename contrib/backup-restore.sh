@@ -6,10 +6,6 @@
 # Distributed under the terms of the MIT License.
 # Redistributions of files must retain the above copyright notice.
 #
-# @COPYRIGHT 2011 David Persson <nperson@gmx.de>
-# @LICENSE   http://www.opensource.org/licenses/mit-license.php The MIT License
-# @LINK      http://github.com/davidpersson/deta
-#
 
 # This task restores backups from a source to a default temporary directory.
 
