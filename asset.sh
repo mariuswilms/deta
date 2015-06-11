@@ -155,7 +155,7 @@ function bundle_css() {
 # and jpegtran to be available on the system.
 function compress_img() {
 	local file=$1
-	local key="compress_img_${COMPRESSOR_PNG}_${COMPRESSOR_JPG}_$(md5 -q $@ | md5)"
+	local key="compress_img_$(cat "${COMPRESSOR_PNG}${COMPRESSOR_JPG}" | md5)_$(md5 -q $@ | md5)"
 
 	msg "Compressing %s in-place." $file
 
