@@ -2,12 +2,12 @@
 #
 # DETA
 #
-# Copyright (c) 2011-2014 David Persson
+# Copyright (c) 2011 David Persson
 #
 # Distributed under the terms of the MIT License.
 # Redistributions of files must retain the above copyright notice.
 #
-# @COPYRIGHT 2011-2014 David Persson <nperson@gmx.de>
+# @COPYRIGHT 2011 David Persson <nperson@gmx.de>
 # @LICENSE   http://www.opensource.org/licenses/mit-license.php The MIT License
 # @LINK      http://github.com/davidpersson/deta
 #
@@ -38,6 +38,7 @@ while getopts ":qndvV:c:t:" OPT; do
 		q)  QUIET="y";;
 		v)  VERBOSE="y";;
 		n)  DRYRUN="y";;
+		e)  SETENV="y";;
 		d)  set -x;;
 		V)  echo "DETA $VERSION by David Persson."; exit;;
 		:)  printf "Option '%s' requires an argument.\n" $OPTARG; exit 1;;
