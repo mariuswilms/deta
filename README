@@ -105,23 +105,25 @@ Shell Environment Variables
 There are some environment variables that affect the way deta behaves.
 
 DETA_COMPRESSOR_JS
-Which compressor to use when compressing JavaScript files. Currently
+Which compressor/s to use when compressing JavaScript files. Currently
 "yuicompressor", "closure-compiler" and "uglify-js" (>= 2.0) are
 supported. For more information see the documentation for compress_js() in the
 asset module. Defaults to "uglify-js".
 
 DETA_COMPRESSOR_CSS
-Which compressor to use when compressing CSS files. Currently "yuicompressor"
+Which compressor/s to use when compressing CSS files. Currently "yuicompressor"
 "clean-css" and "sqwish" are supported. For more information see the documentation
 for compress_css() in the asset module. Defaults to "yuicompressor".
 
 COMPRESSOR_PNG
-Compressor to use when compressing PNG files. Currently
+Compressor/s to use when compressing PNG files. Currently
 "pngcrush" and "pngquant" are supported.
 
 COMPRESSOR_JPG
-Compressor to use when compressing JPG files. Currently
-"jpegtran" is supported.
+Compressor/s to use when compressing JPG files. Currently
+"imagemagick" and "jpegtran" is supported.
+
+-- Multiple compressors are delimited by a space. --
 
 DETA_CACHE_DIR
 Directory which holds the cached items for the internal cache. Will be created

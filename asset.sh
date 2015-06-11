@@ -27,8 +27,8 @@ COMPRESSOR_CSS=${COMPRESSOR_CSS:-"yuicompressor"}
 COMPRESSOR_PNG=${COMPRESSOR_PNG:-"pngcrush"}
 
 # Compressor to use when compressing JPG files. Currently
-# "jpegtran" is supported.
-COMPRESSOR_JPG=${COMPRESSOR_JPG:-"jpegtran"}
+# "imagemagick" and "jpegtran" are supported.
+COMPRESSOR_JPG=${COMPRESSOR_JPG:-"imagemagick jpegtran"}
 
 # @FUNCTION: compress_js
 # @USAGE: <target file> <source file 1> [source file 2] [...]
@@ -37,31 +37,50 @@ COMPRESSOR_JPG=${COMPRESSOR_JPG:-"jpegtran"}
 # of COMPRESSOR_JS relies on certain tools to be available.
 function compress_js() {
 	local target=$1
-	local key="compress_js_${COMPRESSOR_JS}_$(md5 -q $@ | md5)"
+	local key="compress_css_$(cat "${COMPRESSOR_JS}" | md5)_$(md5 -q $@ | md5)"
 	shift
 
 	if [[ "$@" == $target ]]; then
 		msg "Compressing %s in-place." $target
 	else
-		msg "Compressing and bundling %s to %s." "$@" $target
+		msg "Compressing %s to %s." "$@" $target
 	fi
 
 	if [[ $(_cache_exists $key) == "y" ]]; then
 		_cache_read_into_file $key $target
 		return 0
 	fi
+	# Always work over the tmp file which becomes the source.
+	local tmp=$(mktemp -t deta.XXX)
+	defer rm $tmp
 
-	case $COMPRESSOR_JS in
-		yuicompressor)
-			yuicompressor -o $target --nomunge --charset utf-8 $@
-			;;
-		uglify-js)
-			uglifyjs $@ -c --comments -o $target
-			;;
-		closure-compiler)
-			closure-compiler --js $@ --js_output_file $target
-			;;
-	esac
+	if [[ $# > 2 ]]; then
+		# Always bundle mutliple files into one first. Even
+		# though some compressors support bundling themselves
+		# we do it for generalized behavior here.
+
+		# Args already shifted above, contain just the source files.
+		bundle_js $tmp $@
+	else
+		cp $1 $tmp
+	fi
+
+	for compressor in $COMPRESSOR_JS; do
+		case $compressor in
+			yuicompressor)
+				yuicompressor -o $target --nomunge --charset utf-8 $tmp
+				;;
+			uglify-js)
+				uglifyjs $tmp -c --comments -o $target
+				;;
+			closure-compiler)
+				closure-compiler --js $tmp --js_output_file $target
+				;;
+		esac
+
+		# Allow subsequent compressors pick up the updated file.
+		cp $target $tmp
+	done
 
 	_cache_write_from_file $key $target
 }
@@ -74,7 +93,7 @@ function bundle_js() {
 	local target=$1
 	shift
 
-	msg "Creating JavaScript bundle in $target."
+	msg "Creating JavaScript bundle in %s." $target
 
 	for file in $@; do
 		msg "Including $file."
@@ -90,13 +109,13 @@ function bundle_js() {
 # Cit. Depending on the setting of COMPRESSOR_CSS relies on certain tools to be available.
 function compress_css() {
 	local target=$1
-	local key="compress_css_${COMPRESSOR_CSS}_$(md5 -q $@ | md5)"
+	local key="compress_css_$(cat "${COMPRESSOR_CSS}" | md5)_$(md5 -q $@ | md5)"
 	shift
 
 	if [[ "$@" == $target ]]; then
 		msg "Compressing %s in-place." $target
 	else
-		msg "Compressing and bundling %s to %s." "$@" $target
+		msg "Compressing %s to %s." "$@" $target
 	fi
 
 	if [[ $(_cache_exists $key) == "y" ]]; then
@@ -104,29 +123,37 @@ function compress_css() {
 		return 0
 	fi
 
-	if [[ $COMPRESSOR_CSS == {sqwish,clean-css} ]]; then
-		# Does not support bundling by itself.
-		if [[ $# > 2 ]]; then
-			tmp=$(mktemp -t deta.XXX)
-			defer rm $tmp
+	# Always work over the tmp file which becomes the source.
+	local tmp=$(mktemp -t deta.XXX)
+	defer rm $tmp
 
-			bundle_css $tmp $@
-		else
-			tmp=$target
-		fi
+	if [[ $# > 2 ]]; then
+		# Always bundle mutliple files into one first. Even
+		# though some compressors support bundling themselves
+		# we do it for generalized behavior here.
+
+		# Args already shifted above, contain just the source files.
+		bundle_css $tmp $@
+	else
+		cp $1 $tmp
 	fi
 
-	case $COMPRESSOR_CSS in
-		yuicompressor)
-			yuicompressor -o $target --charset utf-8 $@
-			;;
-		clean-css)
-			clean-css --skip-import --skip-rebase -o $target $tmp
-			;;
-		sqwish)
-			sqwish $tmp -o $target
-			;;
-	esac
+	for compressor in $COMPRESSOR_CSS; do
+		case $compressor in
+			yuicompressor)
+				yuicompressor -o $target --charset utf-8 $tmp
+				;;
+			clean-css)
+				clean-css --skip-import --skip-rebase -o $target $tmp
+				;;
+			sqwish)
+				sqwish $tmp -o $target
+				;;
+		esac
+
+		# Allow subsequent compressors pick up the updated file.
+		cp $target $tmp
+	done
 
 	_cache_write_from_file $key $target
 }
@@ -140,7 +167,7 @@ function bundle_css() {
 	local target=$1
 	shift
 
-	msg "Creating CSS bundle in $target."
+	msg "Creating CSS bundle in %s." $target
 
 	for file in $@; do
 		msg "Including $file."
@@ -166,25 +193,31 @@ function compress_img() {
 
 	case $file in
 		*.png)
-			case $COMPRESSOR_PNG in
-				pngcrush)
-					pngcrush -rem alla -rem text -q $file $file.tmp
-				;;
-				pngquant)
-					pngquant --speed 1 $file -o $file.tmp
-				;;
-			esac
-			mv $file.tmp $file
+			for compressor in $COMPRESSOR_PNG; do
+				case $compressor in
+					pngcrush)
+						pngcrush -rem alla -rem text -q $file $file.tmp
+						mv $file.tmp $file
+					;;
+					pngquant)
+						pngquant --speed 1 $file -o $file.tmp
+						mv $file.tmp $file
+					;;
+				esac
+			done
 		;;
 		*.jpg)
-			mogrify -strip $file
-
-			case $COMPRESSOR_JPG in
-				jpegtran)
-					jpegtran -optimize -copy none $file -outfile $file.tmp
-				;;
-			esac
-			mv $file.tmp $file
+			for compressor in $COMPRESSOR_JPG; do
+				case $compressor in
+					imagemagick)
+						mogrify -strip $file
+					;;
+					jpegtran)
+						jpegtran -optimize -copy none $file -outfile $file.tmp
+						mv $file.tmp $file
+					;;
+				esac
+			done
 		;;
 	esac
 
