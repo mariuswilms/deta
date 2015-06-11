@@ -29,7 +29,7 @@ fi
 QUIET="n"
 DRYRUN="n"
 VERBOSE="n"
-VERSION="0.3.0-head"
+VERSION="1.0.0-head"
 
 while getopts ":qndvV:c:t:" OPT; do
 	case $OPT in
