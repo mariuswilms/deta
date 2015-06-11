@@ -20,15 +20,8 @@ Deta is Copyright (c) 2011 David Persson if not otherwise stated.
 The code is distributed under the terms of the MIT License. For
 the full license text see the LICENSE file.
 
-Versions & Requirements
+Requirements
 -----------------------
-0.1.0
-0.2.0
-0.3.0
-0.4.0
-0.5.0
-1.0.0 (in progress)
-
 The BASH (Bourne-Again SHell) is required. Deta is continously
 tested with recent BASH versions on Linux and Darwin.
 
