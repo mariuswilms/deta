@@ -47,7 +47,7 @@ function compress_js() {
 		return 0
 	fi
 	# Always work over the tmp file which becomes the source.
-	local tmp=$(mktemp -t deta.XXX)
+	local tmp=$(mktemp -t deta.XXX).js
 	defer rm $tmp
 
 	if [[ $# > 2 ]]; then
@@ -64,7 +64,7 @@ function compress_js() {
 	for compressor in $COMPRESSOR_JS; do
 		case $compressor in
 			yuicompressor)
-				yuicompressor -o $target --nomunge --charset utf-8 $tmp
+				yuicompressor --type js -o $target --nomunge --charset utf-8 $tmp
 				;;
 			uglify-js)
 				uglifyjs $tmp -c --comments -o $target
@@ -120,7 +120,7 @@ function compress_css() {
 	fi
 
 	# Always work over the tmp file which becomes the source.
-	local tmp=$(mktemp -t deta.XXX)
+	local tmp=$(mktemp -t deta.XXX).css
 	defer rm $tmp
 
 	if [[ $# > 2 ]]; then
@@ -137,7 +137,7 @@ function compress_css() {
 	for compressor in $COMPRESSOR_CSS; do
 		case $compressor in
 			yuicompressor)
-				yuicompressor -o $target --charset utf-8 $tmp
+				yuicompressor --type css -o $target --charset utf-8 $tmp
 				;;
 			clean-css)
 				clean-css --skip-import --skip-rebase -o $target $tmp
