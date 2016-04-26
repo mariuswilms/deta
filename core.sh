@@ -172,3 +172,26 @@ _cache_write_from_file() {
 
 	cp $source $DETA_CACHE_DIR/$key
 }
+
+if [[ $(which md5 || true) != "" ]]; then
+	HAS_BSD_MD5="y"
+else
+	HAS_BSD_MD5="n"
+fi
+
+_calc_md5() {
+	if [[ $HAS_BSD_MD5 == "y" ]]; then
+		echo $1 | md5
+	else
+		echo $1 | md5sum | cut -d " " -f1
+	fi
+}
+
+_calc_md5_file() {
+	if [[ $HAS_BSD_MD5 == "y" ]]; then
+		md5 -q $@ | md5
+	else
+		md5sum $@ | md5sum | cut -d " " -f1
+	fi
+}
+

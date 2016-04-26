@@ -33,7 +33,7 @@ COMPRESSOR_JPG=${COMPRESSOR_JPG:-"imagemagick jpegtran"}
 # of COMPRESSOR_JS relies on certain tools to be available.
 function compress_js() {
 	local target=$1
-	local key="compress_css_$(cat "${COMPRESSOR_JS}" | md5)_$(md5 -q $@ | md5)"
+	local key="compress_js_$(_calc_md5 "${COMPRESSOR_JS}")_$(_calc_md5_file $@)"
 	shift
 
 	if [[ "$@" == $target ]]; then
@@ -105,7 +105,7 @@ function bundle_js() {
 # Cit. Depending on the setting of COMPRESSOR_CSS relies on certain tools to be available.
 function compress_css() {
 	local target=$1
-	local key="compress_css_$(cat "${COMPRESSOR_CSS}" | md5)_$(md5 -q $@ | md5)"
+	local key="compress_css_$(_calc_md5 "${COMPRESSOR_CSS}")_$(_calc_md5_file $@)"
 	shift
 
 	if [[ "$@" == $target ]]; then
@@ -178,7 +178,7 @@ function bundle_css() {
 # and jpegtran to be available on the system.
 function compress_img() {
 	local file=$1
-	local key="compress_img_$(cat "${COMPRESSOR_PNG}${COMPRESSOR_JPG}" | md5)_$(md5 -q $@ | md5)"
+	local key="compress_img_$(_calc_md5 "${COMPRESSOR_PNG}${COMPRESSOR_JPG}")_$(_calc_md5_file $@)"
 
 	msg "Compressing %s in-place." $file
 
