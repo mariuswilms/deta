@@ -16,9 +16,15 @@ msginfo "Module %s loaded." "vcs"
 # systems like SVN and GIT.
 vcs_clear() {
 	msg "Removing any VCS traces from directory %s." $1
-	find $1 -type d -name .svn    | xargs rm -r
-	find $1 -type d -name .git    | xargs rm -r
-	find $1 -type f -name '.git*' | xargs rm
+	for F in $(find $1 -type d -name .svn); do
+	    rm -r $F
+	done
+	for F in $(find $1 -type d -name .git); do
+	    rm -r $F
+	done
+	for F in $(find $1 -type f -name '.git*'); do
+	    rm $F
+	done
 }
 
 # @FUNCTION: git_current_branch
