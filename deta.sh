@@ -34,7 +34,6 @@ while getopts ":qndvV:c:t:" OPT; do
 		q)  QUIET="y";;
 		v)  VERBOSE="y";;
 		n)  DRYRUN="y";;
-		e)  SETENV="y";;
 		d)  set -x;;
 		V)  echo "DETA $VERSION by David Persson."; exit;;
 		:)  printf "Option '%s' requires an argument.\n" $OPTARG; exit 1;;
