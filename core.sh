@@ -173,7 +173,7 @@ _cache_write_from_file() {
 	cp $source $DETA_CACHE_DIR/$key
 }
 
-if [[ $(which md5 || true) != "" ]]; then
+if [[ $(which md5 2>/dev/null || true) != "" ]]; then
 	HAS_BSD_MD5="y"
 else
 	HAS_BSD_MD5="n"
