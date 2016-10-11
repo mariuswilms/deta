@@ -70,7 +70,7 @@ function compress_js() {
 				uglifyjs $tmp -c --comments -o $target
 				;;
 			closure-compiler)
-				closure-compiler --js $tmp --js_output_file $target
+				closure-compiler --js $tmp -W QUIET --js_output_file $target
 				;;
 		esac
 
