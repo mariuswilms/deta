@@ -12,9 +12,7 @@ PREFIX ?= /usr/local
 install: deta
 	mkdir -p $(PREFIX)/bin/
 	ln -s $(CURDIR)/deta.sh $(PREFIX)/bin/
-	mkdir -p $(PREFIX)/config
-	cp -p config/dev.env $(PREFIX)/config/
-	ln -s $(PREFIX)/config/dev.env $(PREFIX)/config/current.env
+	cp -p config/Envfile $(PREFIX)/Envfile
 
 uninstall:
 	rm $< $(PREFIX)/bin/deta.sh

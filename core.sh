@@ -46,36 +46,23 @@ msginfo "Module %s loaded." "core"
 role() {
 	local role=$(echo $1 | tr '[:upper:]' '[:lower:]')
 
-	if [[ $role == "this" ]]; then
-		_env_to_role current $role
-	else
-		local avail=""
-
-		set +o errexit
-		for file in $(ls $CONFIG_PATH/*.env 2> /dev/null); do
-			local avail+="$(basename -s '.env' $file) "
-		done
-		set -o errexit
-
-		local PS3="Please select an env to map to role ${role}: "
-		select env in $avail; do
-			_env_to_role $env $role
-			break
-		done
+	if [[ $role != "this" ]]; then
+		msgfail "No support for any other role than THIS anymore; role %s was given" $role
+		exit 1
 	fi
+	_env_to_role
 	msgok "Using role %s." $role
 }
 
 # @FUNCTION: _env_to_role
-# @USAGE: <env> <role>
 # @DESCRIPTION:
 # Maps an env (left) to role provided to this function (right).
 _env_to_role() {
 	local tmp=$(mktemp -t deta.XXX)
 
-	perl -pe "s/^([a-zA-Z0-9_]+)=/$(echo $2 | tr '[:lower:]' '[:upper:]')_\1=/g" ${CONFIG_PATH}/${1}.env > $tmp
+	perl -pe "s/^([a-zA-Z0-9_]+)=/$(echo "THIS" | tr '[:lower:]' '[:upper:]')_\1=/g" $CONFIG_FILE > $tmp
 	source $tmp
-	msgok "Mapped env %s to role %s." $@
+	msgok "Mapped Envfile to role THIS." $@
 
 	rm $tmp
 }

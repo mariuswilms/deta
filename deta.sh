@@ -29,7 +29,7 @@ VERSION="1.0.0-head"
 
 while getopts ":qndvV:c:t:" OPT; do
 	case $OPT in
-		c)  CONFIG_PATH=$OPTARG;;
+		c)  CONFIG_FILE=$OPTARG;;
 		t)  TASK_PATH=$OPTARG;;
 		q)  QUIET="y";;
 		v)  VERBOSE="y";;
@@ -45,13 +45,21 @@ shift $(expr $OPTIND - 1)
 # -----------------------------------------------------------
 # Paths and other Configurations
 # ----------------------------------------------------------
-for DIR in "$(pwd)/config/deta" "$(pwd)/../config/deta" "$(pwd)/../config"; do
-	if [[ -d $DIR ]]; then
-		CONFIG_PATH=$DIR
+
+for FILE in "$(pwd)/Envfile" "$(pwd)/../Envfile"; do
+	if [[ -f $FILE ]]; then
+		CONFIG_FILE=$FILE
 		break
 	fi
 done
-CONFIG_PATH=${CONFIG_PATH:-$(pwd)}
+if [[ $CONFIG_FILE == "" ]]; then
+	echo "No configuration file found or given."
+	exit 1
+fi
+if [[ ! -f $CONFIG_FILE ]]; then
+	echo "Configuration file is not a file; given $CONFIG_FILE"
+	exit 1
+fi
 
 for DIR in "$(pwd)/bin"; do
 	if [[ -d $DIR ]]; then
@@ -79,7 +87,7 @@ if [[ $# == 0 ]]; then
 	done
 	echo
 	echo "Options:"
-	echo "  -c <path> Path to the directory holding configurations."
+	echo "  -c <file> Path to the configuration file."
 	echo "  -t <path> Path to the directory holding tasks."
 	echo "  -n        Enable dry-run."
 	echo "  -V        Show current version."
@@ -103,7 +111,7 @@ source $DETA/core.sh
 # -----------------------------------------------------------
 # Configuration
 # -----------------------------------------------------------
-msginfo "Configuration directory is %s." $CONFIG_PATH
+msginfo "Configuration file is %s." $CONFIG_FILE
 msginfo "Task directory is %s." $TASK_PATH
 
 # -----------------------------------------------------------

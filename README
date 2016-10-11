@@ -156,39 +156,13 @@ source $DETA/sys.sh
 By default the core module is always loaded, making functions as role and
 defer available in any task.
 
-Environments
-''''''''''''
-Environments are inspired by the way Lithium[1] detects and handles
-environment configuration. Environments (or env for short) allow you to keep
-host specific configuration settings in one place. You may have an env called
-DEV, STAGE or PROD. Configuration settings are is kept in dedicated files on a
-per env basis.
+Environment Configuration
+'''''''''''''''''''''''''
+Environments (or env for short) allow you to keep host specific configuration
+settings in one place. This configuration is kept is an file in the root
+of the project (named "Envfile").
 
-By default deta comes with a configuration for the DEV env. You can add new
-environments by copying dev.conf to prod.conf.
-
-[1] li3 framework, http://li3.me
-
-Roles
-'''''
-Environments can _take_ roles. Tasks where you transfer transfer things
-between two machines would require SOURCE and a TARGET roles, whereas tasks
-that just build some stuff locally require a THIS role.
-
-To indicate that a task requires a role call the role function (from the core
-module) right below the source statements.
-
-```
-# source ...
-
-role SOURCE
-role TARGET
-# ...
-```
-
-The function will map an env to a role. This means a configuration setting
-available as i.e. HOST will become also available as SOURCE_HOST.
-
-The magic "THIS" role will always map to the current environment context. The
-current environment can be set using the "-e" option when starting deta.
+To use the environment configuration simply add `role THIS` to the
+top of your task. After this the configuration is available in
+variables prefixed with "THIS_".
 
